@@ -14,3 +14,13 @@
 * 曲の展開ごとにメロディーを録音できる（タブで切り替え）
 * メロディーは全体を通して、続けて聴くことができる
 * 録音したメロディーはトリミング、追加録音ができる
+
+## イメージ画像（スケッチ）
+### フォルダ選択画面
+<img src="https://cloud.githubusercontent.com/assets/8737743/25533646/40218308-2c6c-11e7-8fb7-4440980ae941.jpg" alt="フォルダ選択画面" width="300px" />  
+
+### 曲選択画面
+<img src="https://cloud.githubusercontent.com/assets/8737743/25533566/ff414b3e-2c6b-11e7-8585-18f5c9d0b3fb.jpg" alt="曲選択画面" width="300px" />  
+
+### 歌詞編集・サウンド再生画面
+<img src="https://cloud.githubusercontent.com/assets/8737743/25533571/01d4e518-2c6c-11e7-9151-f4cc8537277f.jpg" alt="歌詞編集・サウンド再生画面" width="300px" />

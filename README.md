@@ -37,7 +37,7 @@
 ### 歌詞編集・サウンド再生画面: SongEditViewController
 <img src="https://cloud.githubusercontent.com/assets/8737743/25533566/ff414b3e-2c6b-11e7-8585-18f5c9d0b3fb.jpg" alt="歌詞編集・サウンド再生画面の手書き画像" width="250px" >
 
-* タブごとに歌詞を書くことができる。
+* タブごとに歌詞を書くことができる。（PageMenuライブラリを使用）
 * サウンドを録音・再生することができる。
 * サウンド再生部分の編集ボタンタップで「サウンド詳細・編集画面」を表示する。
 
@@ -46,3 +46,12 @@
 
 * 録音したサウンドを波形で確認して、トリミングしたり、後ろに追加録音できる。
 * 遷移ではなく歌詞編集画面のまま広がって表示される。
+
+## 使用ライブラリ
+### realm
+曲のデータを保存するためのデータベースとして使用
+
+### [PageMenu](https://github.com/uacaps/PageMenu "PageMenu")
+![PageMenuのGIF](https://raw.githubusercontent.com/uacaps/ResourceRepo/master/PageMenu/PageMenuDemo2.gif)  
+Aメロ・Bメロ・サビ等のページ移動に使用
+

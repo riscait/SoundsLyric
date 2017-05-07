@@ -30,9 +30,14 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return 0
     }
     
-    // 各セルの内容を返すメソッド
+    
+    /// 各セルの内容を返すメソッド
+    ///
+    /// - Parameters:
+    ///   - tableView: tableView
+    ///   - indexPath: indexPath
+    /// - Returns: Cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // 再利用可能な cell を得る
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
         return cell

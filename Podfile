@@ -6,5 +6,5 @@ target 'SoundsLyric' do
   use_frameworks!
 
   # Pods for SoundsLyric
-
+ pod 'PageMenu'
 end

@@ -1,0 +1,12 @@
+PODS:
+  - PageMenu (2.0.0)
+
+DEPENDENCIES:
+  - PageMenu
+
+SPEC CHECKSUMS:
+  PageMenu: 9c38fd7e0d9ef4b1408320f55bb907bbc0e538dc
+
+PODFILE CHECKSUM: 518622e9bfb2e16332ca92488ef7d6af2ca2ad5d
+
+COCOAPODS: 1.2.0

@@ -13,7 +13,7 @@ class ThirdTutorialViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.yellow
+//        view.backgroundColor = UIColor.yellow
     }
 
     override func didReceiveMemoryWarning() {

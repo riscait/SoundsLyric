@@ -45,7 +45,7 @@ class SongEditViewController: UIViewController {
             .selectionIndicatorColor(UIColor.red),
             .menuItemSeparatorColor (UIColor.cyan),
             .menuItemFont(UIFont(name: "HelveticaNeue", size: 14.0)!),
-            .menuItemSeparatorRoundEdges(true),
+            .menuItemSeparatorRoundEdges(true)
         ]
         
         // 初期化

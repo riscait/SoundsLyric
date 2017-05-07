@@ -11,11 +11,13 @@ import UIKit
 class TutorialPageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     var pageViewControllerArray: [UIViewController] = []
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dataSource = self
+        
+        view.backgroundColor = UIColor.white
 
         // 各ページをインスタンス化
         let firstTutorialViewController: FirstTutorialViewController = storyboard!.instantiateViewController(withIdentifier: "FirstTutorial") as! FirstTutorialViewController
@@ -26,6 +28,13 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
         pageViewControllerArray = [firstTutorialViewController, secondTutorialViewController, thirdTutorialViewController]
         //  UIPageControllerに表示対象を追加
         setViewControllers([pageViewControllerArray[0]], direction: .forward, animated: false, completion: nil)
+        
+        // PageControllの色を変更する
+        let pageControll = UIPageControl.appearance()
+        pageControll.backgroundColor = UIColor.white
+        pageControll.pageIndicatorTintColor = UIColor.lightGray
+        pageControll.currentPageIndicatorTintColor = UIColor.darkGray
+
     }
     
     /// 右にスワイプした場合のメソッド
@@ -50,6 +59,15 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
         } else {
             return nil
         }
+    }
+    
+    // ページ数を返すメソッド
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        return pageViewControllerArray.count
+    }
+    
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        return 0
     }
     
     override func didReceiveMemoryWarning() {

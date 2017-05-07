@@ -13,7 +13,7 @@ class SecondTutorialViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.cyan
+//        view.backgroundColor = UIColor.cyan
     }
 
     override func didReceiveMemoryWarning() {

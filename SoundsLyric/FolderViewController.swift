@@ -38,7 +38,7 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     ///   - indexPath: indexPath
     /// - Returns: Cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath)
         
         return cell
     }

@@ -8,6 +8,7 @@
 
 import UIKit
 
+// これいらないんで消しましょうか
 class ViewController: UIViewController {
 
     override func viewDidLoad() {

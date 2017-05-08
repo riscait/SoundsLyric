@@ -20,6 +20,10 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
         view.backgroundColor = UIColor.white
 
         // 各ページをインスタンス化
+        // ここは一つのViewControllerに集約してもいいですね
+        // UIImageViewアウトレットをもたしてプロパティUIImageを置いてその画像を表示するだけのViewControllerにして
+        // ここの各インスタンス生成時にチュートリアル画像を渡す
+        // ViewController->VCと略すことが多いです(長くてめんどくさいのでw)
         let firstTutorialViewController: FirstTutorialViewController = storyboard!.instantiateViewController(withIdentifier: "FirstTutorial") as! FirstTutorialViewController
         let secondTutorialViewController: SecondTutorialViewController = storyboard!.instantiateViewController(withIdentifier: "SecondTutorial") as! SecondTutorialViewController
         let thirdTutorialViewController: ThirdTutorialViewController = storyboard!.instantiateViewController(withIdentifier: "ThirdTutorial") as! ThirdTutorialViewController
@@ -40,6 +44,7 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
     /// 右にスワイプした場合のメソッド
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         // 今表示しているページ数を取得する
+        // index走査が素晴らしい！
         let index = pageViewControllerArray.index(of: viewController)
             // 最初のページでなければページを一つ戻す
         if index != 0 {

@@ -19,8 +19,19 @@ class SongEditViewController: UIViewController {
         /// Viewを格納する配列
         var controllerArray: [UIViewController] = []
         
+        /**
+         画面初期表示時にこのように書いていくことは
+         viewDidLoad(viewWillAppear)が冗長になりがちなんです。
+         なので、下の処理は外にprivate methodとして出してしまい、メソッドを分けることをお勧めします。
+         setDefaultPageMenu()などとして外に出すとわかりやすいですよ
+        **/
+        
         /// １つ目の画面
+        
+        // 昨日のメンタリングにて話した通り、ここは自作の(歌詞を書くVC)に共通化できるので、よろしくお願いいたします！
         let controllerA = UIViewController()
+        
+        
         controllerA.title = "Aメロ"
         controllerA.view.backgroundColor = UIColor.black
         controllerArray.append(controllerA)
@@ -36,6 +47,8 @@ class SongEditViewController: UIViewController {
         controllerC.title = "Cメロ"
         controllerC.view.backgroundColor = UIColor.brown
         controllerArray.append(controllerC)
+        
+        // 編集画面も自作で必要になりますね
         
         /// カスタマイズ
         let parameters: [CAPSPageMenuOption] = [

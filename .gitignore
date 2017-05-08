@@ -1,2 +1,7 @@
+# https://github.com/github/gitignore/blob/master/Swift.gitignore
+# こちらXcodeでiOSアプリ作る際に、テンプレート.gitignoreです。
+# 今回は特に、村松さん一人での開発になりますので、必要ないかと思いますが、
+# 念のため、入れておいていただけると助かります。
+
 Pods/*
 SoundsLyric.xcworkspace

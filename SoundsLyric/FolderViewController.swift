@@ -12,11 +12,33 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var tableView: UITableView!
 
+    var folders = ["最初にあるセル"]
+    
+    @IBAction func addFolder(_ sender: Any) {
+        print("フォルダー追加ボタンが押されました")
+        
+        folders.append("aa")
+        
+        // TableViewを再読み込み.
+        tableView.reloadData()
+    }
+    
+    @IBAction func editFolder(_ sender: Any) {
+        print("フォルダー編集ボタンが押されました")
+        if isEditing {
+            super.setEditing(false, animated: true)
+            tableView.setEditing(false, animated: true)
+        } else {
+            super.setEditing(true, animated: true)
+            tableView.setEditing(true, animated: true)
+        }
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.delegate = self
-        tableView.dataSource = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,19 +49,14 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: UITableViewDataSourceプロトコルのメソッド
     // データの数（＝セルの数）を返すメソッド
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return folders.count
     }
     
     
     /// 各セルの内容を返すメソッド
-    ///
-    /// - Parameters:
-    ///   - tableView: tableView
-    ///   - indexPath: indexPath
-    /// - Returns: Cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath)
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FolderTableViewCell", for: indexPath)
+        cell.textLabel?.text = "\(folders[indexPath.row])"
         return cell
     }
     
@@ -55,6 +72,16 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // Delete ボタンが押された時に呼ばれるメソッド
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            folders.remove(at: indexPath.row)
+            
+            tableView.reloadData()
+        }
+    }
+    
+    // セルの並び替えを有効にする
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
     }
     
     

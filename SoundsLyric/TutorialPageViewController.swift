@@ -20,12 +20,12 @@ class TutorialPageViewController: UIPageViewController, UIPageViewControllerData
         view.backgroundColor = UIColor.white
 
         // 各ページをインスタンス化
-        let firstTutorialViewController: FirstTutorialViewController = storyboard!.instantiateViewController(withIdentifier: "FirstTutorial") as! FirstTutorialViewController
-        let secondTutorialViewController: SecondTutorialViewController = storyboard!.instantiateViewController(withIdentifier: "SecondTutorial") as! SecondTutorialViewController
-        let thirdTutorialViewController: ThirdTutorialViewController = storyboard!.instantiateViewController(withIdentifier: "ThirdTutorial") as! ThirdTutorialViewController
+        let firstTutorialVC = storyboard!.instantiateViewController(withIdentifier: "FirstTutorial") as! FirstTutorialViewController
+        let secondTutorialVC = storyboard!.instantiateViewController(withIdentifier: "SecondTutorial") as! SecondTutorialViewController
+        let thirdTutorialVC = storyboard!.instantiateViewController(withIdentifier: "ThirdTutorial") as! ThirdTutorialViewController
         
         /// 全ページが入った配列
-        pageViewControllerArray = [firstTutorialViewController, secondTutorialViewController, thirdTutorialViewController]
+        pageViewControllerArray = [firstTutorialVC, secondTutorialVC, thirdTutorialVC]
         //  UIPageControllerに表示対象を追加
         setViewControllers([pageViewControllerArray[0]], direction: .forward, animated: false, completion: nil)
         

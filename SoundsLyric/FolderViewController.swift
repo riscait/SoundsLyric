@@ -12,12 +12,49 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var tableView: UITableView!
 
+    // セルを格納する配列
     var folders = ["最初にあるセル"]
+    
+    // SongListVCに遷移する時に渡すセルの番号
+    var foldersNumber: Int?
     
     @IBAction func addFolder(_ sender: Any) {
         print("フォルダー追加ボタンが押されました")
         
-        folders.append("aa")
+        // Alertを作成
+        let alert = UIAlertController(title: "新規フォルダ", message: "フォルダの名前を入力してください", preferredStyle: .alert)
+        
+        // OKアクションを生成
+        let defaultAction = UIAlertAction(title: "保存", style: .default, handler: {
+            (action:UIAlertAction!) -> Void in
+            print("保存ボタンが押されました")
+            /// テキストが入力されていれば表示
+            if let textFields = alert.textFields {
+                
+                // アラートに含まれるすべてのテキストフィールドを調べる
+                for textField in textFields {
+                    print("「\(textField.text!)」フォルダが追加されました")
+                    self.folders.append(textField.text!)
+                    // TableViewを再読み込み.
+                    self.tableView.reloadData()
+                }
+            }
+        })
+        alert.addAction(defaultAction)
+        
+        // Cancelアクションを生成
+        let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        
+        // TextFieldを追加
+        alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
+            textField.placeholder = "名前"
+        })
+        
+        // シミュレータの種類によっては、これがないと警告が発生
+        alert.view.setNeedsLayout()
+        // アラートを画面に表示
+        self.present(alert, animated: true, completion: nil)
         
         // TableViewを再読み込み.
         tableView.reloadData()
@@ -33,8 +70,6 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
             tableView.setEditing(true, animated: true)
         }
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +87,6 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return folders.count
     }
     
-    
     /// 各セルの内容を返すメソッド
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FolderTableViewCell", for: indexPath)
@@ -63,6 +97,17 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: UITableViewDelegateプロトコルのメソッド
     // 各セルを選択した時に実行されるメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        foldersNumber = indexPath.row
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "showSongListVC", sender: nil)
+        print(foldersNumber)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showSongList" {
+            let songListVC: SongListViewController = segue.destination as! SongListViewController
+            songListVC.foldersNumber = foldersNumber
+        }
     }
     
     // セルが削除が可能なことを伝えるメソッド
@@ -83,6 +128,7 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
     }
+    
     
     
     /*

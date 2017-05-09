@@ -10,10 +10,13 @@ import UIKit
 
 class SongListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
-
+    
+    // FolderVCから受け取ったフォルダ情報
+    var foldersNumber: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // 編集モードの時にセルを選択できるか
         tableView.allowsSelectionDuringEditing = true
     }

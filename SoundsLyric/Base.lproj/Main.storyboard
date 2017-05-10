@@ -15,7 +15,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="WSa-ST-Gjt" customClass="TutorialPageViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="duh-Mf-EQx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-140" y="-318"/>
+            <point key="canvasLocation" x="729" y="-411"/>
         </scene>
         <!--First Tutorial View Controller-->
         <scene sceneID="ntw-4l-nKp">
@@ -42,7 +42,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L42-2g-wAL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="581.60000000000002" y="-318.89055472263868"/>
+            <point key="canvasLocation" x="1174" y="-410"/>
         </scene>
         <!--Second Tutorial View Controller-->
         <scene sceneID="MgA-4x-lqp">
@@ -69,7 +69,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yUm-Jb-wcf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1303" y="-318"/>
+            <point key="canvasLocation" x="1600" y="-409"/>
         </scene>
         <!--Third Tutorial View Controller-->
         <scene sceneID="9dx-P0-ELU">
@@ -96,9 +96,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oyi-Mw-nxf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2028" y="-318"/>
+            <point key="canvasLocation" x="2028" y="-409"/>
         </scene>
-        <!--Folder-->
+        <!--Folder View Controller-->
         <scene sceneID="T61-oa-QyH">
             <objects>
                 <viewController storyboardIdentifier="Folder" id="Acm-xR-lxY" customClass="FolderViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
@@ -160,7 +160,7 @@
                             <constraint firstAttribute="trailing" secondItem="BbZ-89-qLf" secondAttribute="trailing" id="YBL-kX-roA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Folder" id="ImK-w3-Cyi">
+                    <navigationItem key="navigationItem" id="ImK-w3-Cyi">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Fs0-kG-cja"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="7NM-Zq-lof">
                             <connections>
@@ -175,9 +175,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O8h-if-PH1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="584.79999999999995" y="332.38380809595208"/>
+            <point key="canvasLocation" x="1174" y="333"/>
         </scene>
-        <!--Folder name-->
+        <!--Song List View Controller-->
         <scene sceneID="yP8-Jc-dPk">
             <objects>
                 <viewController storyboardIdentifier="SongList" automaticallyAdjustsScrollViewInsets="NO" id="qHA-z8-SJY" customClass="SongListViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
@@ -229,7 +229,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="FZV-jM-Uwo"/>
                                     <barButtonItem systemItem="compose" id="tw5-pc-1oq">
                                         <connections>
-                                            <segue destination="4wh-9f-bwb" kind="show" identifier="Conpose" id="S9w-ke-jP2"/>
+                                            <segue destination="4wh-9f-bwb" kind="show" identifier="ComposeSong" id="S9w-ke-jP2"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -246,7 +246,7 @@
                             <constraint firstAttribute="trailing" secondItem="wuw-Ky-HOQ" secondAttribute="trailing" id="zPD-0p-vPk"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Folder name" id="Gpv-EP-qnf">
+                    <navigationItem key="navigationItem" id="Gpv-EP-qnf">
                         <barButtonItem key="backBarButtonItem" title="Back" id="cDb-5g-QUZ"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="zFm-aj-wp1"/>
                     </navigationItem>
@@ -257,9 +257,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Euf-8M-YCx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1308" y="332.38380809595208"/>
+            <point key="canvasLocation" x="1600" y="333"/>
         </scene>
-        <!--Song name-->
+        <!--Song Edit View Controller-->
         <scene sceneID="tSJ-8h-sil">
             <objects>
                 <viewController storyboardIdentifier="SongEdit" id="4wh-9f-bwb" customClass="SongEditViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
@@ -290,13 +290,13 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Song name" id="XjK-hi-HUT">
-                        <barButtonItem key="backBarButtonItem" title="Ba" id="n40-HY-irQ"/>
+                    <navigationItem key="navigationItem" id="XjK-hi-HUT">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="n40-HY-irQ"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qSj-vP-eTl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2028" y="333"/>
+            <point key="canvasLocation" x="2383" y="332"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="A9d-94-5rn">
@@ -314,7 +314,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVr-NQ-teV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-140" y="332"/>
+            <point key="canvasLocation" x="729" y="333"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

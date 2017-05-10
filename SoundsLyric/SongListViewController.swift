@@ -9,16 +9,21 @@
 import UIKit
 
 class SongListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     @IBOutlet weak var tableView: UITableView!
     
     // FolderVCから受け取ったフォルダ情報
-    var foldersNumber: Int?
+    var folderNumber: Int!
+    var folderName: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // 編集モードの時にセルを選択できるか
-        tableView.allowsSelectionDuringEditing = true
+        
+        // NavBarのタイトルにフォルダ名を反映
+        navigationItem.title = folderName
+        
+        print("（遷移後）遷移元のセルは \(self.folderNumber) 番目の「\(folderName)」フォルダ")
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,6 +51,14 @@ class SongListViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ComposeSong" {
+            // 曲を新規作成するときの遷移
+            let songEditVC = segue.destination as! SongEditViewController
+            songEditVC.songName = "新しい曲"
+        }
+    }
+    
     // セルが削除が可能なことを伝えるメソッド
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath)-> UITableViewCellEditingStyle {
         return UITableViewCellEditingStyle.delete
@@ -53,8 +66,8 @@ class SongListViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Delete ボタンが押された時に呼ばれるメソッド
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+
     }
-    
     
     /*
     // MARK: - Navigation

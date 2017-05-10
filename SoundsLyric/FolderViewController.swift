@@ -15,8 +15,11 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // セルを格納する配列
     var folders = ["最初にあるセル"]
     
-    // SongListVCに遷移する時に渡すセルの番号
-    var foldersNumber: Int?
+    // セル（フォルダ）をタップしてSongListVCに遷移する時に渡す
+    // セルの番号
+    var folderNumber: Int!
+    // フォルダの名前
+    var folderName: String!
     
     @IBAction func addFolder(_ sender: Any) {
         print("フォルダー追加ボタンが押されました")
@@ -49,6 +52,7 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // TextFieldを追加
         alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
             textField.placeholder = "名前"
+            textField.returnKeyType = .done
         })
         
         // シミュレータの種類によっては、これがないと警告が発生
@@ -97,16 +101,18 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: UITableViewDelegateプロトコルのメソッド
     // 各セルを選択した時に実行されるメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        foldersNumber = indexPath.row
+        folderNumber = indexPath.row
+        folderName = folders[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "showSongListVC", sender: nil)
-        print(foldersNumber)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showSongList" {
-            let songListVC: SongListViewController = segue.destination as! SongListViewController
-            songListVC.foldersNumber = foldersNumber
+        if segue.identifier == "showSongListVC" {
+            let songListVC = segue.destination as! SongListViewController
+            songListVC.folderNumber = self.folderNumber
+            songListVC.folderName = self.folderName
+            print("（「遷移前）遷移元のセルは \(self.folderNumber) 番目の「\(self.folderName)」フォルダ")
         }
     }
     

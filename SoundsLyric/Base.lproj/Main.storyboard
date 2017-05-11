@@ -292,12 +292,84 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="XjK-hi-HUT">
                         <barButtonItem key="backBarButtonItem" title="Back" id="n40-HY-irQ"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Zqf-rJ-ls3"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Zqf-rJ-ls3">
+                            <connections>
+                                <action selector="closeKeyboard:" destination="4wh-9f-bwb" id="yC0-M1-h5r"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qSj-vP-eTl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2383" y="332"/>
+        </scene>
+        <!--Song Edit Child View Controller-->
+        <scene sceneID="7dL-cn-W9v">
+            <objects>
+                <viewController storyboardIdentifier="SongEditChild" id="zUo-XZ-OCd" customClass="SongEditChildViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5SR-Qp-Uhy"/>
+                        <viewControllerLayoutGuide type="bottom" id="c0N-Jh-C0n"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="w7Z-Qz-A4G">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <mutableString key="text">ここはテスト文が
+表示されます
+テスト
+test
+UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! 
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます
+ここはテスト文が
+表示されますここはテスト文が
+表示されます</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hW2-Kg-OL5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3117.5999999999999" y="328.78560719640183"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="A9d-94-5rn">

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D26FFED1EC4AC84007C971A /* SongEditChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D26FFEC1EC4AC84007C971A /* SongEditChildViewController.swift */; };
 		8D293C151EBF31F7000BBB3C /* TutorialPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D293C141EBF31F7000BBB3C /* TutorialPageViewController.swift */; };
 		8D293C171EBF3420000BBB3C /* FirstTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D293C161EBF3420000BBB3C /* FirstTutorialViewController.swift */; };
 		8D293C191EBF3435000BBB3C /* SecondTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D293C181EBF3435000BBB3C /* SecondTutorialViewController.swift */; };
@@ -25,6 +26,7 @@
 		1EA3445FDE26041863F9F810 /* Pods-SoundsLyric.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoundsLyric.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SoundsLyric/Pods-SoundsLyric.debug.xcconfig"; sourceTree = "<group>"; };
 		52D365DF71F5C0D8E3175F0C /* Pods-SoundsLyric.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoundsLyric.release.xcconfig"; path = "Pods/Target Support Files/Pods-SoundsLyric/Pods-SoundsLyric.release.xcconfig"; sourceTree = "<group>"; };
 		7541D7AFEA0E31FD850E9BB6 /* Pods_SoundsLyric.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoundsLyric.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D26FFEC1EC4AC84007C971A /* SongEditChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongEditChildViewController.swift; sourceTree = "<group>"; };
 		8D293C141EBF31F7000BBB3C /* TutorialPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewController.swift; sourceTree = "<group>"; };
 		8D293C161EBF3420000BBB3C /* FirstTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstTutorialViewController.swift; sourceTree = "<group>"; };
 		8D293C181EBF3435000BBB3C /* SecondTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondTutorialViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				8D3E34EF1EB395A4001AED5B /* FolderViewController.swift */,
 				8D6E01FB1EB39CAC008EA9E7 /* SongListViewController.swift */,
 				8D6E01FD1EB409F9008EA9E7 /* SongEditViewController.swift */,
+				8D26FFEC1EC4AC84007C971A /* SongEditChildViewController.swift */,
 				8D3E34E11EB38258001AED5B /* Main.storyboard */,
 				8D3E34E41EB38258001AED5B /* Assets.xcassets */,
 				8D293C141EBF31F7000BBB3C /* TutorialPageViewController.swift */,
@@ -238,6 +241,7 @@
 				8D293C171EBF3420000BBB3C /* FirstTutorialViewController.swift in Sources */,
 				8D3E34F01EB395A4001AED5B /* FolderViewController.swift in Sources */,
 				8D6E01FE1EB409F9008EA9E7 /* SongEditViewController.swift in Sources */,
+				8D26FFED1EC4AC84007C971A /* SongEditChildViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

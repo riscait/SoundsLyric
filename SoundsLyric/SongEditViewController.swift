@@ -9,7 +9,11 @@
 import UIKit
 import PageMenu
 
-class SongEditViewController: UIViewController {
+class SongEditViewController: UIViewController, UITextFieldDelegate {
+    
+    @IBAction func closeKeyboard(_ sender: Any) {
+        
+    }
     
     var pagemenu: CAPSPageMenu?
     
@@ -26,43 +30,42 @@ class SongEditViewController: UIViewController {
 
         // NavBarのタイトルに曲名を反映
         navigationItem.title = songName
+        
     }
     
     /// デフォルトで表示するPageMenu項目を設定
     private func setDefaultPageMenu() {
+        // Storyboardをインスタンス化して、Storyboard上のVCを取得する
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChild")
+        
         /// １つ目の画面
-        let controllerA = UIViewController()
+        let controllerA = songEditChildVC
         controllerA.title = "Aメロ"
         controllerA.view.backgroundColor = UIColor.white
         controllerArray.append(controllerA)
-        let textView = UITextView(frame: CGRect(x: 100, y: 100, width: 150, height: 150))
-        textView.backgroundColor = UIColor.magenta
-        textView.text = "1234567890abcdefghijklmnopqrstuwxyz 1234567890 abcdefghijklmnopqrstuwxyz \na\nb\nc\ndefghijklmnopqrstuwxyz \n http://www.gclue.com\n"
-        textView.font = UIFont.systemFont(ofSize: 20)
-        view.addSubview(textView)
-        
         
         /// ２つ目の画面
         let controllerB = UIViewController()
         controllerB.title = "Bメロ"
-        controllerB.view.backgroundColor = UIColor.blue
+        controllerB.view.backgroundColor = UIColor.cyan
         controllerArray.append(controllerB)
         
         /// ３つ目の画面
         let controllerC = UIViewController()
         controllerC.title = "Cメロ"
-        controllerC.view.backgroundColor = UIColor.brown
+        controllerC.view.backgroundColor = UIColor.yellow
         controllerArray.append(controllerC)
         
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
-            .scrollMenuBackgroundColor(UIColor.lightGray),
+            .scrollMenuBackgroundColor(UIColor.white),
             .selectedMenuItemLabelColor(UIColor.black),
-            .unselectedMenuItemLabelColor(UIColor.gray),
-            .selectionIndicatorColor(UIColor.red),
+            .unselectedMenuItemLabelColor(UIColor.lightGray),
+            .selectionIndicatorColor(UIColor.orange),
             .menuItemSeparatorColor (UIColor.cyan),
-            .menuItemFont(UIFont(name: "HelveticaNeue", size: 14.0)!),
-            .menuItemSeparatorRoundEdges(true)
+            .menuItemSeparatorWidth(0),
+            .useMenuLikeSegmentedControl(true),
         ]
         
         // StatusBarの高さを取得

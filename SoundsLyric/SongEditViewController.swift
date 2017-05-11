@@ -28,13 +28,19 @@ class SongEditViewController: UIViewController {
         navigationItem.title = songName
     }
     
-    /// デフォルトで表示するPageMenu項目
+    /// デフォルトで表示するPageMenu項目を設定
     private func setDefaultPageMenu() {
         /// １つ目の画面
         let controllerA = UIViewController()
         controllerA.title = "Aメロ"
         controllerA.view.backgroundColor = UIColor.white
         controllerArray.append(controllerA)
+        let textView = UITextView(frame: CGRect(x: 100, y: 100, width: 150, height: 150))
+        textView.backgroundColor = UIColor.magenta
+        textView.text = "1234567890abcdefghijklmnopqrstuwxyz 1234567890 abcdefghijklmnopqrstuwxyz \na\nb\nc\ndefghijklmnopqrstuwxyz \n http://www.gclue.com\n"
+        textView.font = UIFont.systemFont(ofSize: 20)
+        view.addSubview(textView)
+        
         
         /// ２つ目の画面
         let controllerB = UIViewController()
@@ -50,7 +56,7 @@ class SongEditViewController: UIViewController {
         
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
-            .scrollMenuBackgroundColor(UIColor.yellow),
+            .scrollMenuBackgroundColor(UIColor.lightGray),
             .selectedMenuItemLabelColor(UIColor.black),
             .unselectedMenuItemLabelColor(UIColor.gray),
             .selectionIndicatorColor(UIColor.red),
@@ -59,8 +65,16 @@ class SongEditViewController: UIViewController {
             .menuItemSeparatorRoundEdges(true)
         ]
         
-        // 初期化
-        pagemenu = CAPSPageMenu(viewControllers: controllerArray, frame: view.bounds, pageMenuOptions: parameters)
+        // StatusBarの高さを取得
+        let statusBarHeight = UIApplication.shared.statusBarFrame.size.height
+        // NavigationBarの高さを取得
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.height
+        // 二つのBarの大きさ
+        let topBarsHeight = statusBarHeight + navigationBarHeight!
+        
+        
+        // 初期化（表示するVC / 位置・大きさ / カスタマイズ内容）
+        pagemenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
         
         // PageMenuを表示する
         self.view.addSubview(pagemenu!.view)

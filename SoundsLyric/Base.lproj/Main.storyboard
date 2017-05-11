@@ -98,7 +98,7 @@
             </objects>
             <point key="canvasLocation" x="2028" y="-409"/>
         </scene>
-        <!--Folder View Controller-->
+        <!--フォルダ-->
         <scene sceneID="T61-oa-QyH">
             <objects>
                 <viewController storyboardIdentifier="Folder" id="Acm-xR-lxY" customClass="FolderViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
@@ -160,7 +160,7 @@
                             <constraint firstAttribute="trailing" secondItem="BbZ-89-qLf" secondAttribute="trailing" id="YBL-kX-roA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ImK-w3-Cyi">
+                    <navigationItem key="navigationItem" title="フォルダ" id="ImK-w3-Cyi">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Fs0-kG-cja"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="7NM-Zq-lof">
                             <connections>
@@ -175,7 +175,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O8h-if-PH1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1174" y="333"/>
+            <point key="canvasLocation" x="1068" y="332"/>
         </scene>
         <!--Song List View Controller-->
         <scene sceneID="yP8-Jc-dPk">
@@ -292,6 +292,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="XjK-hi-HUT">
                         <barButtonItem key="backBarButtonItem" title="Back" id="n40-HY-irQ"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Zqf-rJ-ls3"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qSj-vP-eTl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -314,7 +315,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVr-NQ-teV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="729" y="333"/>
+            <point key="canvasLocation" x="412" y="331"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

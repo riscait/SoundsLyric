@@ -12,11 +12,21 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var tableView: UITableView!
 
+    /*
+     ここが要はrealmで保持しているものになりますかね->Lesson6でいうとtask
+     */
     // セルを格納する配列
+    // こちらのデフォルトで決まっているものはConst.swiftなど(Lesson8参照)の定数をまとめて宣言する場所に固めておいておくと管理しやすいですよ
     var folders = ["最初にあるセル"]
     
+    /*
+     この以下二つのプロパティは不要かと思われます。
+     上記、foldersが配列として情報を持っているため、※1
+     プロパティは増やすこと全然構いませんが、宣言して多方で呼ばれて書き換えられるということでメンテナンス性がぐっと落ちますので、
+     コード書いて行くうちにここいらないやんと思うことがあれば消して行くことを推奨します。
+    */
     // セル（フォルダ）をタップしてSongListVCに遷移する時に渡す
-    // セルの番号
+    // セルの番号 // これはどのような理由で保持していますか？
     var folderNumber: Int!
     // フォルダの名前
     var folderName: String!
@@ -25,6 +35,7 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
         print("フォルダー追加ボタンが押されました")
         
         // Alertを作成
+        // こちらのデフォルトで決まっているものはConst.swiftなど(Lesson8参照)の定数をまとめて宣言する場所に固めておいておくと管理しやすいですよ
         let alert = UIAlertController(title: "新規フォルダ", message: "フォルダの名前を入力してください", preferredStyle: .alert)
         
         // OKアクションを生成
@@ -35,6 +46,11 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
             if let textFields = alert.textFields {
                 
                 // アラートに含まれるすべてのテキストフィールドを調べる
+                /*
+                 ここが少し危険かもしれませんね。
+                 もしFolderの他にFolderの説明文も追加するようであれば、
+                 確実にバグると思います。(要はAlertのTextFieldを殖やす場合ですね)
+                */
                 for textField in textFields {
                     print("「\(textField.text!)」フォルダが追加されました")
                     self.folders.append(textField.text!)
@@ -65,6 +81,7 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func editFolder(_ sender: Any) {
+        // ここのEditボタン押したタイミングでEditボタンの文言を変えたほうがユーザーに親切でいいと思いますよ
         print("フォルダー編集ボタンが押されました")
         if isEditing {
             super.setEditing(false, animated: true)
@@ -101,10 +118,14 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: UITableViewDelegateプロトコルのメソッド
     // 各セルを選択した時に実行されるメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // ※1 ここでprepareにしているため folderNumber,folderNameとされておりますが、
+        // self.navigationController?.pushViewController(<#T##viewController: UIViewController##UIViewController#>, animated: <#T##Bool#>)
+        // を用いて遷移するとプロパティとして保持する必要がなくなるかと思いますよ
         folderNumber = indexPath.row
         folderName = folders[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "showSongListVC", sender: nil)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

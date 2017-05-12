@@ -10,6 +10,13 @@ import UIKit
 
 class SongEditChildViewController: UIViewController {
 
+    /*
+     このようにタイプ分けでVCを切り分ける形ですね
+     初期値は無効値0として
+     0が来た場合はエラーという判断ができますので
+     var lyricType = 0
+     */
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

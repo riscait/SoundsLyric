@@ -37,10 +37,20 @@ class SongEditViewController: UIViewController, UITextFieldDelegate {
     private func setDefaultPageMenu() {
         // Storyboardをインスタンス化して、Storyboard上のVCを取得する
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        /*
+         OKですね。ストーリーボードより、生成できております。
+         ただstoryboard.instantiateViewControllerのメソッドの返り値がUIViewController型なので、as! SongEditChildViewController とキャスト
+         を付け足してあげてください。
+        */
         let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChild")
         
         /// １つ目の画面
         let controllerA = songEditChildVC
+        /*
+         このようにタイプ分けでVCを切り分ける形ですね
+         songEditChildVC.lyricType = 1
+        */
         controllerA.title = "Aメロ"
         controllerA.view.backgroundColor = UIColor.white
         controllerArray.append(controllerA)

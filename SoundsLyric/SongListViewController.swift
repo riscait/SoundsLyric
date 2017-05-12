@@ -13,6 +13,7 @@ class SongListViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     
     // FolderVCから受け取ったフォルダ情報
+    // ここも前のfolderからrealmに保持していたFolder->Song <-これを前の画面から該当SongList配列でもらうもしくはひもづくIDだけもらってrealmから該当SongList配列を取り出すようにしておくと良いです
     var folderNumber: Int!
     var folderName: String!
     
@@ -55,6 +56,7 @@ class SongListViewController: UIViewController, UITableViewDelegate, UITableView
         if segue.identifier == "ComposeSong" {
             // 曲を新規作成するときの遷移
             let songEditVC = segue.destination as! SongEditViewController
+            // こちらのデフォルトで決まっているものはConst.swiftなど(Lesson8参照)の定数をまとめて宣言する場所に固めておいておくと管理しやすいですよ
             songEditVC.songName = "新しい曲"
         }
     }

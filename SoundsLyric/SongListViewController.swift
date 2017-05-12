@@ -13,17 +13,13 @@ class SongListViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     
     // FolderVCから受け取ったフォルダ情報
-    var folderNumber: Int!
-    var folderName: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // NavBarのタイトルにフォルダ名を反映
-        navigationItem.title = folderName
-        
-        print("（遷移後）遷移元のセルは \(self.folderNumber) 番目の「\(folderName)」フォルダ")
-        
+//        navigationItem.title = folderName
+                
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,7 +51,6 @@ class SongListViewController: UIViewController, UITableViewDelegate, UITableView
         if segue.identifier == "ComposeSong" {
             // 曲を新規作成するときの遷移
             let songEditVC = segue.destination as! SongEditViewController
-            songEditVC.songName = "新しい曲"
         }
     }
     

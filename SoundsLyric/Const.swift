@@ -14,4 +14,6 @@ struct Const {
     static let alert = UIAlertController(title: "新規フォルダ", message: "フォルダの名前を入力してください", preferredStyle: .alert)
     // フォルダの配列
     static var folders = ["最初にあるフォルダ"]
+    // 曲の名前
+    static var songName = "新しい曲"
 }

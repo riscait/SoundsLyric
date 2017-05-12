@@ -11,14 +11,6 @@ import UIKit
 class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-
-    // セルを格納する配列
-    
-    // セル（フォルダ）をタップしてSongListVCに遷移する時に渡す
-    // セルの番号
-    var folderNumber: Int!
-    // フォルダの名前
-    var folderName: String!
     
     @IBAction func addFolder(_ sender: Any) {
         print("フォルダー追加ボタンが押されました")
@@ -62,12 +54,13 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func editFolder(_ sender: UIBarButtonItem) {
-        print("フォルダー編集ボタンが押されました")
         if isEditing {
+            print("（編集の）完了ボタンが押されました")
             super.setEditing(false, animated: true)
             tableView.setEditing(false, animated: true)
             sender.title = "編集"
        } else {
+            print("フォルダー編集ボタンが押されました")
             super.setEditing(true, animated: true)
             tableView.setEditing(true, animated: true)
             sender.title = "完了"
@@ -100,19 +93,13 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: UITableViewDelegateプロトコルのメソッド
     // 各セルを選択した時に実行されるメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        folderNumber = indexPath.row
-        folderName = Const.folders[indexPath.row]
+        
+        // SongListVCに遷移する
+        let songListVC = self.storyboard?.instantiateViewController(withIdentifier: "SongListVC") as! SongListViewController
+        self.navigationController?.pushViewController(songListVC, animated: true)
+        
+        // セルの選択を解除する
         tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "showSongListVC", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showSongListVC" {
-            let songListVC = segue.destination as! SongListViewController
-            songListVC.folderNumber = self.folderNumber
-            songListVC.folderName = self.folderName
-            print("（「遷移前）遷移元のセルは \(self.folderNumber) 番目の「\(self.folderName)」フォルダ")
-        }
     }
     
     // セルが削除が可能なことを伝えるメソッド

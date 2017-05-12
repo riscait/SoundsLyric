@@ -101,7 +101,7 @@
         <!--フォルダ-->
         <scene sceneID="T61-oa-QyH">
             <objects>
-                <viewController storyboardIdentifier="Folder" id="Acm-xR-lxY" customClass="FolderViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FolderVC" id="Acm-xR-lxY" customClass="FolderViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ejh-lE-IbY"/>
                         <viewControllerLayoutGuide type="bottom" id="TDU-75-T3c"/>
@@ -180,7 +180,7 @@
         <!--Song List View Controller-->
         <scene sceneID="yP8-Jc-dPk">
             <objects>
-                <viewController storyboardIdentifier="SongList" automaticallyAdjustsScrollViewInsets="NO" id="qHA-z8-SJY" customClass="SongListViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongListVC" automaticallyAdjustsScrollViewInsets="NO" id="qHA-z8-SJY" customClass="SongListViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="01M-Nf-PTQ"/>
                         <viewControllerLayoutGuide type="bottom" id="v05-PZ-8n9"/>
@@ -262,7 +262,7 @@
         <!--Song Edit View Controller-->
         <scene sceneID="tSJ-8h-sil">
             <objects>
-                <viewController storyboardIdentifier="SongEdit" id="4wh-9f-bwb" customClass="SongEditViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongEditVC" id="4wh-9f-bwb" customClass="SongEditViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ieA-2d-DKf"/>
                         <viewControllerLayoutGuide type="bottom" id="YDB-Y1-EFJ"/>
@@ -306,7 +306,7 @@
         <!--Song Edit Child View Controller-->
         <scene sceneID="7dL-cn-W9v">
             <objects>
-                <viewController storyboardIdentifier="SongEditChild" id="zUo-XZ-OCd" customClass="SongEditChildViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongEditChildVC" id="zUo-XZ-OCd" customClass="SongEditChildViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5SR-Qp-Uhy"/>
                         <viewControllerLayoutGuide type="bottom" id="c0N-Jh-C0n"/>

@@ -17,9 +17,6 @@ class SongEditViewController: UIViewController, UITextFieldDelegate {
     
     var pagemenu: CAPSPageMenu?
     
-    // SongListVCから受け取った曲情報
-    var songName:String!
-    
     /// Viewを格納する配列
     var controllerArray: [UIViewController] = []
 
@@ -29,7 +26,7 @@ class SongEditViewController: UIViewController, UITextFieldDelegate {
         setDefaultPageMenu()
 
         // NavBarのタイトルに曲名を反映
-        navigationItem.title = songName
+        navigationItem.title = Const.songName
         
     }
     
@@ -37,7 +34,7 @@ class SongEditViewController: UIViewController, UITextFieldDelegate {
     private func setDefaultPageMenu() {
         // Storyboardをインスタンス化して、Storyboard上のVCを取得する
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChild")
+        let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC")
         
         /// １つ目の画面
         let controllerA = songEditChildVC

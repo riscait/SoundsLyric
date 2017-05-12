@@ -162,9 +162,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="フォルダ" id="ImK-w3-Cyi">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Fs0-kG-cja"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="7NM-Zq-lof">
+                        <barButtonItem key="rightBarButtonItem" title="編集" id="7NM-Zq-lof">
                             <connections>
-                                <action selector="editFolder:" destination="Acm-xR-lxY" id="XdX-Yu-NkF"/>
+                                <action selector="editFolder:" destination="Acm-xR-lxY" id="YR6-ue-vHK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -319,7 +319,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">ここはテスト文が
+                                <string key="text">ここはテスト文が
 表示されます
 テスト
 test
@@ -359,7 +359,7 @@ UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextVi
 表示されます
 ここはテスト文が
 表示されますここはテスト文が
-表示されます</mutableString>
+表示されます</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>

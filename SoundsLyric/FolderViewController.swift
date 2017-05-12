@@ -13,7 +13,6 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var tableView: UITableView!
 
     // セルを格納する配列
-    var folders = ["最初にあるセル"]
     
     // セル（フォルダ）をタップしてSongListVCに遷移する時に渡す
     // セルの番号
@@ -24,54 +23,54 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBAction func addFolder(_ sender: Any) {
         print("フォルダー追加ボタンが押されました")
         
-        // Alertを作成
-        let alert = UIAlertController(title: "新規フォルダ", message: "フォルダの名前を入力してください", preferredStyle: .alert)
-        
+        // 以下Alertの設定
         // OKアクションを生成
         let defaultAction = UIAlertAction(title: "保存", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
             print("保存ボタンが押されました")
             /// テキストが入力されていれば表示
-            if let textFields = alert.textFields {
+            if let textFields = Const.alert.textFields {
                 
                 // アラートに含まれるすべてのテキストフィールドを調べる
                 for textField in textFields {
                     print("「\(textField.text!)」フォルダが追加されました")
-                    self.folders.append(textField.text!)
+                    Const.folders.append(textField.text!)
                     // TableViewを再読み込み.
                     self.tableView.reloadData()
                 }
             }
         })
-        alert.addAction(defaultAction)
+        Const.alert.addAction(defaultAction)
         
         // Cancelアクションを生成
         let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
-        alert.addAction(cancelAction)
+        Const.alert.addAction(cancelAction)
         
         // TextFieldを追加
-        alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
+        Const.alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
             textField.placeholder = "名前"
             textField.returnKeyType = .done
         })
         
         // シミュレータの種類によっては、これがないと警告が発生
-        alert.view.setNeedsLayout()
+        Const.alert.view.setNeedsLayout()
         // アラートを画面に表示
-        self.present(alert, animated: true, completion: nil)
+        self.present(Const.alert, animated: true, completion: nil)
         
         // TableViewを再読み込み.
         tableView.reloadData()
     }
     
-    @IBAction func editFolder(_ sender: Any) {
+    @IBAction func editFolder(_ sender: UIBarButtonItem) {
         print("フォルダー編集ボタンが押されました")
         if isEditing {
             super.setEditing(false, animated: true)
             tableView.setEditing(false, animated: true)
-        } else {
+            sender.title = "編集"
+       } else {
             super.setEditing(true, animated: true)
             tableView.setEditing(true, animated: true)
+            sender.title = "完了"
         }
     }
     
@@ -88,13 +87,13 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: UITableViewDataSourceプロトコルのメソッド
     // データの数（＝セルの数）を返すメソッド
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return folders.count
+        return Const.folders.count
     }
     
     /// 各セルの内容を返すメソッド
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FolderTableViewCell", for: indexPath)
-        cell.textLabel?.text = "\(folders[indexPath.row])"
+        cell.textLabel?.text = "\(Const.folders[indexPath.row])"
         return cell
     }
     
@@ -102,7 +101,7 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // 各セルを選択した時に実行されるメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         folderNumber = indexPath.row
-        folderName = folders[indexPath.row]
+        folderName = Const.folders[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "showSongListVC", sender: nil)
     }
@@ -124,7 +123,7 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // Delete ボタンが押された時に呼ばれるメソッド
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
-            folders.remove(at: indexPath.row)
+            Const.folders.remove(at: indexPath.row)
             
             tableView.reloadData()
         }

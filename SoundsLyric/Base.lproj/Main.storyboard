@@ -15,7 +15,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="WSa-ST-Gjt" customClass="TutorialPageViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="duh-Mf-EQx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="729" y="-411"/>
+            <point key="canvasLocation" x="530" y="-411"/>
         </scene>
         <!--First Tutorial View Controller-->
         <scene sceneID="ntw-4l-nKp">
@@ -69,7 +69,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yUm-Jb-wcf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1600" y="-409"/>
+            <point key="canvasLocation" x="1826" y="-410"/>
         </scene>
         <!--Third Tutorial View Controller-->
         <scene sceneID="9dx-P0-ELU">
@@ -96,7 +96,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oyi-Mw-nxf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2028" y="-409"/>
+            <point key="canvasLocation" x="2479" y="-411"/>
         </scene>
         <!--フォルダ-->
         <scene sceneID="T61-oa-QyH">
@@ -175,7 +175,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O8h-if-PH1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1068" y="332"/>
+            <point key="canvasLocation" x="1174" y="250"/>
         </scene>
         <!--Song List View Controller-->
         <scene sceneID="yP8-Jc-dPk">
@@ -252,12 +252,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="ldm-YS-ajb" id="LdS-6f-VCA"/>
-                        <segue destination="4wh-9f-bwb" kind="show" id="Iyt-Ce-pXE"/>
+                        <segue destination="4wh-9f-bwb" kind="show" identifier="EditSong" id="Iyt-Ce-pXE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Euf-8M-YCx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1600" y="333"/>
+            <point key="canvasLocation" x="1825" y="250"/>
         </scene>
         <!--Song Edit View Controller-->
         <scene sceneID="tSJ-8h-sil">
@@ -281,11 +281,23 @@
                                     <barButtonItem title="Setting" id="aq1-cv-5dF"/>
                                 </items>
                             </toolbar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="タイトル" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RmL-H1-oz2">
+                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="h4A-pe-cc3"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="91S-jp-9l7" secondAttribute="trailing" id="5PZ-8L-4OB"/>
                             <constraint firstItem="YDB-Y1-EFJ" firstAttribute="top" secondItem="91S-jp-9l7" secondAttribute="bottom" id="6KM-Dq-wUM"/>
+                            <constraint firstAttribute="trailing" secondItem="RmL-H1-oz2" secondAttribute="trailing" id="KKu-jX-FyO"/>
+                            <constraint firstItem="RmL-H1-oz2" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="dLm-AV-Aea"/>
+                            <constraint firstItem="RmL-H1-oz2" firstAttribute="top" secondItem="ieA-2d-DKf" secondAttribute="bottom" id="g23-dw-0uc"/>
                             <constraint firstItem="91S-jp-9l7" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="qux-5a-4Wg"/>
                         </constraints>
                     </view>
@@ -298,10 +310,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="titleTextField" destination="RmL-H1-oz2" id="4bc-ih-Doc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qSj-vP-eTl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2383" y="332"/>
+            <point key="canvasLocation" x="2477.5999999999999" y="249.62518740629687"/>
         </scene>
         <!--Song Edit Child View Controller-->
         <scene sceneID="7dL-cn-W9v">
@@ -315,9 +330,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">ここはテスト文が
 表示されます
@@ -365,11 +379,20 @@ UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextVi
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cXM-fQ-qPJ" firstAttribute="top" secondItem="w7Z-Qz-A4G" secondAttribute="top" id="2hC-sY-q2g"/>
+                            <constraint firstAttribute="trailing" secondItem="cXM-fQ-qPJ" secondAttribute="trailing" id="5rH-gK-ryb"/>
+                            <constraint firstItem="c0N-Jh-C0n" firstAttribute="top" secondItem="cXM-fQ-qPJ" secondAttribute="bottom" id="kS2-NU-Mqn"/>
+                            <constraint firstItem="cXM-fQ-qPJ" firstAttribute="leading" secondItem="w7Z-Qz-A4G" secondAttribute="leading" id="uoV-2S-yQ9"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="textView" destination="cXM-fQ-qPJ" id="51Y-3H-yGP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hW2-Kg-OL5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3117.5999999999999" y="328.78560719640183"/>
+            <point key="canvasLocation" x="3125.5999999999999" y="249.62518740629687"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="A9d-94-5rn">
@@ -387,7 +410,7 @@ UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextVi
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVr-NQ-teV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="412" y="331"/>
+            <point key="canvasLocation" x="529" y="250"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

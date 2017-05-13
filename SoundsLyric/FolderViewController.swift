@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -21,7 +22,7 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
             (action:UIAlertAction!) -> Void in
             print("保存ボタンが押されました")
             /// テキストが入力されていれば表示
-            if let textFields = Const.alert.textFields {
+            if let textFields = Const.alertAddFolder.textFields {
                 
                 // アラートに含まれるすべてのテキストフィールドを調べる
                 for textField in textFields {
@@ -32,22 +33,22 @@ class FolderViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
         })
-        Const.alert.addAction(defaultAction)
+        Const.alertAddFolder.addAction(defaultAction)
         
         // Cancelアクションを生成
         let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
-        Const.alert.addAction(cancelAction)
+        Const.alertAddFolder.addAction(cancelAction)
         
         // TextFieldを追加
-        Const.alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
+        Const.alertAddFolder.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
             textField.placeholder = "名前"
             textField.returnKeyType = .done
         })
         
         // シミュレータの種類によっては、これがないと警告が発生
-        Const.alert.view.setNeedsLayout()
+        Const.alertAddFolder.view.setNeedsLayout()
         // アラートを画面に表示
-        self.present(Const.alert, animated: true, completion: nil)
+        self.present(Const.alertAddFolder, animated: true, completion: nil)
         
         // TableViewを再読み込み.
         tableView.reloadData()

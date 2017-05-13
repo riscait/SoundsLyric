@@ -10,10 +10,14 @@ import UIKit
 
 class SongEditChildViewController: UIViewController {
 
+    @IBOutlet weak var textView: UITextView!
+    
+    /// 歌詞のタイプ
+    var lyricType = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

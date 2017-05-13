@@ -7,71 +7,108 @@
 //
 
 import UIKit
+import RealmSwift
 
-class SongListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SongListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    // FolderVCから受け取ったフォルダ情報
-    
+    // Realmをインスタンス化
+    let realm = try! Realm()
+    // DB内のタスクが格納されるリスト。日付の降順でソート。以降、内容をアップデートするとリスト内は自動的に更新される
+    var songArray = try! Realm().objects(Song.self).sorted(byKeyPath: "date", ascending: false)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // NavBarのタイトルにフォルダ名を反映
-//        navigationItem.title = folderName
-                
+        //　FIXME: navigationItem.title = folderName
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let songEditVC = segue.destination as! SongEditViewController
+        
+        if segue.identifier == "ComposeSong" {
+            // 曲を新規作成する場合の遷移
+            let song = Song()
+            song.date = NSDate()
+            
+            if songArray.count != 0 {
+                song.id = songArray.max(ofProperty: "id")! + 1
+            }
+            
+            songEditVC.song = song
+            
+        } else if segue.identifier == "EditSong" {
+            // セルをタップして既存の曲を編集する場合の遷移
+            let indexpath = self.tableView.indexPathForSelectedRow
+            songEditVC.song = songArray[indexpath!.row]
+        }
     }
 
+
+    /// 画面が表示される直前に呼び出されるメソッド
+    ///
+    /// - Parameter animated: animated
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // TableViewを更新する
+        tableView.reloadData()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
+}
+
+// MARK: - UITableViewDataSource
+extension SongListViewController: UITableViewDataSource {
     
-    
-    // MARK: UITableViewDataSourceプロトコルのメソッド
-    // データの数（＝セルの数）を返す
+    // データの数（＝セルの数）を返す（必須）
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return songArray.count
     }
     
-    // 各セルの内容を返すメソッド
+    // 各セルの内容を返すメソッド（必須）
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // 再利用可能な cell を得る
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SongListViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SongListViewCell", for: indexPath as IndexPath)
+        
+        // CellにTitleを表示
+        let song = songArray[indexPath.row]
+        cell.textLabel?.text = song.title
+        // 日時をフォーマットし,Cellに表示
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年MM月dd日 HH:mm"
+        let dateString = formatter.string(from: song.date as Date)
+        cell.detailTextLabel?.text = dateString
         
         return cell
     }
     
-    // MARK: UITableViewDelegateプロトコルのメソッド
+    // Delete ボタンが押された時に呼ばれるメソッド
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            // データベースから削除する
+            try! realm.write {
+                self.realm.delete(self.songArray[indexPath.row])
+                tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.fade)
+            }
+        }
+    }
+}
+    
+// MARK: - UITableViewDelegate
+extension SongListViewController: UITableViewDelegate {
+    
     // 各セルを選択した時に実行されるメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ComposeSong" {
-            // 曲を新規作成するときの遷移
-            let songEditVC = segue.destination as! SongEditViewController
-        }
+        performSegue(withIdentifier: "EditSong", sender: nil)
     }
     
     // セルが削除が可能なことを伝えるメソッド
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath)-> UITableViewCellEditingStyle {
         return UITableViewCellEditingStyle.delete
     }
-    
-    // Delete ボタンが押された時に呼ばれるメソッド
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

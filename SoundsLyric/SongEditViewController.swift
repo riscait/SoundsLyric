@@ -8,14 +8,20 @@
 
 import UIKit
 import PageMenu
+import RealmSwift
 
-class SongEditViewController: UIViewController, UITextFieldDelegate {
+class SongEditViewController: UIViewController {
     
-    @IBAction func closeKeyboard(_ sender: Any) {
-        
-    }
+    @IBOutlet weak var titleTextField: UITextField!
     
+    // Realmをインスタンス化
+    let realm = try! Realm()
+    
+    //　PageMenuの準備
     var pagemenu: CAPSPageMenu?
+    
+    // 曲の情報を受け取る変数
+    var song: Song!
     
     /// Viewを格納する配列
     var controllerArray: [UIViewController] = []
@@ -23,36 +29,74 @@ class SongEditViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // NavigationBarの枠線を消す
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
         setDefaultPageMenu()
 
-        // NavBarのタイトルに曲名を反映
-        navigationItem.title = Const.songName
+        // 曲名をTextFieldに反映
+        titleTextField.text = song.title
         
+        // タイトルが空欄ならタイトル欄にキーボードフォーカス
+        if titleTextField.text == "" {
+            titleTextField.becomeFirstResponder()
+        }
+    }
+    
+    /// 画面が消える直前に呼び出されるメソッド
+    ///
+    /// - Parameter animated: animated
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        try! realm.write {
+            // タイトルを記憶
+            self.song.title = titleTextField.text!
+            // 現在時刻で更新
+            self.song.date = NSDate()
+            // 歌詞を記憶
+            
+            
+            self.realm.add(self.song, update: true)
+        }
+    }
+    
+    
+    // キーボードを閉じるボタンを押した時に呼ばれる
+    @IBAction func closeKeyboard(_ sender: Any) {
+        view.endEditing(true)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     /// デフォルトで表示するPageMenu項目を設定
     private func setDefaultPageMenu() {
-        // Storyboardをインスタンス化して、Storyboard上のVCを取得する
+        /// Storyboardをインスタンス化
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC")
         
-        /// １つ目の画面
-        let controllerA = songEditChildVC
-        controllerA.title = "Aメロ"
-        controllerA.view.backgroundColor = UIColor.white
-        controllerArray.append(controllerA)
+        /// １つ目の画面をインスタンス化
+        let songEditChildVCFirst = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
+        songEditChildVCFirst.lyricType = 1
+        songEditChildVCFirst.title = "Aメロ"
+        songEditChildVCFirst.view.backgroundColor = UIColor.white
+        controllerArray.append(songEditChildVCFirst)
         
-        /// ２つ目の画面
-        let controllerB = UIViewController()
-        controllerB.title = "Bメロ"
-        controllerB.view.backgroundColor = UIColor.cyan
-        controllerArray.append(controllerB)
+        /// ２つ目の画面をインスタンス化
+        let songEditChildVCSecond = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
+        songEditChildVCSecond.lyricType = 2
+        songEditChildVCSecond.title = "Bメロ"
+        songEditChildVCSecond.view.backgroundColor = UIColor.cyan
+        controllerArray.append(songEditChildVCSecond)
         
-        /// ３つ目の画面
-        let controllerC = UIViewController()
-        controllerC.title = "Cメロ"
-        controllerC.view.backgroundColor = UIColor.yellow
-        controllerArray.append(controllerC)
+        /// ３つ目の画面をインスタンス化
+        let songEditChildVCThird = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
+        songEditChildVCThird.lyricType = 3
+        songEditChildVCThird.title = "サビ"
+        songEditChildVCThird.view.backgroundColor = UIColor.yellow
+        controllerArray.append(songEditChildVCThird)
         
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
@@ -70,7 +114,7 @@ class SongEditViewController: UIViewController, UITextFieldDelegate {
         // NavigationBarの高さを取得
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height
         // 二つのBarの大きさ
-        let topBarsHeight = statusBarHeight + navigationBarHeight!
+        let topBarsHeight = statusBarHeight + navigationBarHeight! + titleTextField.frame.height
         
         
         // 初期化（表示するVC / 位置・大きさ / カスタマイズ内容）
@@ -83,21 +127,4 @@ class SongEditViewController: UIViewController, UITextFieldDelegate {
         self.view.sendSubview(toBack: pagemenu!.view)
 
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

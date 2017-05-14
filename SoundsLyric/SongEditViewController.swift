@@ -25,7 +25,7 @@ class SongEditViewController: UIViewController {
     
     /// Viewを格納する配列
     var controllerArray: [UIViewController] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,12 +51,10 @@ class SongEditViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         try! realm.write {
-            // タイトルを記憶
+            // 曲のタイトルを保存
             self.song.title = titleTextField.text!
-            // 現在時刻で更新
+            // 現在時刻を更新時刻として保存
             self.song.date = NSDate()
-            // 歌詞を記憶
-            
             
             self.realm.add(self.song, update: true)
         }
@@ -105,6 +103,7 @@ class SongEditViewController: UIViewController {
             .unselectedMenuItemLabelColor(UIColor.lightGray),
             .selectionIndicatorColor(UIColor.orange),
             .menuItemSeparatorColor (UIColor.cyan),
+            .menuHeight(25),
             .menuItemSeparatorWidth(0),
             .useMenuLikeSegmentedControl(true),
         ]

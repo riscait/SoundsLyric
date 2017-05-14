@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import RealmSwift
 
 class SongEditChildViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
+    
+    let realm = try! Realm()
+    
+    var song: Song!
     
     /// 歌詞のタイプ
     var lyricType = 0
@@ -20,6 +25,13 @@ class SongEditChildViewController: UIViewController {
 
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        try! realm.write {
+            // 歌詞の保存
+// FIXME:           self.song.contents = textView.text
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

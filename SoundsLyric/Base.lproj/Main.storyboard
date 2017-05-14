@@ -248,7 +248,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="Gpv-EP-qnf">
                         <barButtonItem key="backBarButtonItem" title="Back" id="cDb-5g-QUZ"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="zFm-aj-wp1"/>
+                        <barButtonItem key="rightBarButtonItem" title="編集" id="zFm-aj-wp1">
+                            <connections>
+                                <action selector="editSong:" destination="qHA-z8-SJY" id="u5W-rb-WSU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="ldm-YS-ajb" id="LdS-6f-VCA"/>
@@ -271,16 +275,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="91S-jp-9l7">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <items>
-                                    <barButtonItem systemItem="trash" id="Kxg-Wy-Xwh"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="zP3-Oi-6R3"/>
-                                    <barButtonItem systemItem="compose" id="Pmk-wo-BL8"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NOW-I4-i8X"/>
-                                    <barButtonItem title="Setting" id="aq1-cv-5dF"/>
-                                </items>
-                            </toolbar>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="タイトル" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RmL-H1-oz2">
                                 <rect key="frame" x="0.0" y="64" width="375" height="50"/>
                                 <constraints>
@@ -290,15 +284,29 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="91S-jp-9l7">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="trash" id="Kxg-Wy-Xwh"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="zP3-Oi-6R3"/>
+                                    <barButtonItem title="●" id="3ss-fp-Bx2">
+                                        <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </barButtonItem>
+                                    <barButtonItem title="—————" id="fNi-e9-Fgi"/>
+                                    <barButtonItem systemItem="play" id="t8g-KT-HRA"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NOW-I4-i8X"/>
+                                    <barButtonItem systemItem="compose" id="Pmk-wo-BL8"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="91S-jp-9l7" secondAttribute="trailing" id="5PZ-8L-4OB"/>
-                            <constraint firstItem="YDB-Y1-EFJ" firstAttribute="top" secondItem="91S-jp-9l7" secondAttribute="bottom" id="6KM-Dq-wUM"/>
+                            <constraint firstItem="YDB-Y1-EFJ" firstAttribute="top" secondItem="91S-jp-9l7" secondAttribute="bottom" id="3YU-3N-96n"/>
+                            <constraint firstAttribute="trailing" secondItem="91S-jp-9l7" secondAttribute="trailing" id="Av2-nq-BPW"/>
                             <constraint firstAttribute="trailing" secondItem="RmL-H1-oz2" secondAttribute="trailing" id="KKu-jX-FyO"/>
+                            <constraint firstItem="91S-jp-9l7" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="Zr5-Vw-4rd"/>
                             <constraint firstItem="RmL-H1-oz2" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="dLm-AV-Aea"/>
                             <constraint firstItem="RmL-H1-oz2" firstAttribute="top" secondItem="ieA-2d-DKf" secondAttribute="bottom" id="g23-dw-0uc"/>
-                            <constraint firstItem="91S-jp-9l7" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="qux-5a-4Wg"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -331,7 +339,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">ここはテスト文が
 表示されます
@@ -382,7 +390,7 @@ UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextVi
                         <constraints>
                             <constraint firstItem="cXM-fQ-qPJ" firstAttribute="top" secondItem="w7Z-Qz-A4G" secondAttribute="top" id="2hC-sY-q2g"/>
                             <constraint firstAttribute="trailing" secondItem="cXM-fQ-qPJ" secondAttribute="trailing" id="5rH-gK-ryb"/>
-                            <constraint firstItem="c0N-Jh-C0n" firstAttribute="top" secondItem="cXM-fQ-qPJ" secondAttribute="bottom" id="kS2-NU-Mqn"/>
+                            <constraint firstItem="c0N-Jh-C0n" firstAttribute="top" secondItem="cXM-fQ-qPJ" secondAttribute="bottom" constant="44" id="ZO3-kd-xmO"/>
                             <constraint firstItem="cXM-fQ-qPJ" firstAttribute="leading" secondItem="w7Z-Qz-A4G" secondAttribute="leading" id="uoV-2S-yQ9"/>
                         </constraints>
                     </view>

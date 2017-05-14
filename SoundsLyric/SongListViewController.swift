@@ -15,7 +15,7 @@ class SongListViewController: UIViewController {
     
     // Realmをインスタンス化
     let realm = try! Realm()
-    // DB内のタスクが格納されるリスト。日付の降順でソート。以降、内容をアップデートするとリスト内は自動的に更新される
+    // DB内の曲が格納されるリスト。日付の降順でソート。以降、内容をアップデートするとリスト内は自動的に更新される
     var songArray = try! Realm().objects(Song.self).sorted(byKeyPath: "date", ascending: false)
 
     override func viewDidLoad() {
@@ -57,6 +57,20 @@ class SongListViewController: UIViewController {
         tableView.reloadData()
     }
     
+    @IBAction func editSong(_ sender: UIBarButtonItem) {
+        if isEditing {
+            print("（セル編集の）完了ボタンが押されました")
+            super.setEditing(false, animated: true)
+            tableView.setEditing(false, animated: true)
+            sender.title = "編集"
+        } else {
+            print("セル編集ボタンが押されました")
+            super.setEditing(true, animated: true)
+            tableView.setEditing(true, animated: true)
+            sender.title = "完了"
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -78,7 +92,7 @@ extension SongListViewController: UITableViewDataSource {
         // CellにTitleを表示
         let song = songArray[indexPath.row]
         cell.textLabel?.text = song.title
-        // 日時をフォーマットし,Cellに表示
+        // 日時をフォーマットし、Cellに表示
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy年MM月dd日 HH:mm"
         let dateString = formatter.string(from: song.date as Date)

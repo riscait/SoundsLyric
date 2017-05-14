@@ -8,6 +8,18 @@
 
 import RealmSwift
 
+class Folder: Object {
+    // 管理用ID（プライマリーキー）
+    dynamic var id = 0
+
+    dynamic var title = ""
+
+    // idをプライマリーキーとして設定
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+}
+
 class Song: Object {
     // 管理用ID（プライマリーキー）
     dynamic var id = 0

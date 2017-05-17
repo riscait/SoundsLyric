@@ -170,7 +170,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="V4Q-ls-X68" id="TGS-T9-RHf"/>
-                        <segue destination="qHA-z8-SJY" kind="show" identifier="showSongListVC" id="jsg-r8-e7f"/>
+                        <segue destination="qHA-z8-SJY" kind="show" identifier="showSongList" id="jsg-r8-e7f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O8h-if-PH1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -256,7 +256,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="ldm-YS-ajb" id="LdS-6f-VCA"/>
-                        <segue destination="4wh-9f-bwb" kind="show" identifier="EditSong" id="Iyt-Ce-pXE"/>
+                        <segue destination="4wh-9f-bwb" kind="show" identifier="showEditSong" id="Iyt-Ce-pXE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Euf-8M-YCx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -422,6 +422,6 @@ UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextVi
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="S9w-ke-jP2"/>
+        <segue reference="Iyt-Ce-pXE"/>
     </inferredMetricsTieBreakers>
 </document>

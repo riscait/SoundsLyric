@@ -15,6 +15,8 @@ class SongListViewController: UIViewController {
     
     // Realmをインスタンス化
     let realm = try! Realm()
+    let folder = Folder()
+    
     // DB内の曲が格納されるリスト。日付の降順でソート。以降、内容をアップデートするとリスト内は自動的に更新される
     var songArray = try! Realm().objects(Song.self).sorted(byKeyPath: "date", ascending: false)
 
@@ -22,8 +24,8 @@ class SongListViewController: UIViewController {
         super.viewDidLoad()
         
         // NavBarのタイトルにフォルダ名を反映
-        //　FIXME: navigationItem.title = folderName
-        
+        navigationItem.title = folder.title
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -40,7 +42,7 @@ class SongListViewController: UIViewController {
             
             songEditVC.song = song
             
-        } else if segue.identifier == "EditSong" {
+        } else if segue.identifier == "showEditSong" {
             // セルをタップして既存の曲を編集する場合の遷移
             let indexpath = self.tableView.indexPathForSelectedRow
             songEditVC.song = songArray[indexpath!.row]

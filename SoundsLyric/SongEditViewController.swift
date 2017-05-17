@@ -10,12 +10,13 @@ import UIKit
 import PageMenu
 import RealmSwift
 
-class SongEditViewController: UIViewController {
+class SongEditViewController: BaseViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     
     // Realmをインスタンス化
-    let realm = try! Realm()
+    let lyric = Lyric()
+    
     
     //　PageMenuの準備
     var pagemenu: CAPSPageMenu?
@@ -50,13 +51,14 @@ class SongEditViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        self.writeRealmDB(model: song)
+        
         try! realm.write {
             // 曲のタイトルを保存
             self.song.title = titleTextField.text!
             // 現在時刻を更新時刻として保存
             self.song.date = NSDate()
             
-            self.realm.add(self.song, update: true)
         }
     }
     
@@ -71,7 +73,7 @@ class SongEditViewController: UIViewController {
     }
     
     /// デフォルトで表示するPageMenu項目を設定
-    private func setDefaultPageMenu() {
+    fileprivate func setDefaultPageMenu() {
         /// Storyboardをインスタンス化
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
@@ -125,5 +127,12 @@ class SongEditViewController: UIViewController {
         // PageMenuのViewを背面に移動
         self.view.sendSubview(toBack: pagemenu!.view)
 
+    }
+}
+
+// MARK: - SongEditChildViewControllerDelegate
+extension SongEditViewController: SongEditChildVCDelegate {
+    
+    func writeLyricToDB() {
     }
 }

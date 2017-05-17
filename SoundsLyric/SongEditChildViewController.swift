@@ -9,11 +9,20 @@
 import UIKit
 import RealmSwift
 
+/// SongEditChildVCDelegate
+protocol SongEditChildVCDelegate {
+    func writeLyricToDB()
+}
+
+/// セクションごとの歌詞を書くVC
 class SongEditChildViewController: UIViewController {
 
+    var delegate: SongEditChildVCDelegate?
+    
     @IBOutlet weak var textView: UITextView!
     
     let realm = try! Realm()
+    let lyric = Lyric()
     
     var song: Song!
     
@@ -26,10 +35,7 @@ class SongEditChildViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        try! realm.write {
-            // 歌詞の保存
-// FIXME:           self.song.contents = textView.text
-        }
+        super.viewWillDisappear(animated)
     }
     
     override func didReceiveMemoryWarning() {
@@ -40,7 +46,13 @@ class SongEditChildViewController: UIViewController {
 
 // MARK: - UITextViewDelegate
 extension SongEditChildViewController: UITextViewDelegate {
+    
+    /// TextViewの編集が終了したときの処理
+    ///
+    /// - Parameter textView: textView
     func textViewDidEndEditing(_ textView: UITextView) {
-        
+        if let delegate = self.delegate {
+            delegate.writeLyricToDB()
+        }
     }
 }

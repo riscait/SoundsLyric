@@ -14,7 +14,7 @@ class FolderViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     // Realmをインスタンス化
-    let realm = try! Realm()
+    let realm = try! Realm()    
 
     /// DB内のフォルダが格納されるリスト。
     var folderArray = try! Realm().objects(Folder.self).sorted(byKeyPath: "title", ascending: false)

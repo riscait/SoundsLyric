@@ -134,6 +134,7 @@ extension FolderViewController: UITableViewDelegate {
         // SongListVCに遷移する
         let songListVC = self.storyboard?.instantiateViewController(withIdentifier: "SongListVC") as! SongListViewController
         self.navigationController?.pushViewController(songListVC, animated: true)
+        songListVC.songArray = folderArray[indexPath.row].songs
         
         // セルの選択を解除する
         tableView.deselectRow(at: indexPath, animated: true)

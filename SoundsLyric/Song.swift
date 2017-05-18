@@ -57,18 +57,18 @@ class Lyric: Object {
     dynamic var owner: Song?
     
     /// 管理用ID（プライマリーキー）
-    dynamic var lyricType = 0
+    dynamic var id = 0
     
     /// Aメロ、Bメロなど
     dynamic var name = ""
     
     /// 歌詞テキスト
-    dynamic var content = ""
+    dynamic var text = ""
     
     /// Firebaseにある音声ファイルのURL
     dynamic var sound = ""
     
     override static func primaryKey() -> String? {
-        return "lyricType"
+        return "id"
     }
 }

@@ -10,13 +10,15 @@ import UIKit
 import PageMenu
 import RealmSwift
 
-class SongEditViewController: BaseViewController {
+class SongEditViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     
     // Realmをインスタンス化
+    let realm = try! Realm()
     let lyric = Lyric()
     
+    var lyricArray = try! Realm().objects(Lyric.self).sorted(byKeyPath: "id", ascending: false)
     
     //　PageMenuの準備
     var pagemenu: CAPSPageMenu?
@@ -51,17 +53,14 @@ class SongEditViewController: BaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.writeRealmDB(model: song)
-        
         try! realm.write {
             // 曲のタイトルを保存
             self.song.title = titleTextField.text!
             // 現在時刻を更新時刻として保存
             self.song.date = NSDate()
-            
+            print("曲名と更新時刻を保存しました")
         }
     }
-    
     
     // キーボードを閉じるボタンを押した時に呼ばれる
     @IBAction func closeKeyboard(_ sender: Any) {
@@ -77,26 +76,15 @@ class SongEditViewController: BaseViewController {
         /// Storyboardをインスタンス化
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        /// １つ目の画面をインスタンス化
-        let songEditChildVCFirst = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
-        songEditChildVCFirst.lyricType = 1
-        songEditChildVCFirst.title = "Aメロ"
-        songEditChildVCFirst.view.backgroundColor = UIColor.white
-        controllerArray.append(songEditChildVCFirst)
+        let lyric = lyricArray[0]
+        print("\(lyricArray)")
         
-        /// ２つ目の画面をインスタンス化
-        let songEditChildVCSecond = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
-        songEditChildVCSecond.lyricType = 2
-        songEditChildVCSecond.title = "Bメロ"
-        songEditChildVCSecond.view.backgroundColor = UIColor.cyan
-        controllerArray.append(songEditChildVCSecond)
-        
-        /// ３つ目の画面をインスタンス化
-        let songEditChildVCThird = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
-        songEditChildVCThird.lyricType = 3
-        songEditChildVCThird.title = "サビ"
-        songEditChildVCThird.view.backgroundColor = UIColor.yellow
-        controllerArray.append(songEditChildVCThird)
+        for lyric in lyricArray {
+            let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
+            songEditChildVC.lyric = lyric
+            controllerArray.append(songEditChildVC)
+        }
+
         
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
@@ -130,9 +118,3 @@ class SongEditViewController: BaseViewController {
     }
 }
 
-// MARK: - SongEditChildViewControllerDelegate
-extension SongEditViewController: SongEditChildVCDelegate {
-    
-    func writeLyricToDB() {
-    }
-}

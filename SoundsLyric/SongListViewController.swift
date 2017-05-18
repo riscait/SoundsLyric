@@ -17,9 +17,8 @@ class SongListViewController: UIViewController {
     let realm = try! Realm()
     let folder = Folder()
     
-    // DB内の曲が格納されるリスト。日付の降順でソート。以降、内容をアップデートするとリスト内は自動的に更新される
-    var songArray = try! Realm().objects(Song.self).sorted(byKeyPath: "date", ascending: false)
-
+    var songArray: List<Song>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -120,7 +119,7 @@ extension SongListViewController: UITableViewDelegate {
     
     // 各セルを選択した時に実行されるメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "EditSong", sender: nil)
+        performSegue(withIdentifier: "showEditSong", sender: nil)
     }
     
     // セルが削除が可能なことを伝えるメソッド

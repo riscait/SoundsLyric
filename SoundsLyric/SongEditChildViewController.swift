@@ -9,33 +9,35 @@
 import UIKit
 import RealmSwift
 
-/// SongEditChildVCDelegate
-protocol SongEditChildVCDelegate {
-    func writeLyricToDB()
-}
-
 /// セクションごとの歌詞を書くVC
 class SongEditChildViewController: UIViewController {
 
-    var delegate: SongEditChildVCDelegate?
+//    var delegate: SongEditChildVCDelegate?
     
     @IBOutlet weak var textView: UITextView!
     
-    let realm = try! Realm()
-    let lyric = Lyric()
-    
-    var song: Song!
+    var lyric: Lyric!
     
     /// 歌詞のタイプ
-    var lyricType = 0
+    var lyricSectionID = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // realmの値を反映
+        self.title = lyric.name
+        textView.text = lyric.text
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // 画面が消える直前にrealmに保存
+//        try! realm.write {
+//            lyric.name = self.title!
+//            lyric.text = textView.text
+//            self.realm.add(self.lyric, update: true)
+//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,8 +53,8 @@ extension SongEditChildViewController: UITextViewDelegate {
     ///
     /// - Parameter textView: textView
     func textViewDidEndEditing(_ textView: UITextView) {
-        if let delegate = self.delegate {
-            delegate.writeLyricToDB()
-        }
+//        if let delegate = self.delegate {
+//            delegate.writeLyricToDB()
+//        }
     }
 }

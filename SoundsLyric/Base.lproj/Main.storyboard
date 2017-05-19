@@ -15,7 +15,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="WSa-ST-Gjt" customClass="TutorialPageViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="duh-Mf-EQx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="729" y="-411"/>
+            <point key="canvasLocation" x="530" y="-411"/>
         </scene>
         <!--First Tutorial View Controller-->
         <scene sceneID="ntw-4l-nKp">
@@ -69,7 +69,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yUm-Jb-wcf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1600" y="-409"/>
+            <point key="canvasLocation" x="1826" y="-410"/>
         </scene>
         <!--Third Tutorial View Controller-->
         <scene sceneID="9dx-P0-ELU">
@@ -96,12 +96,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oyi-Mw-nxf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2028" y="-409"/>
+            <point key="canvasLocation" x="2479" y="-411"/>
         </scene>
         <!--フォルダ-->
         <scene sceneID="T61-oa-QyH">
             <objects>
-                <viewController storyboardIdentifier="Folder" id="Acm-xR-lxY" customClass="FolderViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FolderVC" id="Acm-xR-lxY" customClass="FolderViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ejh-lE-IbY"/>
                         <viewControllerLayoutGuide type="bottom" id="TDU-75-T3c"/>
@@ -162,25 +162,25 @@
                     </view>
                     <navigationItem key="navigationItem" title="フォルダ" id="ImK-w3-Cyi">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Fs0-kG-cja"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="7NM-Zq-lof">
+                        <barButtonItem key="rightBarButtonItem" title="編集" id="7NM-Zq-lof">
                             <connections>
-                                <action selector="editFolder:" destination="Acm-xR-lxY" id="XdX-Yu-NkF"/>
+                                <action selector="editFolder:" destination="Acm-xR-lxY" id="YR6-ue-vHK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="V4Q-ls-X68" id="TGS-T9-RHf"/>
-                        <segue destination="qHA-z8-SJY" kind="show" identifier="showSongListVC" id="jsg-r8-e7f"/>
+                        <segue destination="qHA-z8-SJY" kind="show" identifier="showSongList" id="jsg-r8-e7f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O8h-if-PH1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1068" y="332"/>
+            <point key="canvasLocation" x="1174" y="250"/>
         </scene>
         <!--Song List View Controller-->
         <scene sceneID="yP8-Jc-dPk">
             <objects>
-                <viewController storyboardIdentifier="SongList" automaticallyAdjustsScrollViewInsets="NO" id="qHA-z8-SJY" customClass="SongListViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongListVC" automaticallyAdjustsScrollViewInsets="NO" id="qHA-z8-SJY" customClass="SongListViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="01M-Nf-PTQ"/>
                         <viewControllerLayoutGuide type="bottom" id="v05-PZ-8n9"/>
@@ -248,21 +248,25 @@
                     </view>
                     <navigationItem key="navigationItem" id="Gpv-EP-qnf">
                         <barButtonItem key="backBarButtonItem" title="Back" id="cDb-5g-QUZ"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="zFm-aj-wp1"/>
+                        <barButtonItem key="rightBarButtonItem" title="編集" id="zFm-aj-wp1">
+                            <connections>
+                                <action selector="editSong:" destination="qHA-z8-SJY" id="u5W-rb-WSU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="ldm-YS-ajb" id="LdS-6f-VCA"/>
-                        <segue destination="4wh-9f-bwb" kind="show" id="Iyt-Ce-pXE"/>
+                        <segue destination="4wh-9f-bwb" kind="show" identifier="showEditSong" id="Iyt-Ce-pXE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Euf-8M-YCx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1600" y="333"/>
+            <point key="canvasLocation" x="1825" y="250"/>
         </scene>
         <!--Song Edit View Controller-->
         <scene sceneID="tSJ-8h-sil">
             <objects>
-                <viewController storyboardIdentifier="SongEdit" id="4wh-9f-bwb" customClass="SongEditViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongEditVC" id="4wh-9f-bwb" customClass="SongEditViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ieA-2d-DKf"/>
                         <viewControllerLayoutGuide type="bottom" id="YDB-Y1-EFJ"/>
@@ -271,22 +275,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="タイトル" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RmL-H1-oz2">
+                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="h4A-pe-cc3"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            </textField>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="91S-jp-9l7">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="trash" id="Kxg-Wy-Xwh"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="zP3-Oi-6R3"/>
-                                    <barButtonItem systemItem="compose" id="Pmk-wo-BL8"/>
+                                    <barButtonItem title="●" id="3ss-fp-Bx2">
+                                        <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </barButtonItem>
+                                    <barButtonItem title="—————" id="fNi-e9-Fgi"/>
+                                    <barButtonItem systemItem="play" id="t8g-KT-HRA"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="NOW-I4-i8X"/>
-                                    <barButtonItem title="Setting" id="aq1-cv-5dF"/>
+                                    <barButtonItem systemItem="compose" id="Pmk-wo-BL8"/>
                                 </items>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="91S-jp-9l7" secondAttribute="trailing" id="5PZ-8L-4OB"/>
-                            <constraint firstItem="YDB-Y1-EFJ" firstAttribute="top" secondItem="91S-jp-9l7" secondAttribute="bottom" id="6KM-Dq-wUM"/>
-                            <constraint firstItem="91S-jp-9l7" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="qux-5a-4Wg"/>
+                            <constraint firstItem="YDB-Y1-EFJ" firstAttribute="top" secondItem="91S-jp-9l7" secondAttribute="bottom" id="3YU-3N-96n"/>
+                            <constraint firstAttribute="trailing" secondItem="91S-jp-9l7" secondAttribute="trailing" id="Av2-nq-BPW"/>
+                            <constraint firstAttribute="trailing" secondItem="RmL-H1-oz2" secondAttribute="trailing" id="KKu-jX-FyO"/>
+                            <constraint firstItem="91S-jp-9l7" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="Zr5-Vw-4rd"/>
+                            <constraint firstItem="RmL-H1-oz2" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="dLm-AV-Aea"/>
+                            <constraint firstItem="RmL-H1-oz2" firstAttribute="top" secondItem="ieA-2d-DKf" secondAttribute="bottom" id="g23-dw-0uc"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -298,15 +318,18 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="titleTextField" destination="RmL-H1-oz2" id="4bc-ih-Doc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qSj-vP-eTl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2383" y="332"/>
+            <point key="canvasLocation" x="2477.5999999999999" y="249.62518740629687"/>
         </scene>
         <!--Song Edit Child View Controller-->
         <scene sceneID="7dL-cn-W9v">
             <objects>
-                <viewController storyboardIdentifier="SongEditChild" id="zUo-XZ-OCd" customClass="SongEditChildViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SongEditChildVC" id="zUo-XZ-OCd" customClass="SongEditChildViewController" customModule="SoundsLyric" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5SR-Qp-Uhy"/>
                         <viewControllerLayoutGuide type="bottom" id="c0N-Jh-C0n"/>
@@ -315,11 +338,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">ここはテスト文が
+                                <string key="text">ここはテスト文が
 表示されます
 テスト
 test
@@ -359,17 +381,26 @@ UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextVi
 表示されます
 ここはテスト文が
 表示されますここはテスト文が
-表示されます</mutableString>
+表示されます</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cXM-fQ-qPJ" firstAttribute="top" secondItem="w7Z-Qz-A4G" secondAttribute="top" id="2hC-sY-q2g"/>
+                            <constraint firstAttribute="trailing" secondItem="cXM-fQ-qPJ" secondAttribute="trailing" id="5rH-gK-ryb"/>
+                            <constraint firstItem="c0N-Jh-C0n" firstAttribute="top" secondItem="cXM-fQ-qPJ" secondAttribute="bottom" constant="44" id="ZO3-kd-xmO"/>
+                            <constraint firstItem="cXM-fQ-qPJ" firstAttribute="leading" secondItem="w7Z-Qz-A4G" secondAttribute="leading" id="uoV-2S-yQ9"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="textView" destination="cXM-fQ-qPJ" id="51Y-3H-yGP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hW2-Kg-OL5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3117.5999999999999" y="328.78560719640183"/>
+            <point key="canvasLocation" x="3125.5999999999999" y="249.62518740629687"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="A9d-94-5rn">
@@ -387,10 +418,10 @@ UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextVi
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVr-NQ-teV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="412" y="331"/>
+            <point key="canvasLocation" x="529" y="250"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="S9w-ke-jP2"/>
+        <segue reference="Iyt-Ce-pXE"/>
     </inferredMetricsTieBreakers>
 </document>

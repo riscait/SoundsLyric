@@ -1,12 +1,20 @@
 PODS:
   - PageMenu (2.0.0)
+  - Realm (2.7.0):
+    - Realm/Headers (= 2.7.0)
+  - Realm/Headers (2.7.0)
+  - RealmSwift (2.7.0):
+    - Realm (= 2.7.0)
 
 DEPENDENCIES:
   - PageMenu
+  - RealmSwift
 
 SPEC CHECKSUMS:
   PageMenu: 9c38fd7e0d9ef4b1408320f55bb907bbc0e538dc
+  Realm: 07e5d3a9e0e41d65fd5f9f05150ed6295d0f093b
+  RealmSwift: 6d06425d3900c86473c4f323bf6949b43fca22bc
 
-PODFILE CHECKSUM: 518622e9bfb2e16332ca92488ef7d6af2ca2ad5d
+PODFILE CHECKSUM: a8207598159f9c25c8fe4dd6cfbc475c8f6b1cbe
 
 COCOAPODS: 1.2.0

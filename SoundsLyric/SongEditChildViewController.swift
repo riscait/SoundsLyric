@@ -7,29 +7,54 @@
 //
 
 import UIKit
+import RealmSwift
 
+/// セクションごとの歌詞を書くVC
 class SongEditChildViewController: UIViewController {
 
+//    var delegate: SongEditChildVCDelegate?
+    
+    @IBOutlet weak var textView: UITextView!
+    
+    var lyric: Lyric!
+    
+    /// 歌詞のタイプ
+    var lyricSectionID = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        // realmの値を反映
+        self.title = lyric.name
+        textView.text = lyric.text
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // 画面が消える直前にrealmに保存
+//        try! realm.write {
+//            lyric.name = self.title!
+//            lyric.text = textView.text
+//            self.realm.add(self.lyric, update: true)
+//        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+}
+
+// MARK: - UITextViewDelegate
+extension SongEditChildViewController: UITextViewDelegate {
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    /// TextViewの編集が終了したときの処理
+    ///
+    /// - Parameter textView: textView
+    func textViewDidEndEditing(_ textView: UITextView) {
+//        if let delegate = self.delegate {
+//            delegate.writeLyricToDB()
+//        }
     }
-    */
-
 }

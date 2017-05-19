@@ -7,16 +7,88 @@
 //
 
 import UIKit
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let defaults = UserDefaults()
 
     // アプリ起動時に呼び出されるメソッド
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // 初回起動処理
+        let dic = ["initialLaunch": true]
+        defaults.register(defaults: dic)
+        defaults.synchronize()
+        
+        if defaults.bool(forKey: "initialLaunch") {
+            print("初回起動です")
+            self.initialSetup()
+        }
+        
         return true
+    }
+    
+    func initialSetup() {
+        // 初回マイグレーション
+        self.realmMigration()
+        // シードデータ挿入
+        self.insertSeedData()
+        // 初回起動済みのフラグを立てる
+        self.defaults.set(false, forKey: "initialLaunch")
+        self.defaults.synchronize()
+    }
+    
+    func realmMigration() {
+        let config = Realm.Configuration(
+            // 新しいスキーマバージョンを設定します。以前のバージョンより大きくなければなりません。
+            // （スキーマバージョンを設定したことがなければ、最初は0が設定されています）
+            schemaVersion: 1,
+            
+            // マイグレーション処理を記述します。古いスキーマバージョンのRealmを開こうとすると
+            // 自動的にマイグレーションが実行されます。
+            migrationBlock: { migration, oldSchemaVersion in
+                // 最初のマイグレーションの場合、`oldSchemaVersion`は0です
+                if (oldSchemaVersion < 1) {
+                    // 何もする必要はありません！
+                    // Realmは自動的に新しく追加されたプロパティと、削除されたプロパティを認識します。
+                    // そしてディスク上のスキーマを自動的にアップデートします。
+                }
+        })
+        
+        // デフォルトRealmに新しい設定を適用します
+        Realm.Configuration.defaultConfiguration = config
+        
+        // Realmファイルを開こうとしたときスキーマバージョンが異なれば、
+        // 自動的にマイグレーションが実行されます
+        let realm = try! Realm()
+    }
+    
+    func insertSeedData() {
+        let realm = try! Realm()
+        // デモ用のフォルダ、曲、歌詞を作成
+        let folder = Folder()
+        folder.id = 1
+        folder.title = "My Songs"
+        let song = Song()
+        song.owner = folder
+        song.id = 1
+        song.title = "First song"
+        song.date = NSDate()
+        let lyric = Lyric()
+        lyric.owner = song
+        lyric.id = 1
+        lyric.name = "Aメロ"
+        lyric.text = "ここに歌詞を書いてください"
+        
+        try! realm.write {
+            realm .add(folder, update: true)
+            realm .add(song, update: true)
+            realm .add(lyric, update: true)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

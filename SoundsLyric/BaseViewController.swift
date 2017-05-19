@@ -30,6 +30,9 @@ class BaseViewController: UIViewController {
         return false
     }
     
+    /**
+     共通で何か処理する以外は以下はいらないですね
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
 

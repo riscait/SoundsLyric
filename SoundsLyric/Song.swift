@@ -33,7 +33,7 @@ class Song: Object {
     dynamic var owner: Folder?
     
     /// 「曲」は多数の「歌詞」を持つ
-    let Lyrics = List<Lyric>()
+    let Lyrics = List<Lyric>() // <- ここは小文字にしましょう
     
     /// 管理用ID（プライマリーキー）
     dynamic var id = 0

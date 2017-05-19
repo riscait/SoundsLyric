@@ -9,15 +9,22 @@
 import UIKit
 import PageMenu
 import RealmSwift
-
+/*
+ 継承は全てBaseViewControllerですかね
+ class FolderViewController: BaseViewController {
+ */
 class SongEditViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     
     // Realmをインスタンス化
+    // BaseViewControllerで書いているので下記はいらないですね
     let realm = try! Realm()
+    
+    // これも特にいらないですね->書き込みするときだけインスタンス生成したほうがいいですね
     let lyric = Lyric()
     
+    // 下記にsongがあるので、前の画面からもらった対象のsong.Lyricsを用いればこと足りるのでいらないですね。
     var lyricArray = try! Realm().objects(Lyric.self).sorted(byKeyPath: "id", ascending: false)
     
     //　PageMenuの準備
@@ -27,6 +34,9 @@ class SongEditViewController: UIViewController {
     var song: Song!
     
     /// Viewを格納する配列
+    // これはクラスのプロパティでずっと必要かな(各VCが持っているlyricの保存のため)と思ってましたが
+    // 現在の設計では保持する必要はないかもですね
+    // pagemenu?.childViewControllersでも取れますので
     var controllerArray: [UIViewController] = []
     
     override func viewDidLoad() {

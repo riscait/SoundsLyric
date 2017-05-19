@@ -8,7 +8,10 @@
 
 import UIKit
 import RealmSwift
-
+/*
+ 継承は全てBaseViewControllerですかね
+ class FolderViewController: BaseViewController {
+ */
 /// セクションごとの歌詞を書くVC
 class SongEditChildViewController: UIViewController {
 

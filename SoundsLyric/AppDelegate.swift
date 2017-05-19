@@ -84,6 +84,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         lyric.name = "Aメロ"
         lyric.text = "ここに歌詞を書いてください"
         
+        /*
+         リレーション挿入
+         以下の配列にadd後に書き込みをする
+        */
+        folder.songs.append(song)
+        song.Lyrics.append(lyric)
+        
+        /*
+         例えば上位のもののリレーション適用の場合は以下
+         想定挙動としては、歌詞を追加(更新ではなく、増やした場合)に以下のような操作が必要かも
+         もしかするとowner指定するだけでいけるかも
+        */
+        //lyric.owner?.Lyrics.append(lyric)
+        
+        
         try! realm.write {
             realm .add(folder, update: true)
             realm .add(song, update: true)

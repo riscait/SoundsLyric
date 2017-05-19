@@ -9,11 +9,16 @@
 import UIKit
 import RealmSwift
 
+/*
+ 継承は全てBaseViewControllerですかね
+ class FolderViewController: BaseViewController {
+ */
 class FolderViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
     // Realmをインスタンス化
+    // BaseViewControllerで書いているので下記はいらないですね
     let realm = try! Realm()    
 
     /// DB内のフォルダが格納されるリスト。

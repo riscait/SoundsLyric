@@ -9,12 +9,24 @@
 import UIKit
 import RealmSwift
 
+/*
+ ここで曲を追加すると思いますが、
+ 曲追加した直後のlyricのデフォ構造を決めといたほうがいいですね。
+ それで言うとfolder追加時のsongデフォ構造もですね
+ */
+/*
+ 継承は全てBaseViewControllerですかね
+ class FolderViewController: BaseViewController {
+ */
 class SongListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
     // Realmをインスタンス化
+    // BaseViewControllerで書いているので下記はいらないですね
     let realm = try! Realm()
+    
+    // これも特にいらないですね->書き込みするときだけインスタンス生成したほうがいいですね
     let folder = Folder()
     
     var songArray: List<Song>!

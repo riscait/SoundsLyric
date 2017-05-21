@@ -8,5 +8,7 @@ target 'SoundsLyric' do
   # Pods for SoundsLyric
  pod 'PageMenu'
  pod 'RealmSwift', '2.6.2'
+ pod 'Firebase/Core', '3.17.0'
+ pod 'Firebase/Storage', '3.17.0'
  
 end

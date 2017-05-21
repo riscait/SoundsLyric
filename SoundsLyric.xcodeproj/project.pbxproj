@@ -22,6 +22,7 @@
 		8D3E34F01EB395A4001AED5B /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3E34EF1EB395A4001AED5B /* FolderViewController.swift */; };
 		8D6E01FC1EB39CAC008EA9E7 /* SongListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E01FB1EB39CAC008EA9E7 /* SongListViewController.swift */; };
 		8D6E01FE1EB409F9008EA9E7 /* SongEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E01FD1EB409F9008EA9E7 /* SongEditViewController.swift */; };
+		8DED453B1ED15DD200650AD0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DED453A1ED15DD200650AD0 /* GoogleService-Info.plist */; };
 		F13702D2866459005BE752C4 /* Pods_SoundsLyric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7541D7AFEA0E31FD850E9BB6 /* Pods_SoundsLyric.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		8D3E34EF1EB395A4001AED5B /* FolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
 		8D6E01FB1EB39CAC008EA9E7 /* SongListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListViewController.swift; sourceTree = "<group>"; };
 		8D6E01FD1EB409F9008EA9E7 /* SongEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongEditViewController.swift; sourceTree = "<group>"; };
+		8DED453A1ED15DD200650AD0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				8D3E34E61EB38258001AED5B /* LaunchScreen.storyboard */,
 				8D3E34E41EB38258001AED5B /* Assets.xcassets */,
 				8D3E34E91EB38258001AED5B /* Info.plist */,
+				8DED453A1ED15DD200650AD0 /* GoogleService-Info.plist */,
 			);
 			path = SoundsLyric;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D3E34E81EB38258001AED5B /* LaunchScreen.storyboard in Resources */,
+				8DED453B1ED15DD200650AD0 /* GoogleService-Info.plist in Resources */,
 				8D3E34E51EB38258001AED5B /* Assets.xcassets in Resources */,
 				8D3E34E31EB38258001AED5B /* Main.storyboard in Resources */,
 			);
@@ -380,7 +384,7 @@
 				DEVELOPMENT_TEAM = 57323LB5J4;
 				INFOPLIST_FILE = SoundsLyric/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.riscait.ryunosuke.muramatsu.SoundsLyric;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.studionerco.SoundsLyric;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -394,7 +398,7 @@
 				DEVELOPMENT_TEAM = 57323LB5J4;
 				INFOPLIST_FILE = SoundsLyric/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.riscait.ryunosuke.muramatsu.SoundsLyric;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.studionerco.SoundsLyric;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

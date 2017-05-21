@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,13 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // Firebase
+        FIRApp.configure()        
+        
         // 初回起動処理
         let dic = ["initialLaunch": true]
         defaults.register(defaults: dic)
         defaults.synchronize()
         
         if defaults.bool(forKey: "initialLaunch") {
-            print("初回起動です")
+            print("アプリ初回起動です")
             self.initialSetup()
         }
         
@@ -78,20 +82,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         song.id = 0
         song.title = "First song"
         song.date = NSDate()
-        let lyric = Lyric()
-        lyric.owner = song
-        lyric.id = 0
-        lyric.name = "Aメロ"
-        lyric.text = "ここに歌詞を書いてください"
+        let lyricA = Lyric()
+        lyricA.owner = song
+        lyricA.id = 0
+        lyricA.name = "Aメロ"
+        lyricA.text = "ここに歌詞を書いてください"
+        let lyricB = Lyric()
+        lyricB.owner = song
+        lyricB.id = 1
+        lyricB.name = "Bメロ"
+        lyricB.text = "ここに歌詞を書いてください"
+        let lyricC = Lyric()
+        lyricC.owner = song
+        lyricC.id = 2
+        lyricC.name = "Cメロ"
+        lyricC.text = "ここに歌詞を書いてください"
         
         // リレーション挿入
         folder.songs.append(song)
-        song.lyrics.append(lyric)
+        song.lyrics.append(lyricA)
+        song.lyrics.append(lyricB)
+        song.lyrics.append(lyricC)
         
         try! realm.write {
             realm .add(folder, update: true)
             realm .add(song, update: true)
-            realm .add(lyric, update: true)
+            realm .add(lyricA, update: true)
+            realm .add(lyricB, update: true)
+            realm .add(lyricC, update: true)
         }
     }
 

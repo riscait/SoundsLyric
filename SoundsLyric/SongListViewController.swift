@@ -26,10 +26,10 @@ class SongListViewController: BaseViewController {
         if segue.identifier == "ComposeSong" {
             // 曲を新規作成する場合の遷移
             
-            let folder = Folder()
-            
             let song = Song()
-            song.owner = folder
+            if let owner = songArray.first?.owner {
+                song.owner = owner
+            }
             // 今ある最大のidに１を足した数をidに設定
             print(songArray)
             if songArray.count != 0 {
@@ -54,13 +54,15 @@ class SongListViewController: BaseViewController {
             lyricC.text = "これはCメロ"
             
             // リレーション挿入
-            folder.songs.append(song)
             song.lyrics.append(lyricA)
             song.lyrics.append(lyricB)
             song.lyrics.append(lyricC)
             
+
             // Realmに保存
             try! realm.write {
+                print(song)
+//                songArray.first?.owner?.songs.append(song)
                 realm.add(song, update: true)
                 realm.add(lyricA, update: true)
                 realm.add(lyricB, update: true)

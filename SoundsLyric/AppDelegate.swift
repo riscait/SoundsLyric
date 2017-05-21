@@ -71,18 +71,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let realm = try! Realm()
         // デモ用のフォルダ、曲、歌詞を作成
         let folder = Folder()
-        folder.id = 1
+        folder.id = 0
         folder.title = "My Songs"
         let song = Song()
         song.owner = folder
-        song.id = 1
+        song.id = 0
         song.title = "First song"
         song.date = NSDate()
         let lyric = Lyric()
         lyric.owner = song
-        lyric.id = 1
+        lyric.id = 0
         lyric.name = "Aメロ"
         lyric.text = "ここに歌詞を書いてください"
+        
+        // リレーション挿入
+        folder.songs.append(song)
+        song.lyrics.append(lyric)
         
         try! realm.write {
             realm .add(folder, update: true)

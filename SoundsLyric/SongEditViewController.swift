@@ -10,15 +10,9 @@ import UIKit
 import PageMenu
 import RealmSwift
 
-class SongEditViewController: UIViewController {
+class SongEditViewController: BaseViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
-    
-    // Realmをインスタンス化
-    let realm = try! Realm()
-    let lyric = Lyric()
-    
-    var lyricArray = try! Realm().objects(Lyric.self).sorted(byKeyPath: "id", ascending: false)
     
     //　PageMenuの準備
     var pagemenu: CAPSPageMenu?
@@ -55,7 +49,7 @@ class SongEditViewController: UIViewController {
         
         try! realm.write {
             // 曲のタイトルを保存
-            self.song.title = titleTextField.text!
+            song.title = titleTextField.text!
             // 現在時刻を更新時刻として保存
             self.song.date = NSDate()
             print("曲名と更新時刻を保存しました")
@@ -76,10 +70,8 @@ class SongEditViewController: UIViewController {
         /// Storyboardをインスタンス化
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let lyric = lyricArray[0]
-        print("\(lyricArray)")
-        
-        for lyric in lyricArray {
+        // 存在する歌詞の数だけPageMenu用のコントローラーに画面を追加
+        for lyric in song.lyrics {
             let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
             songEditChildVC.lyric = lyric
             controllerArray.append(songEditChildVC)

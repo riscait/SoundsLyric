@@ -9,7 +9,12 @@
 import Foundation
 import UIKit
 
-struct Const {
-    // Alertを作成
-    static let alertAddFolder = UIAlertController(title: "新規フォルダ", message: "フォルダの名前を入力してください", preferredStyle: .alert)
+class AlertUtil {
+    /// 新規アラートを作成
+    /// e.g. let alert = AlertUtil.createAddedAlertController(createName: "新規フォルダ")
+    /// - Parameter createName: アラートのタイトル
+    /// - Returns: UIAlertController
+    class func createAddedAlertController(createName: String) -> UIAlertController {
+        return UIAlertController(title: createName, message: "\(createName)の名前を入力してください", preferredStyle: .alert)
+    }
 }

@@ -7,5 +7,6 @@ target 'SoundsLyric' do
 
   # Pods for SoundsLyric
  pod 'PageMenu'
- pod 'RealmSwift'
+ pod 'RealmSwift', '2.6.2'
+ 
 end

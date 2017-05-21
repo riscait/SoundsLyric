@@ -9,22 +9,15 @@
 import UIKit
 import RealmSwift
 
-class SongListViewController: UIViewController {
+class SongListViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
-    // Realmをインスタンス化
-    let realm = try! Realm()
-    let folder = Folder()
     
     var songArray: List<Song>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // NavBarのタイトルにフォルダ名を反映
-        navigationItem.title = folder.title
-
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -32,11 +25,46 @@ class SongListViewController: UIViewController {
         
         if segue.identifier == "ComposeSong" {
             // 曲を新規作成する場合の遷移
-            let song = Song()
-            song.date = NSDate()
             
+            let folder = Folder()
+            
+            let song = Song()
+            song.owner = folder
+            // 今ある最大のidに１を足した数をidに設定
+            print(songArray)
             if songArray.count != 0 {
                 song.id = songArray.max(ofProperty: "id")! + 1
+            }
+            song.date = NSDate() // 現在時刻を登録
+            
+            let lyricA = Lyric()
+            lyricA.owner = song
+            lyricA.id = 0
+            lyricA.name = "Aメロ"
+            lyricA.text = "これは曲追加時にデフォルトで設定する歌詞です"
+            let lyricB = Lyric()
+            lyricB.owner = song
+            lyricB.id = 1
+            lyricB.name = "Bメロ"
+            lyricB.text = "これはBメロ"
+            let lyricC = Lyric()
+            lyricC.owner = song
+            lyricC.id = 2
+            lyricC.name = "Cメロ"
+            lyricC.text = "これはCメロ"
+            
+            // リレーション挿入
+            folder.songs.append(song)
+            song.lyrics.append(lyricA)
+            song.lyrics.append(lyricB)
+            song.lyrics.append(lyricC)
+            
+            // Realmに保存
+            try! realm.write {
+                realm.add(song, update: true)
+                realm.add(lyricA, update: true)
+                realm.add(lyricB, update: true)
+                realm.add(lyricC, update: true)
             }
             
             songEditVC.song = song
@@ -82,6 +110,7 @@ extension SongListViewController: UITableViewDataSource {
     
     // データの数（＝セルの数）を返す（必須）
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("現在、\(songArray.count)曲あります")
         return songArray.count
     }
     

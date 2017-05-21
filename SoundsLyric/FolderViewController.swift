@@ -9,13 +9,10 @@
 import UIKit
 import RealmSwift
 
-class FolderViewController: UIViewController {
+class FolderViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    // Realmをインスタンス化
-    let realm = try! Realm()    
-
     /// DB内のフォルダが格納されるリスト。
     var folderArray = try! Realm().objects(Folder.self).sorted(byKeyPath: "title", ascending: false)
     
@@ -27,9 +24,11 @@ class FolderViewController: UIViewController {
     @IBAction func addFolder(_ sender: Any) {
         print("フォルダー追加ボタンが押されました")
         
-        // 以下Alertの設定
+        // Alertを呼び出し
+        let alert = AlertUtil.createAddedAlertController(createName: "新規フォルダ")
+        
         // TextFieldを追加
-        Const.alertAddFolder.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
+        alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
             textField.placeholder = "名前"
             textField.returnKeyType = .done
         })
@@ -39,7 +38,7 @@ class FolderViewController: UIViewController {
             (action:UIAlertAction!) -> Void in
             print("保存ボタンが押されました")
             /// テキストが入力されていれば表示
-            if let textFields = Const.alertAddFolder.textFields as Array<UITextField>? {
+            if let textFields = alert.textFields as Array<UITextField>? {
                 for textField in textFields {
                     
                     let folder = Folder()
@@ -48,6 +47,7 @@ class FolderViewController: UIViewController {
                         folder.id = self.folderArray.max(ofProperty: "id")! + 1
                     }
                     
+                    // Realmに保存
                     try! self.realm.write {
                         folder.title = textField.text!
                         self.realm.add(folder, update: true)
@@ -58,17 +58,17 @@ class FolderViewController: UIViewController {
                 }
             }
         })
-        Const.alertAddFolder.addAction(defaultAction)
+        alert.addAction(defaultAction)
         
         // Cancelアクションを生成
         let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
-        Const.alertAddFolder.addAction(cancelAction)
+        alert.addAction(cancelAction)
         
         // シミュレータの種類によっては、これがないと警告が発生
-        Const.alertAddFolder.view.setNeedsLayout()
+        alert.view.setNeedsLayout()
         
         // アラートを画面に表示
-        self.present(Const.alertAddFolder, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
         // TableViewを再読み込み.
         tableView.reloadData()
@@ -134,7 +134,10 @@ extension FolderViewController: UITableViewDelegate {
         // SongListVCに遷移する
         let songListVC = self.storyboard?.instantiateViewController(withIdentifier: "SongListVC") as! SongListViewController
         self.navigationController?.pushViewController(songListVC, animated: true)
+        
         songListVC.songArray = folderArray[indexPath.row].songs
+        // 遷移先のNavItemのタイトルをタップしたセルのタイトルに設定する
+        songListVC.navigationItem.title = folderArray[indexPath.row].title
         
         // セルの選択を解除する
         tableView.deselectRow(at: indexPath, animated: true)

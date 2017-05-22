@@ -74,27 +74,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func insertSeedData() {
         let realm = try! Realm()
         // デモ用のフォルダ、曲、歌詞を作成
+        
+        // 最後のID取得(初期投入なので必要ないかもですが)
+        var lastId: Int = realm.objects(Folder.self).last?.id ?? 0
         let folder = Folder()
-        folder.id = 0
+        folder.id = lastId + 1
         folder.title = "My Songs"
+        
+        lastId = realm.objects(Song.self).last?.id ?? 0
         let song = Song()
         song.owner = folder
-        song.id = 0
+        song.id = lastId + 1
         song.title = "First song"
         song.date = NSDate()
+        
+        lastId = realm.objects(Lyric.self).last?.id ?? 0
         let lyricA = Lyric()
         lyricA.owner = song
-        lyricA.id = 0
+        lyricA.id = lastId + 1
         lyricA.name = "Aメロ"
         lyricA.text = "ここに歌詞を書いてください"
         let lyricB = Lyric()
         lyricB.owner = song
-        lyricB.id = 1
+        lyricB.id = lastId + 2
         lyricB.name = "Bメロ"
         lyricB.text = "ここに歌詞を書いてください"
         let lyricC = Lyric()
         lyricC.owner = song
-        lyricC.id = 2
+        lyricC.id = lastId + 3
         lyricC.name = "Cメロ"
         lyricC.text = "ここに歌詞を書いてください"
         

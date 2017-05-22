@@ -43,9 +43,8 @@ class FolderViewController: BaseViewController {
                     
                     let folder = Folder()
                     
-                    if self.folderArray.count != 0 {
-                        folder.id = self.folderArray.max(ofProperty: "id")! + 1
-                    }
+                    // 新規ID発行
+                    folder.id = self.newId(model: folder)!
                     
                     // Realmに保存
                     try! self.realm.write {

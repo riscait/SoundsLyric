@@ -22,8 +22,9 @@ class SongEditChildViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("\(lyric)")
+        
         // realmの値を反映
-        self.title = lyric.name
         textView.text = lyric.text
     }
 

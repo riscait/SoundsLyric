@@ -74,10 +74,12 @@ class SongEditViewController: BaseViewController {
         for lyric in song.lyrics {
             let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
             songEditChildVC.lyric = lyric
+            // こいつはSongEditChildVCのviewDidLoadではなくここで与えないといけないですね
+            // pageMenu生成時に与えているようなので
+            songEditChildVC.title = lyric.name
             controllerArray.append(songEditChildVC)
         }
 
-        
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
             .scrollMenuBackgroundColor(UIColor.white),

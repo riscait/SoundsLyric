@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1Um-Si-pEw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1Um-Si-pEw">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -289,8 +289,11 @@
                                 <items>
                                     <barButtonItem systemItem="trash" id="Kxg-Wy-Xwh"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="zP3-Oi-6R3"/>
-                                    <barButtonItem title="●" id="3ss-fp-Bx2">
+                                    <barButtonItem image="StartRecordingButton" id="3ss-fp-Bx2">
                                         <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="startAndStopRecording:" destination="4wh-9f-bwb" id="bFO-sg-yEw"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem title="—————" id="fNi-e9-Fgi"/>
                                     <barButtonItem systemItem="play" id="t8g-KT-HRA"/>
@@ -312,13 +315,14 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="XjK-hi-HUT">
                         <barButtonItem key="backBarButtonItem" title="Back" id="n40-HY-irQ"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Zqf-rJ-ls3">
+                        <barButtonItem key="rightBarButtonItem" image="DismissKeyboardButton" id="Zqf-rJ-ls3">
                             <connections>
                                 <action selector="closeKeyboard:" destination="4wh-9f-bwb" id="yC0-M1-h5r"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="recordingButton" destination="3ss-fp-Bx2" id="QZt-VI-owy"/>
                         <outlet property="titleTextField" destination="RmL-H1-oz2" id="4bc-ih-Doc"/>
                     </connections>
                 </viewController>
@@ -338,50 +342,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" text="歌詞を書くためのTextView" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">ここはテスト文が
-表示されます
-テスト
-test
-UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! 
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます
-ここはテスト文が
-表示されますここはテスト文が
-表示されます</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -421,6 +384,10 @@ UITextView! UITextView! UITextView! UITextView! UITextView! UITextView! UITextVi
             <point key="canvasLocation" x="529" y="250"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="DismissKeyboardButton" width="30" height="30"/>
+        <image name="StartRecordingButton" width="32" height="32"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Iyt-Ce-pXE"/>
     </inferredMetricsTieBreakers>

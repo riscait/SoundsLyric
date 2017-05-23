@@ -7,12 +7,31 @@
 //
 
 import UIKit
+import AVFoundation
 import PageMenu
 import RealmSwift
 
 class SongEditViewController: BaseViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
+    
+    @IBOutlet weak var recordingButton: UIBarButtonItem!
+    
+    @IBAction func startAndStopRecording(_ sender: Any) {
+        print("録音ボタンが押されました")
+        /// 録音中か否か
+        if let isAudioRecorder = audioRecorder?.isRecording {
+            if isAudioRecorder {
+                print("録音中")
+                audioRecorder?.pause()
+                recordingButton.image = UIImage(named: "StartRecordingButton")
+            } else {
+                print("録音停止中")
+                audioRecorder?.record()
+                recordingButton.image = UIImage(named: "StopRecordingButton")
+            }
+        }
+    }
     
     //　PageMenuの準備
     var pagemenu: CAPSPageMenu?
@@ -22,6 +41,12 @@ class SongEditViewController: BaseViewController {
     
     /// Viewを格納する配列
     var controllerArray: [UIViewController] = []
+    
+    /// AVAudioRecorderをインスタンス化
+    var audioRecorder: AVAudioRecorder?
+    /// AVAudioPlayerをインスタンス化
+    var audioPlayer: AVAudioPlayer?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +99,8 @@ class SongEditViewController: BaseViewController {
         for lyric in song.lyrics {
             let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
             songEditChildVC.lyric = lyric
+            // 歌詞セクションの名前を設定
+            songEditChildVC.title = lyric.name
             controllerArray.append(songEditChildVC)
         }
 
@@ -110,3 +137,16 @@ class SongEditViewController: BaseViewController {
     }
 }
 
+// MARK: - AVAudioRecorderDelegate
+extension SongEditViewController: AVAudioRecorderDelegate {
+    
+    /// 録音が終了、または時間制限に達した時に呼び出される
+    ///
+    /// - Parameters:
+    ///   - recorder: 記録が終了したAudioRecorder
+    ///   - flag: 記録が正常に終了したかどうか
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        print("録音が終了")
+    }
+    
+}

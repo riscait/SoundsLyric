@@ -13,11 +13,12 @@ class SongListViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    var songOwner: Folder!
+    
     var songArray: List<Song>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -27,31 +28,37 @@ class SongListViewController: BaseViewController {
             // 曲を新規作成する場合の遷移
             
             let song = Song()
-            if let owner = songArray.first?.owner {
-                song.owner = owner
-            }
+            // 配列0件の場合(nil)に前の画面から受け取っているownerを使用
+            let owner = songArray.first?.owner ?? songOwner
+            song.owner = owner
+            
             // 今ある最大のidに１を足した数をidに設定
-            print(songArray)
-            if songArray.count != 0 {
-                song.id = songArray.max(ofProperty: "id")! + 1
-            }
+            // 厳密に言うとFolder結びつきではなく「全てのsong」に対してのPrimaryなので
+            var lastId = self.newId(model: song)!
+            song.id = lastId
+            
             song.date = NSDate() // 現在時刻を登録
             
             let lyricA = Lyric()
+            // AでユニークIDを発行し、以降1ずつインクリメント
+            lastId = self.newId(model: lyricA)!
+            
             lyricA.owner = song
-            lyricA.id = 0
+            lyricA.id = lastId
             lyricA.name = "Aメロ"
-            lyricA.text = "これは曲追加時にデフォルトで設定する歌詞です"
+            lyricA.text = "これは曲追加時にデフォルトで設定するAメロの歌詞です"
+            
             let lyricB = Lyric()
             lyricB.owner = song
-            lyricB.id = 1
+            lyricB.id = lastId + 1
             lyricB.name = "Bメロ"
-            lyricB.text = "これはBメロ"
+            lyricB.text = "これは曲追加時にデフォルトで設定するBメロの歌詞です"
+            
             let lyricC = Lyric()
             lyricC.owner = song
-            lyricC.id = 2
+            lyricC.id = lastId + 2
             lyricC.name = "Cメロ"
-            lyricC.text = "これはCメロ"
+            lyricC.text = "これは曲追加時にデフォルトで設定するCメロの歌詞です"
             
             // リレーション挿入
             song.lyrics.append(lyricA)
@@ -61,8 +68,10 @@ class SongListViewController: BaseViewController {
 
             // Realmに保存
             try! realm.write {
-                print(song)
-//                songArray.first?.owner?.songs.append(song)
+                // 最後に配列へ追加
+                songArray.append(song)
+                
+                // 新規作成
                 realm.add(song, update: true)
                 realm.add(lyricA, update: true)
                 realm.add(lyricB, update: true)

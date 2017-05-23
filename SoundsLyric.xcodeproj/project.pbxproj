@@ -48,6 +48,7 @@
 		8D6E01FB1EB39CAC008EA9E7 /* SongListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListViewController.swift; sourceTree = "<group>"; };
 		8D6E01FD1EB409F9008EA9E7 /* SongEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongEditViewController.swift; sourceTree = "<group>"; };
 		8DED453A1ED15DD200650AD0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8DED453C1ED31D7E00650AD0 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +117,7 @@
 		A050A662E5097CDDD49EB642 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8DED453C1ED31D7E00650AD0 /* AVFoundation.framework */,
 				7541D7AFEA0E31FD850E9BB6 /* Pods_SoundsLyric.framework */,
 			);
 			name = Frameworks;

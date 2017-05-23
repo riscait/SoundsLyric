@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 import RealmSwift
 import Firebase
 
@@ -31,6 +32,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if defaults.bool(forKey: "initialLaunch") {
             print("アプリ初回起動です")
             self.initialSetup()
+        }
+        
+        /// 録音可能カテゴリに設定する
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        } catch  {
+            // エラー処理
+            fatalError("カテゴリ設定失敗")
+        }
+        
+        // audioSessionのアクティブ化
+        do {
+            try audioSession.setActive(true)
+        } catch  {
+            // audioSession有効か失敗時の処理
+            fatalError("audioSession有効化失敗")
         }
         
         return true
@@ -74,29 +92,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func insertSeedData() {
         let realm = try! Realm()
         // デモ用のフォルダ、曲、歌詞を作成
+        
+        // 最後のIDを取得
+        var lastId = realm.objects(Folder.self).last?.id ?? 0
         let folder = Folder()
-        folder.id = 0
+        folder.id = lastId + 1
         folder.title = "My Songs"
+        
+        lastId = realm.objects(Song.self).last?.id ?? 0
         let song = Song()
         song.owner = folder
-        song.id = 0
+        song.id = lastId + 1
         song.title = "First song"
         song.date = NSDate()
+        
+        lastId = realm.objects(Lyric.self).last?.id ?? 0
         let lyricA = Lyric()
         lyricA.owner = song
-        lyricA.id = 0
+        lyricA.id = lastId + 1
         lyricA.name = "Aメロ"
-        lyricA.text = "ここに歌詞を書いてください"
+        lyricA.text = "ここにAメロの歌詞を書いてください"
         let lyricB = Lyric()
         lyricB.owner = song
-        lyricB.id = 1
+        lyricB.id = lastId + 2
         lyricB.name = "Bメロ"
-        lyricB.text = "ここに歌詞を書いてください"
+        lyricB.text = "ここにBメロの歌詞を書いてください"
         let lyricC = Lyric()
         lyricC.owner = song
-        lyricC.id = 2
+        lyricC.id = lastId + 3
         lyricC.name = "Cメロ"
-        lyricC.text = "ここに歌詞を書いてください"
+        lyricC.text = "ここにCメロの歌詞を書いてください"
         
         // リレーション挿入
         folder.songs.append(song)

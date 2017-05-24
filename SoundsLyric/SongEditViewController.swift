@@ -17,21 +17,37 @@ class SongEditViewController: BaseViewController {
     
     @IBOutlet weak var recordingButton: UIBarButtonItem!
     
+    @IBOutlet weak var closeKeyboard: UIBarButtonItem!
+    
+    // キーボードを閉じるボタンを押した時に呼ばれる
+    @IBAction func closeKeyboard(_ sender: Any) {
+        view.endEditing(true)
+
+    }
+    
     @IBAction func startAndStopRecording(_ sender: Any) {
         print("録音ボタンが押されました")
+        
         /// 録音中か否か
         if let isAudioRecorder = audioRecorder?.isRecording {
             if isAudioRecorder {
-                print("録音中")
-                audioRecorder?.pause()
+                print("録音中だったので録音停止する")
+                audioRecorder?.stop()
                 recordingButton.image = UIImage(named: "StartRecordingButton")
             } else {
-                print("録音停止中")
+                print("録音停止中だったので録音開始する")
+                // 録音ファイルの準備（すでにファイルがあれば上書き）
+                audioRecorder?.prepareToRecord()
+                // 録音中に音量を取るか否か
+                audioRecorder?.isMeteringEnabled = true
+                // 録音開始
                 audioRecorder?.record()
+                // 録音ボタンの画像をストップ画像にする
                 recordingButton.image = UIImage(named: "StopRecordingButton")
             }
         }
     }
+    
     
     //　PageMenuの準備
     var pagemenu: CAPSPageMenu?
@@ -44,6 +60,10 @@ class SongEditViewController: BaseViewController {
     
     /// AVAudioRecorderをインスタンス化
     var audioRecorder: AVAudioRecorder?
+    
+    let fileName = "sectionA.m4a"
+    let fileManager = FileManager()
+    
     /// AVAudioPlayerをインスタンス化
     var audioPlayer: AVAudioPlayer?
     
@@ -56,6 +76,8 @@ class SongEditViewController: BaseViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         
         setDefaultPageMenu()
+        
+        setAudioRecorder()
 
         // 曲名をTextFieldに反映
         titleTextField.text = song.title
@@ -79,11 +101,6 @@ class SongEditViewController: BaseViewController {
             self.song.date = NSDate()
             print("曲名と更新時刻を保存しました")
         }
-    }
-    
-    // キーボードを閉じるボタンを押した時に呼ばれる
-    @IBAction func closeKeyboard(_ sender: Any) {
-        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -135,6 +152,53 @@ class SongEditViewController: BaseViewController {
         self.view.sendSubview(toBack: pagemenu!.view)
 
     }
+    
+    /// AudioRecorderを設定
+    private func setAudioRecorder() {
+        
+        /// 録音可能カテゴリに設定する
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        } catch  {
+            // エラー処理
+            fatalError("カテゴリ設定失敗")
+        }
+        
+        // audioSessionのアクティブ化
+        do {
+            try audioSession.setActive(true)
+        } catch  {
+            // audioSession有効か失敗時の処理
+            fatalError("audioSession有効化失敗")
+        }
+        
+        /// 録音の設定
+        let recorderSettings: [String: Any] = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVEncoderAudioQualityKey: AVAudioQuality.min.rawValue,
+            AVEncoderBitRateKey: 16,
+            AVNumberOfChannelsKey: 1,
+            AVSampleRateKey: 44100.0
+        ]
+
+        do {
+            try audioRecorder = AVAudioRecorder(url: self.documentFilePath(), settings: recorderSettings)
+            print(self.documentFilePath())
+        } catch {
+            print("初期設定でエラー")
+        }
+    }
+    
+    /// URLを取得？
+    ///
+    /// - Returns: URL
+    func documentFilePath() -> URL {
+        let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask) as [URL]
+        let dirURL = urls[0]
+        
+        return dirURL.appendingPathComponent(fileName)
+    }
 }
 
 // MARK: - AVAudioRecorderDelegate
@@ -146,7 +210,7 @@ extension SongEditViewController: AVAudioRecorderDelegate {
     ///   - recorder: 記録が終了したAudioRecorder
     ///   - flag: 記録が正常に終了したかどうか
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        print("録音が終了")
+        print("録音が終了しました")
     }
     
 }

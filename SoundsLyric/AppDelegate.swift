@@ -34,23 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.initialSetup()
         }
         
-        /// 録音可能カテゴリに設定する
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        } catch  {
-            // エラー処理
-            fatalError("カテゴリ設定失敗")
-        }
-        
-        // audioSessionのアクティブ化
-        do {
-            try audioSession.setActive(true)
-        } catch  {
-            // audioSession有効か失敗時の処理
-            fatalError("audioSession有効化失敗")
-        }
-        
         return true
     }
     

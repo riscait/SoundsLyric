@@ -161,7 +161,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="フォルダ" id="ImK-w3-Cyi">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="Fs0-kG-cja"/>
                         <barButtonItem key="rightBarButtonItem" title="編集" id="7NM-Zq-lof">
                             <connections>
                                 <action selector="editFolder:" destination="Acm-xR-lxY" id="YR6-ue-vHK"/>
@@ -247,7 +246,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Gpv-EP-qnf">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="cDb-5g-QUZ"/>
                         <barButtonItem key="rightBarButtonItem" title="編集" id="zFm-aj-wp1">
                             <connections>
                                 <action selector="editSong:" destination="qHA-z8-SJY" id="u5W-rb-WSU"/>
@@ -314,7 +312,6 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="XjK-hi-HUT">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="n40-HY-irQ"/>
                         <barButtonItem key="rightBarButtonItem" image="DismissKeyboardButton" id="Zqf-rJ-ls3">
                             <connections>
                                 <action selector="closeKeyboard:" destination="4wh-9f-bwb" id="yC0-M1-h5r"/>
@@ -322,6 +319,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="closeKeyboard" destination="Zqf-rJ-ls3" id="8oL-np-cVv"/>
                         <outlet property="recordingButton" destination="3ss-fp-Bx2" id="QZt-VI-owy"/>
                         <outlet property="titleTextField" destination="RmL-H1-oz2" id="4bc-ih-Doc"/>
                     </connections>

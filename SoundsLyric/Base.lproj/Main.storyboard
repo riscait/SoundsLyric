@@ -233,12 +233,20 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="曲数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hOk-42-kgY">
+                                <rect key="frame" x="170" y="635" width="35" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ldm-YS-ajb" firstAttribute="top" secondItem="01M-Nf-PTQ" secondAttribute="bottom" id="4bk-cA-MHi"/>
+                            <constraint firstItem="hOk-42-kgY" firstAttribute="centerX" secondItem="wuw-Ky-HOQ" secondAttribute="centerX" id="OD8-Ts-Jt2"/>
                             <constraint firstItem="ldm-YS-ajb" firstAttribute="leading" secondItem="VOw-aM-kCv" secondAttribute="leading" id="biS-Wx-mR1"/>
                             <constraint firstItem="wuw-Ky-HOQ" firstAttribute="top" secondItem="ldm-YS-ajb" secondAttribute="bottom" id="ejK-oX-WJh"/>
+                            <constraint firstItem="hOk-42-kgY" firstAttribute="centerY" secondItem="wuw-Ky-HOQ" secondAttribute="centerY" id="g6H-1U-nSr"/>
                             <constraint firstItem="wuw-Ky-HOQ" firstAttribute="leading" secondItem="VOw-aM-kCv" secondAttribute="leading" id="gXn-zP-lf1"/>
                             <constraint firstAttribute="trailing" secondItem="ldm-YS-ajb" secondAttribute="trailing" id="gfH-u5-oeQ"/>
                             <constraint firstItem="v05-PZ-8n9" firstAttribute="top" secondItem="wuw-Ky-HOQ" secondAttribute="bottom" id="tI5-3B-8M2"/>
@@ -248,11 +256,12 @@
                     <navigationItem key="navigationItem" id="Gpv-EP-qnf">
                         <barButtonItem key="rightBarButtonItem" title="編集" id="zFm-aj-wp1">
                             <connections>
-                                <action selector="editSong:" destination="qHA-z8-SJY" id="u5W-rb-WSU"/>
+                                <action selector="editSong:" destination="qHA-z8-SJY" id="Cqi-e8-F5w"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="songCountLabel" destination="hOk-42-kgY" id="bUJ-Eh-44A"/>
                         <outlet property="tableView" destination="ldm-YS-ajb" id="LdS-6f-VCA"/>
                         <segue destination="4wh-9f-bwb" kind="show" identifier="showEditSong" id="Iyt-Ce-pXE"/>
                     </connections>
@@ -296,7 +305,11 @@
                                     <barButtonItem title="—————" id="fNi-e9-Fgi"/>
                                     <barButtonItem systemItem="play" id="t8g-KT-HRA"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="NOW-I4-i8X"/>
-                                    <barButtonItem systemItem="compose" id="Pmk-wo-BL8"/>
+                                    <barButtonItem systemItem="compose" id="Pmk-wo-BL8">
+                                        <connections>
+                                            <action selector="addLyric:" destination="4wh-9f-bwb" id="mVg-tN-789"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>

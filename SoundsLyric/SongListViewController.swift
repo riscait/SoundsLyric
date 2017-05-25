@@ -13,6 +13,22 @@ class SongListViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var songCountLabel: UILabel!
+    
+    @IBAction func editSong(_ sender: UIBarButtonItem) {
+        if isEditing {
+            print("（セル編集の）完了ボタンが押されました")
+            super.setEditing(false, animated: true)
+            tableView.setEditing(false, animated: true)
+            sender.title = "編集"
+        } else {
+            print("セル編集ボタンが押されました")
+            super.setEditing(true, animated: true)
+            tableView.setEditing(true, animated: true)
+            sender.title = "完了"
+        }
+    }
+
     var songOwner: Folder!
     
     var songArray: List<Song>!
@@ -21,7 +37,13 @@ class SongListViewController: BaseViewController {
         super.viewDidLoad()
     }
     
+    /// セグエで画面遷移するときのメソッド
+    ///
+    /// - Parameters:
+    ///   - segue: ストーリーボードで設定したセグエ
+    ///   - sender: Any?
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         let songEditVC = segue.destination as! SongEditViewController
         
         if segue.identifier == "ComposeSong" {
@@ -95,20 +117,12 @@ class SongListViewController: BaseViewController {
         super.viewWillAppear(animated)
         // TableViewを更新する
         tableView.reloadData()
+        print("labelを更新")
+        updateLabel()
     }
     
-    @IBAction func editSong(_ sender: UIBarButtonItem) {
-        if isEditing {
-            print("（セル編集の）完了ボタンが押されました")
-            super.setEditing(false, animated: true)
-            tableView.setEditing(false, animated: true)
-            sender.title = "編集"
-        } else {
-            print("セル編集ボタンが押されました")
-            super.setEditing(true, animated: true)
-            tableView.setEditing(true, animated: true)
-            sender.title = "完了"
-        }
+    func updateLabel() {
+        songCountLabel.text = "\(songArray.count)曲"
     }
     
     override func didReceiveMemoryWarning() {
@@ -150,6 +164,8 @@ extension SongListViewController: UITableViewDataSource {
                 self.realm.delete(self.songArray[indexPath.row])
                 tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.fade)
             }
+            print("labelを更新")
+            updateLabel()
         }
     }
 }

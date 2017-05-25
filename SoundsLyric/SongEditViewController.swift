@@ -19,23 +19,60 @@ class SongEditViewController: BaseViewController {
     
     @IBOutlet weak var closeKeyboard: UIBarButtonItem!
     
-    // キーボードを閉じるボタンを押した時に呼ばれる
+    /// 歌詞セクションを追加するボタン
+    ///
+    /// - Parameter sender: Any
+    @IBAction func addLyric(_ sender: Any) {
+        let lyric = Lyric()
+        
+        lyric.owner = song
+        
+        // 今ある最大のidに１を足した数をidに設定
+        lyric.id = self.newId(model: lyric)!
+        
+        let lyricD = Lyric()
+        lyricD.owner = song
+        lyricD.id = self.newId(model: lyricD)!
+        lyricD.name = "Dメロ"
+        lyricD.text = ""
+        
+        // リレーション挿入
+        song.lyrics.append(lyricD)
+        
+        // Realmに保存
+        try! realm.write {
+            // 最後に配列へ追加
+// FIXME:           lyrics.append(lyricD)
+            
+            // 新規作成
+            realm.add(lyricD, update: true)
+        }
+        
+    }
+
+    /// 歌詞(TextView)入力中ならボタンが表示されて、押したらキーボードが閉じる
+    ///
+    /// - Parameter sender: Any
     @IBAction func closeKeyboard(_ sender: Any) {
         view.endEditing(true)
-
+        
+        // TODO: TextView編集中のみボタンが現れるメソッドが必要。押したらまた非表示にする。
     }
     
+    /// 録音の開始、一時停止ボタンのメソッド
+    ///
+    /// - Parameter sender: Any
     @IBAction func startAndStopRecording(_ sender: Any) {
-        print("録音ボタンが押されました")
+        print("録音ボタンが押された")
         
         /// 録音中か否か
         if let isAudioRecorder = audioRecorder?.isRecording {
             if isAudioRecorder {
-                print("録音中だったので録音停止する")
+                print("\(isAudioRecorder): 録音中だったので録音停止する")
                 audioRecorder?.stop()
                 recordingButton.image = UIImage(named: "StartRecordingButton")
             } else {
-                print("録音停止中だったので録音開始する")
+                print("\(isAudioRecorder): 録音停止中だったので録音開始する")
                 // 録音ファイルの準備（すでにファイルがあれば上書き）
                 audioRecorder?.prepareToRecord()
                 // 録音中に音量を取るか否か
@@ -47,7 +84,6 @@ class SongEditViewController: BaseViewController {
             }
         }
     }
-    
     
     //　PageMenuの準備
     var pagemenu: CAPSPageMenu?
@@ -70,6 +106,8 @@ class SongEditViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        audioRecorder?.delegate = self
         
         // NavigationBarの枠線を消す
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -101,10 +139,6 @@ class SongEditViewController: BaseViewController {
             self.song.date = NSDate()
             print("曲名と更新時刻を保存しました")
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     /// デフォルトで表示するPageMenu項目を設定
@@ -184,10 +218,11 @@ class SongEditViewController: BaseViewController {
 
         do {
             try audioRecorder = AVAudioRecorder(url: self.documentFilePath(), settings: recorderSettings)
-            print(self.documentFilePath())
+            print("録音ファイルの保存場所: \(self.documentFilePath())")
         } catch {
             print("初期設定でエラー")
         }
+        
     }
     
     /// URLを取得？

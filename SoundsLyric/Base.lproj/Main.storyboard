@@ -303,7 +303,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="—————" id="fNi-e9-Fgi"/>
-                                    <barButtonItem systemItem="play" id="t8g-KT-HRA"/>
+                                    <barButtonItem systemItem="play" id="t8g-KT-HRA">
+                                        <connections>
+                                            <action selector="play:" destination="4wh-9f-bwb" id="9Qn-Lj-w4e"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="NOW-I4-i8X"/>
                                     <barButtonItem systemItem="compose" id="Pmk-wo-BL8">
                                         <connections>

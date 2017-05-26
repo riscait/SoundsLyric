@@ -73,12 +73,20 @@ class SongEditViewController: BaseViewController {
                 recordingButton.image = UIImage(named: "StartRecordingButton")
             } else {
                 print("\(isAudioRecorder): 録音停止中だったので録音開始する")
-                // 録音ファイルの準備（すでにファイルがあれば上書き）
-                audioRecorder?.prepareToRecord()
-                // 録音中に音量を取るか否か
-                audioRecorder?.isMeteringEnabled = true
-                // 録音開始
-                audioRecorder?.record()
+                
+                do {
+                    // アクティブ
+                    try AVAudioSession.sharedInstance().setActive(true)
+                    // 録音開始
+                    audioRecorder?.record()
+                    print("RECORDING")
+                } catch {
+                    print("レコード失敗")
+                }
+                
+                print("\(#function) >>> audioRecorder?.isRecording >>> \(String(describing: audioRecorder?.isRecording))")
+                print("\(#function) >>> audioRecorder?.url >>> \(String(describing: audioRecorder?.url.absoluteString))")
+                
                 // 録音ボタンの画像をストップ画像にする
                 recordingButton.image = UIImage(named: "StopRecordingButton")
             }
@@ -97,7 +105,18 @@ class SongEditViewController: BaseViewController {
     /// AVAudioRecorderをインスタンス化
     var audioRecorder: AVAudioRecorder?
     
-    let fileName = "sectionA.m4a"
+    /*
+     音声ファイル名は
+     Lyric(歌詞ごとに録音でなければSong)のidを間に挟むとユニーク性が担保されるかなと思います
+     ex: String(format: "section%d.m4a", lyric.id)
+     */
+    
+    /*
+     拡張子.m4aは無理なのかな...見た感じで来そうで色々試しましたが
+     .cafで通りました。
+     */
+    let fileName = "sectionA.caf"
+    
     let fileManager = FileManager()
     
     /// AVAudioPlayerをインスタンス化
@@ -106,7 +125,8 @@ class SongEditViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        // ここはまだ設定前なので適応されない
         audioRecorder?.delegate = self
         
         // NavigationBarの枠線を消す
@@ -138,6 +158,26 @@ class SongEditViewController: BaseViewController {
             // 現在時刻を更新時刻として保存
             self.song.date = NSDate()
             print("曲名と更新時刻を保存しました")
+        }
+    }
+    
+    /// 表示後呼ばれる
+    ///
+    /// - Parameter animated: animated
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // ここで音許可を聞いた方が良いと思う(許可されていない時にAV系扱うと落ちることが多いため)
+        DispatchQueue.main.async {
+            // 音声許可の確認
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeAudio, completionHandler: { granted in
+                // TODO: もし許可が得られなかった場合、録音ボタン再生ボタンを消した方が良い
+                if granted {
+                    print("\(#function) >>> マイク許可されましたよー")
+                } else {
+                    print("\(#function) >>> マイク許可できなかったでやんすー")
+                }
+            })
         }
     }
     
@@ -190,26 +230,9 @@ class SongEditViewController: BaseViewController {
     /// AudioRecorderを設定
     private func setAudioRecorder() {
         
-        /// 録音可能カテゴリに設定する
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        } catch  {
-            // エラー処理
-            fatalError("カテゴリ設定失敗")
-        }
-        
-        // audioSessionのアクティブ化
-        do {
-            try audioSession.setActive(true)
-        } catch  {
-            // audioSession有効か失敗時の処理
-            fatalError("audioSession有効化失敗")
-        }
-        
         /// 録音の設定
         let recorderSettings: [String: Any] = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+//            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVEncoderAudioQualityKey: AVAudioQuality.min.rawValue,
             AVEncoderBitRateKey: 16,
             AVNumberOfChannelsKey: 1,
@@ -217,7 +240,21 @@ class SongEditViewController: BaseViewController {
         ]
 
         do {
+            /// 録音可能カテゴリに設定する
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+            
+            // レコーダー設定
             try audioRecorder = AVAudioRecorder(url: self.documentFilePath(), settings: recorderSettings)
+            
+            // デリゲートは生成後設定
+            audioRecorder?.delegate = self
+            // 録音中に音量を取るか否か
+            audioRecorder?.isMeteringEnabled = true
+            
+            // 録音ファイルの準備（すでにファイルがあれば上書き）
+            // prepareは準備なので初期設定のが良い->ファイル名変更なので新規で必要な場合は生成し直した方が良いかも
+            audioRecorder?.prepareToRecord()
+            
             print("録音ファイルの保存場所: \(self.documentFilePath())")
         } catch {
             print("初期設定でエラー")
@@ -233,6 +270,29 @@ class SongEditViewController: BaseViewController {
         let dirURL = urls[0]
         
         return dirURL.appendingPathComponent(fileName)
+    }
+    
+    /// プレイ
+    ///
+    /// - Parameter sender: UIBarButtonItem
+    @IBAction func play(_ sender: UIBarButtonItem) {
+        // 一旦再生確認
+        do {
+            // 録音ストップ
+            audioRecorder?.stop()
+            recordingButton.image = UIImage(named: "StartRecordingButton")
+            
+            print("\(#function) >>> audioRecorder?.isRecording >>> \(String(describing: audioRecorder?.isRecording))")
+            
+            if let url = audioRecorder?.url {
+                print("\(#function) >>> \(url.absoluteString)から再生")
+                // 再生インスタンス生成
+                try audioPlayer = AVAudioPlayer(contentsOf: url)
+            }
+        } catch {
+            print("再生時にerror出たよ(´・ω・｀)")
+        }
+        audioPlayer?.play()
     }
 }
 

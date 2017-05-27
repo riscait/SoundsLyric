@@ -15,13 +15,13 @@ class SongEditViewController: BaseViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     
-    @IBOutlet weak var recordingButton: UIBarButtonItem!
+    // 曲の情報を受け取る変数
+    var song: Song!
     
-    @IBOutlet weak var closeKeyboard: UIBarButtonItem!
-    
-    /// 歌詞セクションを追加するボタン
-    ///
-    /// - Parameter sender: Any
+    /// Viewを格納する配列
+    var controllerArray: [UIViewController] = []
+
+    // MARK: - 歌詞を追加する
     @IBAction func addLyric(_ sender: Any) {
         let lyric = Lyric()
         
@@ -42,104 +42,142 @@ class SongEditViewController: BaseViewController {
         // Realmに保存
         try! realm.write {
             // 最後に配列へ追加
-// FIXME:           lyrics.append(lyricD)
+            // FIXME: lyrics.append(lyricD)
             
             // 新規作成
             realm.add(lyricD, update: true)
         }
         
     }
-
-    /// 歌詞(TextView)入力中ならボタンが表示されて、押したらキーボードが閉じる
-    ///
-    /// - Parameter sender: Any
+    
+    // MARK: - キーボードを閉じる
+    @IBOutlet weak var closeKeyboard: UIBarButtonItem!
     @IBAction func closeKeyboard(_ sender: Any) {
         view.endEditing(true)
         
         // TODO: TextView編集中のみボタンが現れるメソッドが必要。押したらまた非表示にする。
     }
     
-    /// 録音の開始、一時停止ボタンのメソッド
-    ///
-    /// - Parameter sender: Any
-    @IBAction func startAndStopRecording(_ sender: Any) {
-        print("録音ボタンが押された")
-        
-        /// 録音中か否か
-        if let isAudioRecorder = audioRecorder?.isRecording {
-            if isAudioRecorder {
-                print("\(isAudioRecorder): 録音中だったので録音停止する")
-                audioRecorder?.stop()
-                recordingButton.image = UIImage(named: "StartRecordingButton")
-            } else {
-                print("\(isAudioRecorder): 録音停止中だったので録音開始する")
-                // 録音ファイルの準備（すでにファイルがあれば上書き）
-                audioRecorder?.prepareToRecord()
-                // 録音中に音量を取るか否か
-                audioRecorder?.isMeteringEnabled = true
-                // 録音開始
-                audioRecorder?.record()
-                // 録音ボタンの画像をストップ画像にする
-                recordingButton.image = UIImage(named: "StopRecordingButton")
-            }
+    // MARK: - AVAudioEngineで音声を録音する
+    // AVAudioEngine
+    var audioEngine: AVAudioEngine!
+    var audioFile: AVAudioFile!
+    var audioPlayer: AVAudioPlayerNode!
+    var filePath: URL!
+    var isPlaying = false
+    var isRecording = false
+    
+    @IBOutlet weak var playSound: UIBarButtonItem!
+    @IBAction func playSound(_ sender: Any) {
+        if self.isPlaying {
+            // 再生中の場合
+            self.playSound.image = UIImage(named: "StopPlayButton")
+            self.stopPlay()
+        } else {
+            // 再生中ではない場合
+            self.playSound.image = UIImage(named: "StartPlayButton")
+            self.startPlay()
         }
     }
     
+    @IBOutlet weak var recordingButton: UIBarButtonItem!
+    @IBAction func startAndStopRecording(_ sender: Any) {
+        if isRecording {
+            // 録音中の場合
+            self.recordingButton.image = UIImage(named: "StartRecordingButton")
+            stopRecord()
+        } else {
+            // 録音中ではない場合
+            self.recordingButton.image = UIImage(named: "StopRecordingButton")
+            startRecord()
+        }
+    }
+    
+    /// 録音を開始するメソッド
+    private func startRecord() {
+        
+        // 録音中: true
+        self.isRecording = true
+        
+        // AudioSession
+        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryRecord)
+        try! AVAudioSession.sharedInstance().setActive(true)
+        
+        // Mic(AVAudioInputNode)からBusミキサーへ接続する
+        let mixer = self.audioEngine.mainMixerNode
+        let input = self.audioEngine.inputNode
+        self.audioEngine.connect(input!, to: mixer, format: input?.inputFormat(forBus: 0))
+        
+        
+        do {
+            // 録音ファイルを保存する場所
+            let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+            self.filePath = URL(fileURLWithPath: documentDir + "/sound.caf") // TODO: lyric.idを使ったユニークなURLにする
+            print("録音ファイルの場所は: \(self.filePath)")
+            
+            // オーディオフォーマット
+            let format = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 44100.0, channels: 1, interleaved: true)
+            
+            // オーディオファイル
+            let outputFile = try AVAudioFile(forWriting: self.filePath, settings: format.settings)
+            
+            // inputNodeの出力バス(インデックス0)にタップをインストール
+            // installTapOnBusの引数formatにnilを指定するとタップをインストールしたノードの出力バスのフォーマットを使用する
+            // (この例だとフォーマットに inputNode.outputFormatForBus(0) を指定するのと同じ)
+            // tapBlockはメインスレッドで実行されるとは限らないので注意
+            let inputNode = audioEngine.inputNode! // 端末にマイクがあると仮定する
+            inputNode.installTap(onBus: 0, bufferSize: AVAudioFrameCount(format.sampleRate * 0.4), format: format, block: {(buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
+                do {
+                    // ファイルにバッファを書き込む
+                    try outputFile.write(from: buffer)
+                } catch let error {
+                    print("バッファの書き込み失敗：audioFile.writeFromBuffer error:", error)
+                }
+            })
+            
+            do {
+                // オーディオエンジンを開始
+                try audioEngine.start()
+                print("オーディオエンジンを開始しました")
+            } catch let error {
+                print("オーディオエンジン起動失敗：audioEngine.start() error:", error)
+            }
+        } catch let error {
+            print("ファイル書き込み失敗：AVAudioFile error:", error)
+        }
+    }
+    
+    /// 録音を停止するメソッド
+    private func stopRecord() {
+        self.isRecording = false
+        self.audioEngine.stop()
+        self.audioEngine.inputNode?.removeTap(onBus: 0)
+        try! AVAudioSession.sharedInstance().setActive(false)
+        print("オーディオエンジンを終了しました")
+    }
+    
+    private func startPlay() {
+        self.isPlaying = true
+        
+        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        try! AVAudioSession.sharedInstance().setActive(true)
+        
+        self.audioFile = try! AVAudioFile(forReading: filePath)
+        
+        try! self.audioEngine.start()
+        
+    }
+    
+    private func stopPlay() {
+        self.isPlaying = false
+        
+        self.audioEngine.stop()
+        try! AVAudioSession.sharedInstance().setActive(false)
+    }
+    
+    // MARK: - PageMenu（ライブラリ使用）
     //　PageMenuの準備
     var pagemenu: CAPSPageMenu?
-    
-    // 曲の情報を受け取る変数
-    var song: Song!
-    
-    /// Viewを格納する配列
-    var controllerArray: [UIViewController] = []
-    
-    /// AVAudioRecorderをインスタンス化
-    var audioRecorder: AVAudioRecorder?
-    
-    let fileName = "sectionA.m4a"
-    let fileManager = FileManager()
-    
-    /// AVAudioPlayerをインスタンス化
-    var audioPlayer: AVAudioPlayer?
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        audioRecorder?.delegate = self
-        
-        // NavigationBarの枠線を消す
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        
-        setDefaultPageMenu()
-        
-        setAudioRecorder()
-
-        // 曲名をTextFieldに反映
-        titleTextField.text = song.title
-        
-        // タイトルが空欄ならタイトル欄にキーボードフォーカス
-        if titleTextField.text == "" {
-            titleTextField.becomeFirstResponder()
-        }
-    }
-    
-    /// 画面が消える直前に呼び出されるメソッド
-    ///
-    /// - Parameter animated: animated
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        try! realm.write {
-            // 曲のタイトルを保存
-            song.title = titleTextField.text!
-            // 現在時刻を更新時刻として保存
-            self.song.date = NSDate()
-            print("曲名と更新時刻を保存しました")
-        }
-    }
     
     /// デフォルトで表示するPageMenu項目を設定
     fileprivate func setDefaultPageMenu() {
@@ -154,7 +192,7 @@ class SongEditViewController: BaseViewController {
             songEditChildVC.title = lyric.name
             controllerArray.append(songEditChildVC)
         }
-
+        
         
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
@@ -166,7 +204,7 @@ class SongEditViewController: BaseViewController {
             .menuHeight(25),
             .menuItemSeparatorWidth(0),
             .useMenuLikeSegmentedControl(true),
-        ]
+            ]
         
         // StatusBarの高さを取得
         let statusBarHeight = UIApplication.shared.statusBarFrame.size.height
@@ -184,68 +222,42 @@ class SongEditViewController: BaseViewController {
         
         // PageMenuのViewを背面に移動
         self.view.sendSubview(toBack: pagemenu!.view)
+        
+    }
+    
+    //MARK: - ViewController Life cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        // NavigationBarの枠線を消す
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
+        setDefaultPageMenu()
+        
+        // 曲名をTextFieldに反映
+        titleTextField.text = song.title
+        
+        // タイトルが空欄ならタイトル欄にキーボードフォーカス
+        if titleTextField.text == "" {
+            titleTextField.becomeFirstResponder()
+        }
+        
+        /// AVAudioEngineをインスタンス化
+        audioEngine = AVAudioEngine()
 
     }
     
-    /// AudioRecorderを設定
-    private func setAudioRecorder() {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
-        /// 録音可能カテゴリに設定する
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        } catch  {
-            // エラー処理
-            fatalError("カテゴリ設定失敗")
+        try! realm.write {
+            // 曲のタイトルを保存
+            song.title = titleTextField.text!
+            // 現在時刻を更新時刻として保存
+            self.song.date = NSDate()
+            print("曲名と更新時刻を保存しました")
         }
-        
-        // audioSessionのアクティブ化
-        do {
-            try audioSession.setActive(true)
-        } catch  {
-            // audioSession有効か失敗時の処理
-            fatalError("audioSession有効化失敗")
-        }
-        
-        /// 録音の設定
-        let recorderSettings: [String: Any] = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVEncoderAudioQualityKey: AVAudioQuality.min.rawValue,
-            AVEncoderBitRateKey: 16,
-            AVNumberOfChannelsKey: 1,
-            AVSampleRateKey: 44100.0
-        ]
-
-        do {
-            try audioRecorder = AVAudioRecorder(url: self.documentFilePath(), settings: recorderSettings)
-            print("録音ファイルの保存場所: \(self.documentFilePath())")
-        } catch {
-            print("初期設定でエラー")
-        }
-        
     }
-    
-    /// URLを取得？
-    ///
-    /// - Returns: URL
-    func documentFilePath() -> URL {
-        let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask) as [URL]
-        let dirURL = urls[0]
-        
-        return dirURL.appendingPathComponent(fileName)
-    }
-}
-
-// MARK: - AVAudioRecorderDelegate
-extension SongEditViewController: AVAudioRecorderDelegate {
-    
-    /// 録音が終了、または時間制限に達した時に呼び出される
-    ///
-    /// - Parameters:
-    ///   - recorder: 記録が終了したAudioRecorder
-    ///   - flag: 記録が正常に終了したかどうか
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        print("録音が終了しました")
-    }
-    
 }

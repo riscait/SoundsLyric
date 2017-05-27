@@ -302,8 +302,12 @@
                                             <action selector="startAndStopRecording:" destination="4wh-9f-bwb" id="bFO-sg-yEw"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="—————" id="fNi-e9-Fgi"/>
-                                    <barButtonItem systemItem="play" id="t8g-KT-HRA"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="xV9-BS-iGU"/>
+                                    <barButtonItem image="StartPlayButton" id="t8g-KT-HRA">
+                                        <connections>
+                                            <action selector="playSound:" destination="4wh-9f-bwb" id="Zxh-V3-RwS"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="NOW-I4-i8X"/>
                                     <barButtonItem systemItem="compose" id="Pmk-wo-BL8">
                                         <connections>
@@ -312,6 +316,10 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="RRT-Wi-jye">
+                                <rect key="frame" x="172" y="299" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -333,6 +341,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="closeKeyboard" destination="Zqf-rJ-ls3" id="8oL-np-cVv"/>
+                        <outlet property="playSound" destination="t8g-KT-HRA" id="dCO-tc-682"/>
                         <outlet property="recordingButton" destination="3ss-fp-Bx2" id="QZt-VI-owy"/>
                         <outlet property="titleTextField" destination="RmL-H1-oz2" id="4bc-ih-Doc"/>
                     </connections>
@@ -397,6 +406,7 @@
     </scenes>
     <resources>
         <image name="DismissKeyboardButton" width="30" height="30"/>
+        <image name="StartPlayButton" width="32" height="32"/>
         <image name="StartRecordingButton" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>

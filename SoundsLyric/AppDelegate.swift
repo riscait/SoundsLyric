@@ -93,18 +93,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let lyricA = Lyric()
         lyricA.owner = song
         lyricA.id = lastId + 1
-        lyricA.name = "Aメロ"
-        lyricA.text = "ここにAメロの歌詞を書いてください"
+        lyricA.name = "SectionA"
+        lyricA.text = "SectionAテキスト"
         let lyricB = Lyric()
         lyricB.owner = song
         lyricB.id = lastId + 2
-        lyricB.name = "Bメロ"
-        lyricB.text = "ここにBメロの歌詞を書いてください"
+        lyricB.name = "SectionB"
+        lyricB.text = "SectionBテキスト"
         let lyricC = Lyric()
         lyricC.owner = song
         lyricC.id = lastId + 3
-        lyricC.name = "Cメロ"
-        lyricC.text = "ここにCメロの歌詞を書いてください"
+        lyricC.name = "SectionC"
+        lyricC.text = "SectionCテキスト"
         
         // リレーション挿入
         folder.songs.append(song)

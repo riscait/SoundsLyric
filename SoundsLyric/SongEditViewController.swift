@@ -15,47 +15,86 @@ class SongEditViewController: BaseViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     
+    @IBAction func titleTextField(_ sender: Any) {
+    }
+    
     // 曲の情報を受け取る変数
     var song: Song!
     
-    /// Viewを格納する配列
-    var controllerArray: [UIViewController] = []
-
+//    var lyricArray: List<Lyric>
+    
+    
     // MARK: - 歌詞を追加する
-    @IBAction func addLyric(_ sender: Any) {
-        let lyric = Lyric()
-        
-        lyric.owner = song
-        
-        // 今ある最大のidに１を足した数をidに設定
-        lyric.id = self.newId(model: lyric)!
-        
-        let lyricD = Lyric()
-        lyricD.owner = song
-        lyricD.id = self.newId(model: lyricD)!
-        lyricD.name = "Dメロ"
-        lyricD.text = ""
-        
-        // リレーション挿入
-        song.lyrics.append(lyricD)
-        
-        // Realmに保存
-        try! realm.write {
-            // 最後に配列へ追加
-            // FIXME: lyrics.append(lyricD)
-            
-            // 新規作成
-            realm.add(lyricD, update: true)
-        }
-        
-    }
+//    @IBAction func addLyric(_ sender: Any) {
+//        let lyric = Lyric()
+//        
+//        lyric.owner = song
+//        
+//        // 今ある最大のidに１を足した数をidに設定
+//        lyric.id = self.newId(model: lyric)!
+//        
+//        let lyricD = Lyric()
+//        lyricD.owner = song
+//        lyricD.id = self.newId(model: lyricD)!
+//        lyricD.name = "Dメロ"
+//        lyricD.text = ""
+//        
+//        // リレーション挿入
+//        song.lyrics.append(lyricD)
+//        
+//        // Realmに保存
+//        try! realm.write {
+//            // 最後に配列へ追加
+//            // FIXME: lyrics.append(lyricD)
+//            
+//            // 新規作成
+//            realm.add(lyricD, update: true)
+//        }
+//        
+//    }
     
     // MARK: - キーボードを閉じる
     @IBOutlet weak var closeKeyboard: UIBarButtonItem!
-    @IBAction func closeKeyboard(_ sender: Any) {
+    @IBAction func closeKeyboard(_ sender: UIBarButtonItem) {
         view.endEditing(true)
-        
         // TODO: TextView編集中のみボタンが現れるメソッドが必要。押したらまた非表示にする。
+    }
+    
+    //MARK: - ViewController ライフサイクル
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // NavigationBarの枠線を消す
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
+        setDefaultPageMenu()
+        
+        // 曲名をTextFieldに反映
+        titleTextField.text = song.title
+        
+        closeKeyboard.isEnabled = false
+        
+        // タイトルが空欄ならタイトル欄にキーボードフォーカス
+        if titleTextField.text == "" {
+            titleTextField.becomeFirstResponder()
+        }
+        
+        /// AVAudioEngineをインスタンス化
+        audioEngine = AVAudioEngine()
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        try! realm.write {
+            // 曲のタイトルを保存
+            song.title = titleTextField.text!
+            // 現在時刻を更新時刻として保存
+            self.song.date = NSDate()
+            print("曲名と更新時刻を保存しました")
+        }
     }
     
     // MARK: - AVAudioEngineで音声を録音する
@@ -190,9 +229,14 @@ class SongEditViewController: BaseViewController {
             songEditChildVC.lyric = lyric
             // 歌詞セクションの名前を設定
             songEditChildVC.title = lyric.name
-            controllerArray.append(songEditChildVC)
+            print("Const.sectionPagesは\(Const.sectionPages)")
+            Const.sectionPages.append(songEditChildVC)
         }
         
+        let pageMenuEditVC = storyboard.instantiateViewController(withIdentifier: "PageMenuEditVC") as! PageMenuEditViewController
+        pageMenuEditVC.title = "編集"
+        var fullSectionPages: [UIViewController] = Const.sectionPages
+        fullSectionPages.append(pageMenuEditVC)
         
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
@@ -215,7 +259,7 @@ class SongEditViewController: BaseViewController {
         
         
         // 初期化（表示するVC / 位置・大きさ / カスタマイズ内容）
-        pagemenu = CAPSPageMenu(viewControllers: controllerArray, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
+        pagemenu = CAPSPageMenu(viewControllers: fullSectionPages, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
         
         // PageMenuを表示する
         self.view.addSubview(pagemenu!.view)
@@ -224,40 +268,12 @@ class SongEditViewController: BaseViewController {
         self.view.sendSubview(toBack: pagemenu!.view)
         
     }
-    
-    //MARK: - ViewController Life cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        // NavigationBarの枠線を消す
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        
-        setDefaultPageMenu()
-        
-        // 曲名をTextFieldに反映
-        titleTextField.text = song.title
-        
-        // タイトルが空欄ならタイトル欄にキーボードフォーカス
-        if titleTextField.text == "" {
-            titleTextField.becomeFirstResponder()
-        }
-        
-        /// AVAudioEngineをインスタンス化
-        audioEngine = AVAudioEngine()
+}
 
+extension SongEditViewController: SongEditChildVCDelegate {
+
+    func enableButtonCloseKeyboard() {
+        closeKeyboard.isEnabled = true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        try! realm.write {
-            // 曲のタイトルを保存
-            song.title = titleTextField.text!
-            // 現在時刻を更新時刻として保存
-            self.song.date = NSDate()
-            print("曲名と更新時刻を保存しました")
-        }
-    }
+
 }

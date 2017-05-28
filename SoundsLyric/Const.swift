@@ -18,3 +18,7 @@ class AlertUtil {
         return UIAlertController(title: createName, message: "\(createName)の名前を入力してください", preferredStyle: .alert)
     }
 }
+
+struct Const {
+    static var sectionPages: [UIViewController] = []
+}

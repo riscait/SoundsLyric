@@ -87,9 +87,7 @@ class FolderViewController: BaseViewController {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func backToFolder(segue: UIStoryboardSegue) {
     }
 }
 // MARK: - UITableViewDataSource

@@ -9,14 +9,8 @@
 import UIKit
 import RealmSwift
 
-@objc protocol SongEditChildVCDelegate {
-    @objc optional func enableButtonCloseKeyboard()
-}
-
 /// セクションごとの歌詞を書くVC
 class SongEditChildViewController: BaseViewController {
-    
-    var delegate: SongEditChildVCDelegate?
     
     @IBOutlet weak var textView: UITextView!
     
@@ -33,13 +27,14 @@ class SongEditChildViewController: BaseViewController {
         // realmの値を反映
         textView.text = lyric.text
         
-        let keyboardToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 40))
-        keyboardToolBar.barStyle = UIBarStyle.default
+        let keyboardToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
         keyboardToolBar.sizeToFit()
+        keyboardToolBar.isTranslucent = true
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        
-        let closeKeyboardButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: "closeKeyboard")
+
+        let closeKeyboardButton = UIBarButtonItem(image: UIImage(named: "DismissKeyboardButton"), style: .plain, target: self, action: #selector(closeKeyboard))
+        closeKeyboardButton.tintColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
         
         keyboardToolBar.items = [spacer, closeKeyboardButton]
         
@@ -59,29 +54,5 @@ class SongEditChildViewController: BaseViewController {
     
     func closeKeyboard() {
         self.view.endEditing(true)
-    }
-}
-
-// MARK: - UITextViewDelegate
-extension SongEditChildViewController: UITextViewDelegate {
-    
-    /// テキストビューの編集が開始された時のメソッド
-    ///
-    /// - Parameter textView: textView
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        print("textViewDidBeginEditingが呼ばれました")
-        if let delegate = self.delegate {
-            delegate.enableButtonCloseKeyboard!()
-            print("enableButtonCloseKeyboardが呼ばれました")
-        }
-}
-    
-    /// TextViewの編集が終了したときの処理
-    ///
-    /// - Parameter textView: textView
-    func textViewDidEndEditing(_ textView: UITextView) {
-//        if let delegate = self.delegate {
-//            delegate.writeLyricToDB()
-//        }
     }
 }

@@ -8,7 +8,9 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+class SettingViewController: BaseViewController {
+    
+    @IBOutlet weak var navigationBar: UINavigationBar!
     
     @IBAction func returnButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -17,6 +19,9 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // navigationBarの背景を透過
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.shadowImage = UIImage()
     }
     
 }

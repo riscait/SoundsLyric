@@ -11,6 +11,9 @@ import RealmSwift
 
 class PageMenuEditViewController: BaseViewController {
 
+    var song: Song!
+    var lyrics: List<Lyric>!
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -37,8 +40,8 @@ extension PageMenuEditViewController: UITableViewDataSource {
     
     // データの数（＝セルの数）を返す（必須）
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("現在、\(Const.sectionPages.count)個の歌詞展開があります")
-        return Const.sectionPages.count
+        print("現在、\(lyrics.count)個の歌詞展開があります")
+        return lyrics.count
     }
     
     // 各セルの内容を返すメソッド（必須）
@@ -47,8 +50,8 @@ extension PageMenuEditViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PageMenuCell", for: indexPath)
         
         // CellにTitleを表示
-        let page = Const.sectionPages[indexPath.row]
-        cell.textLabel?.text = page.title
+        let page = lyrics[indexPath.row]
+        cell.textLabel?.text = page.name
         
         return cell
     }
@@ -58,7 +61,7 @@ extension PageMenuEditViewController: UITableViewDataSource {
         if editingStyle == UITableViewCellEditingStyle.delete {
             // データベースから削除する
             try! realm.write {
-//                self.realm.delete(self.lyricArray[indexPath.row])
+                self.realm.delete(self.lyrics[indexPath.row])
                 tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.fade)
             }
         }

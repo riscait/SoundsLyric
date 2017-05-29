@@ -53,28 +53,15 @@ class SongEditViewController: BaseViewController {
 //        
 //    }
     
-    // MARK: - キーボードを閉じる
-    @IBOutlet weak var closeKeyboard: UIBarButtonItem!
-    @IBAction func closeKeyboard(_ sender: UIBarButtonItem) {
-        view.endEditing(true)
-        // TODO: TextView編集中のみボタンが現れるメソッドが必要。押したらまた非表示にする。
-    }
-    
     //MARK: - ViewController ライフサイクル
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // NavigationBarの枠線を消す
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
         
         setDefaultPageMenu()
         
         // 曲名をTextFieldに反映
         titleTextField.text = song.title
-        
-        closeKeyboard.isEnabled = false
-        
+                
         // タイトルが空欄ならタイトル欄にキーボードフォーカス
         if titleTextField.text == "" {
             titleTextField.becomeFirstResponder()
@@ -219,9 +206,13 @@ class SongEditViewController: BaseViewController {
     var pagemenu: CAPSPageMenu?
     
     /// デフォルトで表示するPageMenu項目を設定
-    fileprivate func setDefaultPageMenu() {
+     func setDefaultPageMenu() {
         /// Storyboardをインスタンス化
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        // 画面配列の初期化
+        var viewControllers: [UIViewController] = []
+        
         
         // 存在する歌詞の数だけPageMenu用のコントローラーに画面を追加
         for lyric in song.lyrics {
@@ -229,23 +220,24 @@ class SongEditViewController: BaseViewController {
             songEditChildVC.lyric = lyric
             // 歌詞セクションの名前を設定
             songEditChildVC.title = lyric.name
-            print("Const.sectionPagesは\(Const.sectionPages)")
-            Const.sectionPages.append(songEditChildVC)
+            
+            viewControllers.append(songEditChildVC)
         }
         
         let pageMenuEditVC = storyboard.instantiateViewController(withIdentifier: "PageMenuEditVC") as! PageMenuEditViewController
         pageMenuEditVC.title = "編集"
-        var fullSectionPages: [UIViewController] = Const.sectionPages
-        fullSectionPages.append(pageMenuEditVC)
+        pageMenuEditVC.lyrics = song.lyrics
+        
+        // viewControllersに追加
+        viewControllers.append(pageMenuEditVC)
         
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
-            .scrollMenuBackgroundColor(UIColor.white),
-            .selectedMenuItemLabelColor(UIColor.black),
-            .unselectedMenuItemLabelColor(UIColor.lightGray),
-            .selectionIndicatorColor(UIColor.orange),
-            .menuItemSeparatorColor (UIColor.cyan),
-            .menuHeight(25),
+            .scrollMenuBackgroundColor(#colorLiteral(red: 0.9764705896, green: 0.9236108219, blue: 0.7253268245, alpha: 1)),         // Menuの背景色
+            .selectedMenuItemLabelColor(#colorLiteral(red: 0.3098039329, green: 0.2039215714, blue: 0.03921568766, alpha: 1)),        // 選択中Menuの文字色
+            .unselectedMenuItemLabelColor(#colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)),      // 未選択Menuの文字色
+            .selectionIndicatorColor(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)),           // 選択中Menuのインジケーター色
+            .menuHeight(40),
             .menuItemSeparatorWidth(0),
             .useMenuLikeSegmentedControl(true),
             ]
@@ -259,7 +251,7 @@ class SongEditViewController: BaseViewController {
         
         
         // 初期化（表示するVC / 位置・大きさ / カスタマイズ内容）
-        pagemenu = CAPSPageMenu(viewControllers: fullSectionPages, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
+        pagemenu = CAPSPageMenu(viewControllers: viewControllers, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
         
         // PageMenuを表示する
         self.view.addSubview(pagemenu!.view)
@@ -268,12 +260,4 @@ class SongEditViewController: BaseViewController {
         self.view.sendSubview(toBack: pagemenu!.view)
         
     }
-}
-
-extension SongEditViewController: SongEditChildVCDelegate {
-
-    func enableButtonCloseKeyboard() {
-        closeKeyboard.isEnabled = true
-    }
-
 }

@@ -36,6 +36,15 @@ class SongListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+
+    /// 画面が表示される直前に呼び出されるメソッド
+    ///
+    /// - Parameter animated: animated
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // TableViewを更新する
+        tableView.reloadData()
+    }
     
     /// セグエで画面遷移するときのメソッド
     ///
@@ -70,20 +79,20 @@ class SongListViewController: BaseViewController {
                 
                 lyricA.owner = song
                 lyricA.id = lastId
-                lyricA.name = "Aパート"
-                lyricA.text = "これは曲追加時にデフォルトで設定するAパートのテキストです"
+                lyricA.name = "sectionA"
+                lyricA.text = "これは曲追加時にデフォルトで設定するAテキストです"
                 
                 let lyricB = Lyric()
                 lyricB.owner = song
                 lyricB.id = lastId + 1
-                lyricB.name = "Bパート"
-                lyricB.text = "これは曲追加時にデフォルトで設定するBパートのテキストです"
+                lyricB.name = "sectionB"
+                lyricB.text = "これは曲追加時にデフォルトで設定するBテキストです"
                 
                 let lyricC = Lyric()
                 lyricC.owner = song
                 lyricC.id = lastId + 2
-                lyricC.name = "Cパート"
-                lyricC.text = "これは曲追加時にデフォルトで設定するCパートのテキストです"
+                lyricC.name = "sectionC"
+                lyricC.text = "これは曲追加時にデフォルトで設定するCテキストです"
                 
                 // リレーション挿入
                 song.lyrics.append(lyricA)
@@ -111,26 +120,6 @@ class SongListViewController: BaseViewController {
                 songEditVC.song = songArray[indexpath!.row]
             }
         }
-    }
-
-
-    /// 画面が表示される直前に呼び出されるメソッド
-    ///
-    /// - Parameter animated: animated
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // TableViewを更新する
-        tableView.reloadData()
-        print("labelを更新")
-        updateLabel()
-    }
-    
-    func updateLabel() {
-        songCountLabel.text = "\(songArray.count)曲"
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 }
 
@@ -168,8 +157,6 @@ extension SongListViewController: UITableViewDataSource {
                 self.realm.delete(self.songArray[indexPath.row])
                 tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.fade)
             }
-            print("labelを更新")
-            updateLabel()
         }
     }
 }

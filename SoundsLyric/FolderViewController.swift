@@ -86,9 +86,6 @@ class FolderViewController: BaseViewController {
             sender.title = "完了"
         }
     }
-
-    func backToFolder(segue: UIStoryboardSegue) {
-    }
 }
 // MARK: - UITableViewDataSource
 extension FolderViewController: UITableViewDataSource {
@@ -106,6 +103,9 @@ extension FolderViewController: UITableViewDataSource {
         // CellにTitleを表示
         let folder = folderArray[indexPath.row]
         cell.textLabel?.text = folder.title
+        
+        cell.backgroundColor = UIColor.clear
+        cell.contentView.backgroundColor = UIColor.clear
         
         return cell
     }

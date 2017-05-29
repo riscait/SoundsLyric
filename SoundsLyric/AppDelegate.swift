@@ -1,3 +1,4 @@
+
 //
 //  AppDelegate.swift
 //  SoundsLyric
@@ -33,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("アプリ初回起動です")
             self.initialSetup()
         }
-        
         return true
     }
     

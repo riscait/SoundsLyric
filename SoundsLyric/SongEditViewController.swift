@@ -223,20 +223,35 @@ class SongEditViewController: BaseViewController {
         /// Storyboardをインスタンス化
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        // ここで画面配列の初期化
+        var vcs: [UIViewController] = []
+        
         // 存在する歌詞の数だけPageMenu用のコントローラーに画面を追加
         for lyric in song.lyrics {
             let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
             songEditChildVC.lyric = lyric
             // 歌詞セクションの名前を設定
             songEditChildVC.title = lyric.name
-            print("Const.sectionPagesは\(Const.sectionPages)")
-            Const.sectionPages.append(songEditChildVC)
+            
+            /*
+             ここで外部ソースに静的に保持させるではなく、
+             このメソッド内でのローカル変数の持ち方でよろしいかと思います。
+             ここで歌詞数分生成したSongEditVCを配列に追加
+            */
+//            print("Const.sectionPagesは\(Const.sectionPages)")
+//            Const.sectionPages.append(songEditChildVC)
+            vcs.append(songEditChildVC)
         }
         
         let pageMenuEditVC = storyboard.instantiateViewController(withIdentifier: "PageMenuEditVC") as! PageMenuEditViewController
         pageMenuEditVC.title = "編集"
-        var fullSectionPages: [UIViewController] = Const.sectionPages
-        fullSectionPages.append(pageMenuEditVC)
+        
+        // これでPageMenu編集、追加のVCを宣言してますね。グッドです。
+        // vcsに追加
+//        var fullSectionPages: [UIViewController] = Const.sectionPages
+//        fullSectionPages.append(pageMenuEditVC)
+        vcs.append(pageMenuEditVC)
+        
         
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
@@ -259,7 +274,8 @@ class SongEditViewController: BaseViewController {
         
         
         // 初期化（表示するVC / 位置・大きさ / カスタマイズ内容）
-        pagemenu = CAPSPageMenu(viewControllers: fullSectionPages, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
+        // viewControllers=vcsにする
+        pagemenu = CAPSPageMenu(viewControllers: vcs, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
         
         // PageMenuを表示する
         self.view.addSubview(pagemenu!.view)

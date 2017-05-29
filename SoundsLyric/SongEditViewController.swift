@@ -225,7 +225,7 @@ class SongEditViewController: BaseViewController {
         }
         
         let pageMenuEditVC = storyboard.instantiateViewController(withIdentifier: "PageMenuEditVC") as! PageMenuEditViewController
-        pageMenuEditVC.title = "編集"
+        pageMenuEditVC.title = "Edit"
         pageMenuEditVC.lyrics = song.lyrics
         
         // viewControllersに追加

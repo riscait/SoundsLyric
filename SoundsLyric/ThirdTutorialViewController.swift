@@ -10,6 +10,11 @@ import UIKit
 
 class ThirdTutorialViewController: UIViewController {
 
+    @IBAction func endTutorial(_ sender: Any) {
+        // チュートリアル画面を閉じる
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

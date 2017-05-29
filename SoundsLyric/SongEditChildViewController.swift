@@ -27,18 +27,18 @@ class SongEditChildViewController: BaseViewController {
         // realmの値を反映
         textView.text = lyric.text
         
-        let keyboardToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
-        keyboardToolBar.sizeToFit()
-        keyboardToolBar.isTranslucent = true
-        
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-
-        let closeKeyboardButton = UIBarButtonItem(image: UIImage(named: "DismissKeyboardButton"), style: .plain, target: self, action: #selector(closeKeyboard))
-        closeKeyboardButton.tintColor = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
-        
-        keyboardToolBar.items = [spacer, closeKeyboardButton]
-        
-        textView.inputAccessoryView = keyboardToolBar
+        // ボタンを表示するためのViewを作成する
+        let keyboardToolView = UIView()
+        keyboardToolView.frame.size.height = 44
+        keyboardToolView.backgroundColor = UIColor.clear
+        // キーボードを閉じるボタンを作成する（画像は任意のものを）
+        let closeKeyboardButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.size.width - 70, y: 0, width: 70, height: 44))
+        closeKeyboardButton.setImage(UIImage(named: "DismissKeyboardButton"), for: .normal) // 通常時のボタン設定
+        closeKeyboardButton.addTarget(self, action: #selector(closeKeyboard), for: .touchUpInside) // タッチしてそのまま離したら
+        // Viewに閉じるButtonを追加する
+        keyboardToolView.addSubview(closeKeyboardButton)
+        // システムキーボードの上にViewを追加する
+        textView.inputAccessoryView = keyboardToolView
     }
 
     override func viewWillDisappear(_ animated: Bool) {

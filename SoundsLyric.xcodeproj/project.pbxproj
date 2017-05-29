@@ -16,6 +16,7 @@
 		8D293C191EBF3435000BBB3C /* SecondTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D293C181EBF3435000BBB3C /* SecondTutorialViewController.swift */; };
 		8D293C1B1EBF3459000BBB3C /* ThirdTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D293C1A1EBF3459000BBB3C /* ThirdTutorialViewController.swift */; };
 		8D3861CD1EDB371E0069D836 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3861CC1EDB371E0069D836 /* Background.png */; };
+		8D3861CF1EDC38170069D836 /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3861CE1EDC38170069D836 /* SettingTableViewController.swift */; };
 		8D3E34DE1EB38258001AED5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3E34DD1EB38258001AED5B /* AppDelegate.swift */; };
 		8D3E34E31EB38258001AED5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D3E34E11EB38258001AED5B /* Main.storyboard */; };
 		8D3E34E51EB38258001AED5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D3E34E41EB38258001AED5B /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 		8D293C181EBF3435000BBB3C /* SecondTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondTutorialViewController.swift; sourceTree = "<group>"; };
 		8D293C1A1EBF3459000BBB3C /* ThirdTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdTutorialViewController.swift; sourceTree = "<group>"; };
 		8D3861CC1EDB371E0069D836 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background.png; sourceTree = "<group>"; };
+		8D3861CE1EDC38170069D836 /* SettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
 		8D3E34DA1EB38258001AED5B /* SoundsLyric.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundsLyric.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D3E34DD1EB38258001AED5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D3E34E21EB38258001AED5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				8D293C181EBF3435000BBB3C /* SecondTutorialViewController.swift */,
 				8D293C1A1EBF3459000BBB3C /* ThirdTutorialViewController.swift */,
 				8D3E77DD1EDAEBE1004A0C2D /* SettingViewController.swift */,
+				8D3861CE1EDC38170069D836 /* SettingTableViewController.swift */,
 				8D3E34E11EB38258001AED5B /* Main.storyboard */,
 				8D3E34E61EB38258001AED5B /* LaunchScreen.storyboard */,
 				8D3E34E41EB38258001AED5B /* Assets.xcassets */,
@@ -267,6 +270,7 @@
 				8D009D8E1EC99028004A2B8A /* BaseViewController.swift in Sources */,
 				8D009D8C1EC6FEA7004A2B8A /* Song.swift in Sources */,
 				8D293C171EBF3420000BBB3C /* FirstTutorialViewController.swift in Sources */,
+				8D3861CF1EDC38170069D836 /* SettingTableViewController.swift in Sources */,
 				8D3E34F01EB395A4001AED5B /* FolderViewController.swift in Sources */,
 				8D6E01FE1EB409F9008EA9E7 /* SongEditViewController.swift in Sources */,
 				8D3E77DC1ED9EABE004A0C2D /* PageMenuEditViewController.swift in Sources */,

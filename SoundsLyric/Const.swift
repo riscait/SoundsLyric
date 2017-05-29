@@ -20,5 +20,9 @@ class AlertUtil {
 }
 
 struct Const {
+    /*
+     VC=pageの重複バグは
+     ここが静的に前の画面のVCも配列で保持しているため、発生していますね
+     */
     static var sectionPages: [UIViewController] = []
 }

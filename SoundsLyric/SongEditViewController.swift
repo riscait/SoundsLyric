@@ -1,4 +1,4 @@
-//
+
 //  SongEditViewController.swift
 //  SoundsLyric
 //
@@ -70,6 +70,9 @@ class SongEditViewController: BaseViewController {
         
         setDefaultPageMenu()
         
+        // マイク使用チェック
+        checkUseMicrophone()
+        
         // 曲名をTextFieldに反映
         titleTextField.text = song.title
         
@@ -80,9 +83,8 @@ class SongEditViewController: BaseViewController {
             titleTextField.becomeFirstResponder()
         }
         
-        /// AVAudioEngineをインスタンス化
-        audioEngine = AVAudioEngine()
-        
+        // AV群の初期化
+        initAVAudio()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -105,6 +107,15 @@ class SongEditViewController: BaseViewController {
     var filePath: URL!
     var isPlaying = false
     var isRecording = false
+    
+    /// AV群の初期化
+    fileprivate func initAVAudio() {
+        // 初期化
+        audioEngine = AVAudioEngine()
+        
+        // アウトプット音声
+        audioEngine.mainMixerNode.outputVolume = 1.0
+    }
     
     @IBOutlet weak var playSound: UIBarButtonItem!
     @IBAction func playSound(_ sender: Any) {
@@ -143,44 +154,54 @@ class SongEditViewController: BaseViewController {
         try! AVAudioSession.sharedInstance().setActive(true)
         
         // Mic(AVAudioInputNode)からBusミキサーへ接続する
-        let mixer = self.audioEngine.mainMixerNode
-        let input = self.audioEngine.inputNode
-        self.audioEngine.connect(input!, to: mixer, format: input?.inputFormat(forBus: 0))
+//        let mixer = self.audioEngine.mainMixerNode
+//        let input = self.audioEngine.inputNode
+//        self.audioEngine.connect(input!, to: mixer, format: input?.inputFormat(forBus: 0))
         
         
         do {
+            
             // 録音ファイルを保存する場所
             let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
-            self.filePath = URL(fileURLWithPath: documentDir + "/sound.caf") // TODO: lyric.idを使ったユニークなURLにする
+            self.filePath = URL(fileURLWithPath: documentDir + "/sound.wav") // TODO: lyric.idを使ったユニークなURLにする
             print("録音ファイルの場所は: \(self.filePath)")
             
             // オーディオフォーマット
             let format = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 44100.0, channels: 1, interleaved: true)
             
             // オーディオファイル
-            let outputFile = try AVAudioFile(forWriting: self.filePath, settings: format.settings)
+            self.audioFile = try AVAudioFile(forWriting: self.filePath, settings: format.settings)
+            
+            // コネクト
+//            self.audioEngine.connect(self.audioEngine.inputNode!,
+//                                     to: self.audioEngine.mainMixerNode,
+//                                     format: self.audioEngine.mainMixerNode.outputFormat(forBus: 0))
             
             // inputNodeの出力バス(インデックス0)にタップをインストール
             // installTapOnBusの引数formatにnilを指定するとタップをインストールしたノードの出力バスのフォーマットを使用する
             // (この例だとフォーマットに inputNode.outputFormatForBus(0) を指定するのと同じ)
             // tapBlockはメインスレッドで実行されるとは限らないので注意
             let inputNode = audioEngine.inputNode! // 端末にマイクがあると仮定する
-            inputNode.installTap(onBus: 0, bufferSize: AVAudioFrameCount(format.sampleRate * 0.4), format: format, block: {(buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
+            inputNode.installTap(onBus: 0, bufferSize: 4096, format: nil, block: {(buffer, time) in
                 do {
                     // ファイルにバッファを書き込む
-                    try outputFile.write(from: buffer)
+                    try self.audioFile.write(from: buffer)
                 } catch let error {
-                    print("バッファの書き込み失敗：audioFile.writeFromBuffer error:", error)
+                    print("バッファの書き込み失敗：audioFile.writeFromBuffer error: \(error)")
                 }
             })
             
+            
             do {
                 // オーディオエンジンを開始
+                self.audioEngine.prepare()
                 try audioEngine.start()
                 print("オーディオエンジンを開始しました")
             } catch let error {
                 print("オーディオエンジン起動失敗：audioEngine.start() error:", error)
             }
+            
+            
         } catch let error {
             print("ファイル書き込み失敗：AVAudioFile error:", error)
         }
@@ -196,21 +217,62 @@ class SongEditViewController: BaseViewController {
     }
     
     private func startPlay() {
+        
+        // 録音中なら処理しない
+        guard !self.isRecording else { return }
+        
+        // 再生処理
         self.isPlaying = true
         
         try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
         try! AVAudioSession.sharedInstance().setActive(true)
         
-        self.audioFile = try! AVAudioFile(forReading: filePath)
+        audioPlayer = AVAudioPlayerNode()
         
+        // ファイルがない場合、読み込み
+        if self.audioFile == nil {
+            // 録音ファイルを保存する場所
+            let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
+            self.filePath = URL(fileURLWithPath: documentDir + "/sound.wav") // TODO: lyric.idを使ったユニークなURLにする
+            print("録音ファイルの場所は: \(self.filePath)")
+            
+            // オーディオフォーマット
+            let format = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 44100.0, channels: 1, interleaved: true)
+            
+            // オーディオファイル
+            self.audioFile = try! AVAudioFile(forWriting: self.filePath, settings: format.settings)
+        }
+        
+        // アタッチ
+        audioEngine.attach(audioPlayer)
+        
+        // ファイル読み込み、エンジンつなぎこみ
+        self.audioEngine.connect(self.audioPlayer,
+                                 to: self.audioEngine.mainMixerNode,
+                                 format: audioFile.processingFormat)
+        
+        
+        // プレイヤーにスケジュール
+        // TODO: completionHandlerに「再生終えた後の処理」が必要
+        self.audioPlayer.scheduleFile(self.audioFile, at: nil, completionHandler: stopPlay)
+        
+        // 再生
         try! self.audioEngine.start()
-        
+//        self.audioPlayer.play()
     }
     
     private func stopPlay() {
+        
+        // 停止処理
         self.isPlaying = false
         
+//        self.audioPlayer.stop()
         self.audioEngine.stop()
+        
+        // デタッチ
+//        audioEngine.detach(audioPlayer)
+//        audioPlayer = nil
+        
         try! AVAudioSession.sharedInstance().setActive(false)
     }
     
@@ -223,20 +285,35 @@ class SongEditViewController: BaseViewController {
         /// Storyboardをインスタンス化
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        // ここで画面配列の初期化
+        var vcs: [UIViewController] = []
+        
         // 存在する歌詞の数だけPageMenu用のコントローラーに画面を追加
         for lyric in song.lyrics {
             let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
             songEditChildVC.lyric = lyric
             // 歌詞セクションの名前を設定
             songEditChildVC.title = lyric.name
-            print("Const.sectionPagesは\(Const.sectionPages)")
-            Const.sectionPages.append(songEditChildVC)
+            
+            /*
+             ここで外部ソースに静的に保持させるではなく、
+             このメソッド内でのローカル変数の持ち方でよろしいかと思います。
+             ここで歌詞数分生成したSongEditVCを配列に追加
+            */
+//            print("Const.sectionPagesは\(Const.sectionPages)")
+//            Const.sectionPages.append(songEditChildVC)
+            vcs.append(songEditChildVC)
         }
         
         let pageMenuEditVC = storyboard.instantiateViewController(withIdentifier: "PageMenuEditVC") as! PageMenuEditViewController
         pageMenuEditVC.title = "編集"
-        var fullSectionPages: [UIViewController] = Const.sectionPages
-        fullSectionPages.append(pageMenuEditVC)
+        
+        // これでPageMenu編集、追加のVCを宣言してますね。グッドです。
+        // vcsに追加
+//        var fullSectionPages: [UIViewController] = Const.sectionPages
+//        fullSectionPages.append(pageMenuEditVC)
+        vcs.append(pageMenuEditVC)
+        
         
         /// PageMenuのカスタマイズ
         let parameters: [CAPSPageMenuOption] = [
@@ -259,7 +336,8 @@ class SongEditViewController: BaseViewController {
         
         
         // 初期化（表示するVC / 位置・大きさ / カスタマイズ内容）
-        pagemenu = CAPSPageMenu(viewControllers: fullSectionPages, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
+        // viewControllers=vcsにする
+        pagemenu = CAPSPageMenu(viewControllers: vcs, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
         
         // PageMenuを表示する
         self.view.addSubview(pagemenu!.view)
@@ -267,6 +345,22 @@ class SongEditViewController: BaseViewController {
         // PageMenuのViewを背面に移動
         self.view.sendSubview(toBack: pagemenu!.view)
         
+    }
+    
+    /// マイク使用チェック
+    fileprivate func checkUseMicrophone() {
+        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeAudio, completionHandler: { granted in
+            // ここでレコードボタン、プレイボタン制御
+            if granted {
+                // OKであれば、ボタン有効
+                print("\(#function) >>> 使用OK!!")
+                /// AVAudioEngineをインスタンス化
+                self.audioEngine = AVAudioEngine()
+            } else {
+                // ダメなら、ボタンは無効にすべき
+                print("\(#function) >>> 使用ダメでした...")
+            }
+        })
     }
 }
 

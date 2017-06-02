@@ -8,11 +8,20 @@
 
 import UIKit
 import RealmSwift
+import PageMenu
+
+/// PageMenuEditViewControllerDelegate
+@objc protocol PageMenuEditViewControllerDelegate {
+    @objc optional func addPage(at index: Int)
+    @objc optional func removePage(at index: Int)
+}
 
 class PageMenuEditViewController: BaseViewController {
 
     var song: Song!
     var lyrics: List<Lyric>!
+    
+    var delegate: PageMenuEditViewControllerDelegate?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -63,6 +72,9 @@ extension PageMenuEditViewController: UITableViewDataSource {
             try! realm.write {
                 self.realm.delete(self.lyrics[indexPath.row])
                 tableView.deleteRows(at: [indexPath as IndexPath], with: UITableViewRowAnimation.fade)
+                
+                // デリゲート
+                delegate?.removePage?(at: indexPath.row)
             }
         }
     }

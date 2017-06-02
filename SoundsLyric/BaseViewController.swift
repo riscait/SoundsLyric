@@ -13,9 +13,6 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         
-        // NavigationBarの枠線を消す
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
         // 背景画像を設定
         view.backgroundColor = UIColor(patternImage: UIImage(named: "Background.png")!)
     }

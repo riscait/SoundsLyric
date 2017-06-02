@@ -12,9 +12,10 @@ import RealmSwift
 /// セクションごとの歌詞を書くVC
 class SongEditChildViewController: BaseViewController {
     
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var bodyTextView: UITextView!
     
     var lyric: Lyric!
+    
     
     /// 歌詞のタイプ
     var lyricSectionID = 0
@@ -25,7 +26,7 @@ class SongEditChildViewController: BaseViewController {
         print("lyricの内容：\(lyric)")
         
         // realmの値を反映
-        textView.text = lyric.text
+        bodyTextView.text = lyric.text
         
         // ボタンを表示するためのViewを作成する
         let keyboardToolView = UIView()
@@ -38,21 +39,64 @@ class SongEditChildViewController: BaseViewController {
         // Viewに閉じるButtonを追加する
         keyboardToolView.addSubview(closeKeyboardButton)
         // システムキーボードの上にViewを追加する
-        textView.inputAccessoryView = keyboardToolView
+        bodyTextView.inputAccessoryView = keyboardToolView
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.configureObserver()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        self.removeObserver() // Notificationを画面が消えるときに削除
+
         // 画面が消える直前にrealmに保存
         try! realm.write {
             lyric.name = self.title!
-            lyric.text = textView.text
+            lyric.text = bodyTextView.text
             self.realm.add(self.lyric, update: true)
         }
     }
     
+    // MARK: - Keyboard監視＆位置調整メソッド
+    /// キーボードを下げる
     func closeKeyboard() {
         self.view.endEditing(true)
+    }
+
+    /// Notificationを設定
+    func configureObserver() {
+        let notification = NotificationCenter.default
+        notification.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        notification.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    /// Notificationを削除
+    func removeObserver() {
+        
+        let notification = NotificationCenter.default
+        notification.removeObserver(self)
+    }
+    
+    /// キーボードが現れた時に、画面全体をずらす。
+    func keyboardWillShow(notification: Notification?) {
+        
+        let rect = (notification?.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
+        let duration: TimeInterval? = notification?.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double
+        UIView.animate(withDuration: duration!, animations: { () in
+            let transform = CGAffineTransform(translationX: 0, y: -((rect?.size.height)! / 2))
+            self.view.transform = transform
+        })
+    }
+    
+    /// キーボードが消えたときに、画面を戻す
+    func keyboardWillHide(notification: Notification?) {
+        
+        let duration: TimeInterval? = notification?.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Double
+        UIView.animate(withDuration: duration!, animations: { () in
+            
+            self.view.transform = CGAffineTransform.identity
+        })
     }
 }

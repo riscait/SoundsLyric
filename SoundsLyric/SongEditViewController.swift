@@ -21,8 +21,6 @@ class SongEditViewController: BaseViewController {
     // 曲の情報を受け取る変数
     var song: Song!
     
-//    var lyricArray: List<Lyric>
-    
     
     // MARK: - 歌詞を追加する
 //    @IBAction func addLyric(_ sender: Any) {
@@ -59,6 +57,8 @@ class SongEditViewController: BaseViewController {
         
         setDefaultPageMenu()
         
+        setAudioRecorder()
+        
         // 曲名をTextFieldに反映
         titleTextField.text = song.title
                 
@@ -66,11 +66,7 @@ class SongEditViewController: BaseViewController {
         if titleTextField.text == "" {
             titleTextField.becomeFirstResponder()
         }
-        
-        /// AVAudioEngineをインスタンス化
-        audioEngine = AVAudioEngine()
-        
-    }
+}
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -84,121 +80,152 @@ class SongEditViewController: BaseViewController {
         }
     }
     
-    // MARK: - AVAudioEngineで音声を録音する
-    // AVAudioEngine
-    var audioEngine: AVAudioEngine!
-    var audioFile: AVAudioFile!
-    var audioPlayer: AVAudioPlayerNode!
-    var filePath: URL!
-    var isPlaying = false
-    var isRecording = false
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // ここで音許可を聞いた方が良いと思う(許可されていない時にAV系扱うと落ちることが多いため)
+        DispatchQueue.main.async {
+            // 音声許可の確認
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeAudio, completionHandler: { granted in
+                // TODO: もし許可が得られなかった場合、録音ボタン再生ボタンを消した方が良い
+                if granted {
+                    print("\(#function) >>> マイク許可されましたよー")
+                } else {
+                    print("\(#function) >>> マイク許可できなかったでやんすー")
+                }
+            })
+        }
+    }
+
     
-    @IBOutlet weak var playSound: UIBarButtonItem!
-    @IBAction func playSound(_ sender: Any) {
-        if self.isPlaying {
-            // 再生中の場合
-            self.playSound.image = UIImage(named: "StopPlayButton")
-            self.stopPlay()
-        } else {
-            // 再生中ではない場合
-            self.playSound.image = UIImage(named: "StartPlayButton")
-            self.startPlay()
+    // MARK: - AVAudioRecorderとPlayerで音声を録音再生する
+    
+    /// AVAudioRecorderをインスタンス化
+    var audioRecorder: AVAudioRecorder?
+    
+    /// AudioRecorderを設定
+    private func setAudioRecorder() {
+        
+        /// 録音の設定
+        let recorderSettings: [String: Any] = [
+            AVEncoderAudioQualityKey: AVAudioQuality.min.rawValue,
+            AVEncoderBitRateKey: 16,
+            AVNumberOfChannelsKey: 1,
+            AVSampleRateKey: 44100.0
+        ]
+        
+        do {
+            /// 録音可能カテゴリに設定する
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+            
+            // レコーダー設定
+            try audioRecorder = AVAudioRecorder(url: self.documentFilePath(), settings: recorderSettings)
+            
+            // デリゲートは生成後設定
+            audioRecorder?.delegate = self
+            // 録音中に音量を取るか否か
+            audioRecorder?.isMeteringEnabled = true
+            
+            // 録音ファイルの準備（すでにファイルがあれば上書き）
+            // prepareは準備なので初期設定のが良い->ファイル名変更なので新規で必要な場合は生成し直した方が良いかも
+            audioRecorder?.prepareToRecord()
+            
+            print("録音ファイルの保存場所: \(self.documentFilePath())")
+        } catch {
+            print("初期設定でエラー")
         }
     }
     
+    /// URLを取得？
+    ///
+    /// - Returns: URL
+    func documentFilePath() -> URL {
+        let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask) as [URL]
+        let dirURL = urls[0]
+        
+        return dirURL.appendingPathComponent(fileName)
+    }
+    
+    /// AVAudioPlayerをインスタンス化
+    var audioPlayer: AVAudioPlayer?
+    
+    // ファイル保存名
+    let fileName = "sectionA.caf" // TODO: String(format: "section%d.m4a", lyric.id)
+    
+    /// FileManagerをインスタンス化
+    let fileManager = FileManager()
+    
+    /// 録音開始・停止するボタン
     @IBOutlet weak var recordingButton: UIBarButtonItem!
-    @IBAction func startAndStopRecording(_ sender: Any) {
-        if isRecording {
-            // 録音中の場合
-            self.recordingButton.image = UIImage(named: "StartRecordingButton")
-            stopRecord()
-        } else {
-            // 録音中ではない場合
-            self.recordingButton.image = UIImage(named: "StopRecordingButton")
-            startRecord()
+    @IBAction func recordingButton(_ sender: Any) {
+        print("録音ボタンが押された")
+        
+        /// 録音中か否か
+        if let isAudioRecorder = audioRecorder?.isRecording {
+            if isAudioRecorder {
+                print("\(isAudioRecorder): 録音中だったので録音停止する")
+                audioRecorder?.stop()
+                recordingButton.image = UIImage(named: "StartRecordingButton")
+            } else {
+                print("\(isAudioRecorder): 録音停止中だったので録音開始する")
+                do {
+                    // アクティブ
+                    try AVAudioSession.sharedInstance().setActive(true)
+                    // 録音開始
+                    audioRecorder?.record()
+                    print("RECORDING")
+                } catch {
+                    print("レコード失敗")
+                }
+                
+                print("\(#function) >>> audioRecorder?.isRecording >>> \(String(describing: audioRecorder?.isRecording))")
+                print("\(#function) >>> audioRecorder?.url >>> \(String(describing: audioRecorder?.url.absoluteString))")
+                
+                // 録音ボタンの画像をストップ画像にする
+                recordingButton.image = UIImage(named: "StopRecordingButton")
+            }
         }
+    }
+    
+    @IBOutlet weak var playSound: UIBarButtonItem!
+    @IBAction func playSound(_ sender: Any) {
+        // 一旦再生確認
+        do {
+            // 録音ストップ
+            audioRecorder?.stop()
+            recordingButton.image = UIImage(named: "StartRecordingButton")
+            
+            print("\(#function) >>> audioRecorder?.isRecording >>> \(String(describing: audioRecorder?.isRecording))")
+            
+            if let url = audioRecorder?.url {
+                print("\(#function) >>> \(url.absoluteString)から再生")
+                // 再生インスタンス生成
+                try audioPlayer = AVAudioPlayer(contentsOf: url)
+            }
+        } catch {
+            print("再生時にerror出たよ(´・ω・｀)")
+        }
+        audioPlayer?.play()
     }
     
     /// 録音を開始するメソッド
     private func startRecord() {
         
-        // 録音中: true
-        self.isRecording = true
-        
-        // AudioSession
-        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryRecord)
-        try! AVAudioSession.sharedInstance().setActive(true)
-        
-        // Mic(AVAudioInputNode)からBusミキサーへ接続する
-        let mixer = self.audioEngine.mainMixerNode
-        let input = self.audioEngine.inputNode
-        self.audioEngine.connect(input!, to: mixer, format: input?.inputFormat(forBus: 0))
-        
-        
-        do {
-            // 録音ファイルを保存する場所
-            let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
-            self.filePath = URL(fileURLWithPath: documentDir + "/sound.caf") // TODO: lyric.idを使ったユニークなURLにする
-            print("録音ファイルの場所は: \(self.filePath)")
-            
-            // オーディオフォーマット
-            let format = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 44100.0, channels: 1, interleaved: true)
-            
-            // オーディオファイル
-            let outputFile = try AVAudioFile(forWriting: self.filePath, settings: format.settings)
-            
-            // inputNodeの出力バス(インデックス0)にタップをインストール
-            // installTapOnBusの引数formatにnilを指定するとタップをインストールしたノードの出力バスのフォーマットを使用する
-            // (この例だとフォーマットに inputNode.outputFormatForBus(0) を指定するのと同じ)
-            // tapBlockはメインスレッドで実行されるとは限らないので注意
-            let inputNode = audioEngine.inputNode! // 端末にマイクがあると仮定する
-            inputNode.installTap(onBus: 0, bufferSize: AVAudioFrameCount(format.sampleRate * 0.4), format: format, block: {(buffer: AVAudioPCMBuffer!, time: AVAudioTime!) -> Void in
-                do {
-                    // ファイルにバッファを書き込む
-                    try outputFile.write(from: buffer)
-                } catch let error {
-                    print("バッファの書き込み失敗：audioFile.writeFromBuffer error:", error)
-                }
-            })
-            
-            do {
-                // オーディオエンジンを開始
-                try audioEngine.start()
-                print("オーディオエンジンを開始しました")
-            } catch let error {
-                print("オーディオエンジン起動失敗：audioEngine.start() error:", error)
-            }
-        } catch let error {
-            print("ファイル書き込み失敗：AVAudioFile error:", error)
-        }
     }
     
     /// 録音を停止するメソッド
     private func stopRecord() {
-        self.isRecording = false
-        self.audioEngine.stop()
-        self.audioEngine.inputNode?.removeTap(onBus: 0)
-        try! AVAudioSession.sharedInstance().setActive(false)
-        print("オーディオエンジンを終了しました")
+
     }
     
+    // 音声を再生するメソッド
     private func startPlay() {
-        self.isPlaying = true
-        
-        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-        try! AVAudioSession.sharedInstance().setActive(true)
-        
-        self.audioFile = try! AVAudioFile(forReading: filePath)
-        
-        try! self.audioEngine.start()
-        
+
     }
     
+    // 音声をストップするメソッド
     private func stopPlay() {
-        self.isPlaying = false
-        
-        self.audioEngine.stop()
-        try! AVAudioSession.sharedInstance().setActive(false)
+
     }
     
     // MARK: - PageMenu（ライブラリ使用）
@@ -259,5 +286,18 @@ class SongEditViewController: BaseViewController {
         // PageMenuのViewを背面に移動
         self.view.sendSubview(toBack: pagemenu!.view)
         
+    }
+}
+
+// MARK: - AVAudioRecorderDelegate
+extension SongEditViewController: AVAudioRecorderDelegate {
+    
+    /// 録音が終了、または時間制限に達した時に呼び出される
+    ///
+    /// - Parameters:
+    ///   - recorder: 記録が終了したAudioRecorder
+    ///   - flag: 記録が正常に終了したかどうか
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        print("録音が終了しました")
     }
 }

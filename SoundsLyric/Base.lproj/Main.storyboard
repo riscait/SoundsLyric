@@ -136,7 +136,7 @@
                                 <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <items>
                                     <navigationItem title="Settings" id="fxb-X4-BKN">
-                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="63N-mI-jiD">
+                                        <barButtonItem key="rightBarButtonItem" image="DoneButton" style="plain" id="63N-mI-jiD">
                                             <color key="tintColor" red="0.96078431610000004" green="0.70588237050000002" blue="0.20000000300000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="returnButton:" destination="JpV-lt-PwS" id="LRr-ZF-nHm"/>
@@ -220,7 +220,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="メールを送る（ご意見・ご要望など）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k3y-C4-8QX">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="メールを送る（ご意見・要望等）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k3y-C4-8QX">
                                                     <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -371,14 +371,14 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vg3-Us-4h4">
-                                <rect key="frame" x="289" y="587" width="60" height="60"/>
+                                <rect key="frame" x="299" y="527" width="60" height="60"/>
                                 <state key="normal" image="AddButton"/>
                                 <connections>
                                     <action selector="addFolder:" destination="Acm-xR-lxY" eventType="touchUpInside" id="w6I-rm-BIY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hHg-gG-f9J">
-                                <rect key="frame" x="26" y="587" width="60" height="60"/>
+                                <rect key="frame" x="299" y="597" width="60" height="60"/>
                                 <state key="normal" image="SettingFButton"/>
                                 <connections>
                                     <segue destination="JpV-lt-PwS" kind="presentation" id="jJP-Zb-R4b">
@@ -390,14 +390,14 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="hHg-gG-f9J" secondAttribute="trailing" id="1MI-Xj-k07"/>
+                            <constraint firstItem="hHg-gG-f9J" firstAttribute="top" secondItem="Vg3-Us-4h4" secondAttribute="bottom" constant="10" id="5WT-Q5-yKS"/>
                             <constraint firstAttribute="trailing" secondItem="V4Q-ls-X68" secondAttribute="trailing" id="5ho-dX-Jy8"/>
                             <constraint firstItem="V4Q-ls-X68" firstAttribute="leading" secondItem="vce-j7-BAN" secondAttribute="leading" id="HWK-zl-KQe"/>
                             <constraint firstItem="V4Q-ls-X68" firstAttribute="top" secondItem="vce-j7-BAN" secondAttribute="top" id="Q3L-iV-Syu"/>
-                            <constraint firstItem="hHg-gG-f9J" firstAttribute="leading" secondItem="vce-j7-BAN" secondAttribute="leadingMargin" constant="10" id="Ytv-af-Gik"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Vg3-Us-4h4" secondAttribute="trailing" constant="10" id="ZJP-a3-nIB"/>
-                            <constraint firstItem="TDU-75-T3c" firstAttribute="top" secondItem="Vg3-Us-4h4" secondAttribute="bottom" constant="20" id="aMo-KP-DC3"/>
                             <constraint firstItem="TDU-75-T3c" firstAttribute="top" secondItem="V4Q-ls-X68" secondAttribute="bottom" id="c8q-wx-s0W"/>
-                            <constraint firstItem="TDU-75-T3c" firstAttribute="top" secondItem="hHg-gG-f9J" secondAttribute="bottom" constant="20" id="v6w-wO-mQ5"/>
+                            <constraint firstItem="hHg-gG-f9J" firstAttribute="trailing" secondItem="Vg3-Us-4h4" secondAttribute="trailing" id="iw4-q1-MlB"/>
+                            <constraint firstItem="TDU-75-T3c" firstAttribute="top" secondItem="hHg-gG-f9J" secondAttribute="bottom" constant="10" id="v6w-wO-mQ5"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Folders" id="ImK-w3-Cyi">
@@ -467,7 +467,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wYX-rl-9kZ">
-                                <rect key="frame" x="26" y="587" width="60" height="60"/>
+                                <rect key="frame" x="299" y="597" width="60" height="60"/>
                                 <state key="normal" image="SettingFButton"/>
                                 <connections>
                                     <segue destination="JpV-lt-PwS" kind="presentation" identifier="toSetting" id="ZCo-hO-Iq2">
@@ -477,7 +477,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cO1-IZ-pto">
-                                <rect key="frame" x="289" y="587" width="60" height="60"/>
+                                <rect key="frame" x="299" y="527" width="60" height="60"/>
                                 <state key="normal" image="ComposeFButton"/>
                                 <connections>
                                     <segue destination="4wh-9f-bwb" kind="show" identifier="ComposeSong" id="kLo-6X-eq3">
@@ -488,14 +488,14 @@
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="wYX-rl-9kZ" firstAttribute="leading" secondItem="VOw-aM-kCv" secondAttribute="leadingMargin" constant="10" id="3HC-DT-vCc"/>
                             <constraint firstItem="ldm-YS-ajb" firstAttribute="top" secondItem="01M-Nf-PTQ" secondAttribute="bottom" id="4bk-cA-MHi"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="cO1-IZ-pto" secondAttribute="trailing" constant="10" id="8Ck-Xz-wBJ"/>
-                            <constraint firstItem="v05-PZ-8n9" firstAttribute="top" secondItem="wYX-rl-9kZ" secondAttribute="bottom" constant="20" id="9jN-0C-rhm"/>
+                            <constraint firstItem="v05-PZ-8n9" firstAttribute="top" secondItem="wYX-rl-9kZ" secondAttribute="bottom" constant="10" id="9jN-0C-rhm"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wYX-rl-9kZ" secondAttribute="trailing" id="CKK-Fg-5aF"/>
+                            <constraint firstItem="wYX-rl-9kZ" firstAttribute="trailing" secondItem="cO1-IZ-pto" secondAttribute="trailing" id="V0B-81-180"/>
                             <constraint firstItem="ldm-YS-ajb" firstAttribute="leading" secondItem="VOw-aM-kCv" secondAttribute="leading" id="biS-Wx-mR1"/>
                             <constraint firstItem="v05-PZ-8n9" firstAttribute="top" secondItem="ldm-YS-ajb" secondAttribute="bottom" id="dg5-3S-R0f"/>
                             <constraint firstAttribute="trailing" secondItem="ldm-YS-ajb" secondAttribute="trailing" id="gfH-u5-oeQ"/>
-                            <constraint firstItem="v05-PZ-8n9" firstAttribute="top" secondItem="cO1-IZ-pto" secondAttribute="bottom" constant="20" id="zNJ-X3-i4N"/>
+                            <constraint firstItem="wYX-rl-9kZ" firstAttribute="top" secondItem="cO1-IZ-pto" secondAttribute="bottom" constant="10" id="qXM-4C-16H"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Gpv-EP-qnf">
@@ -547,7 +547,7 @@
                                     <barButtonItem image="StartRecordingButton" id="3ss-fp-Bx2">
                                         <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <action selector="startAndStopRecording:" destination="4wh-9f-bwb" id="bFO-sg-yEw"/>
+                                            <action selector="recordingButton:" destination="4wh-9f-bwb" id="76M-jK-e8a"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="xV9-BS-iGU"/>
@@ -576,7 +576,7 @@
                     <navigationItem key="navigationItem" id="XjK-hi-HUT"/>
                     <connections>
                         <outlet property="playSound" destination="t8g-KT-HRA" id="dCO-tc-682"/>
-                        <outlet property="recordingButton" destination="3ss-fp-Bx2" id="QZt-VI-owy"/>
+                        <outlet property="recordingButton" destination="3ss-fp-Bx2" id="CoQ-QE-mp4"/>
                         <outlet property="titleTextField" destination="RmL-H1-oz2" id="4bc-ih-Doc"/>
                     </connections>
                 </viewController>
@@ -596,23 +596,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" text="歌詞を書くためのTextView" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="zUo-XZ-OCd" id="bMq-A1-cA0"/>
+                                </connections>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="cXM-fQ-qPJ" firstAttribute="top" secondItem="w7Z-Qz-A4G" secondAttribute="top" id="2hC-sY-q2g"/>
-                            <constraint firstAttribute="trailing" secondItem="cXM-fQ-qPJ" secondAttribute="trailing" id="5rH-gK-ryb"/>
-                            <constraint firstItem="c0N-Jh-C0n" firstAttribute="top" secondItem="cXM-fQ-qPJ" secondAttribute="bottom" constant="44" id="ZO3-kd-xmO"/>
-                            <constraint firstItem="cXM-fQ-qPJ" firstAttribute="leading" secondItem="w7Z-Qz-A4G" secondAttribute="leading" id="uoV-2S-yQ9"/>
+                            <constraint firstAttribute="bottom" secondItem="cXM-fQ-qPJ" secondAttribute="bottom" id="MsJ-XJ-XD2"/>
+                            <constraint firstItem="cXM-fQ-qPJ" firstAttribute="leading" secondItem="w7Z-Qz-A4G" secondAttribute="leading" id="bU9-bf-F3M"/>
+                            <constraint firstItem="cXM-fQ-qPJ" firstAttribute="top" secondItem="w7Z-Qz-A4G" secondAttribute="top" id="kul-Bh-Gfe"/>
+                            <constraint firstAttribute="trailing" secondItem="cXM-fQ-qPJ" secondAttribute="trailing" id="m2A-yg-2Hs"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="textView" destination="cXM-fQ-qPJ" id="51Y-3H-yGP"/>
+                        <outlet property="bodyTextView" destination="cXM-fQ-qPJ" id="v6Q-rg-VwV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hW2-Kg-OL5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -681,7 +683,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1Um-Si-pEw" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="CdH-6g-GD3">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CdH-6g-GD3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -700,12 +702,13 @@
     <resources>
         <image name="AddButton" width="60" height="60"/>
         <image name="ComposeFButton" width="60" height="60"/>
+        <image name="DoneButton" width="32" height="32"/>
         <image name="SettingFButton" width="60" height="60"/>
         <image name="StartPlayButton" width="32" height="32"/>
         <image name="StartRecordingButton" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZLV-Nm-JHv"/>
         <segue reference="kLo-6X-eq3"/>
+        <segue reference="ZLV-Nm-JHv"/>
     </inferredMetricsTieBreakers>
 </document>

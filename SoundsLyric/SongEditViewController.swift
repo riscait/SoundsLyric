@@ -69,7 +69,6 @@ class SongEditViewController: BaseViewController {
         
         /// AVAudioEngineをインスタンス化
         audioEngine = AVAudioEngine()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -206,13 +205,25 @@ class SongEditViewController: BaseViewController {
     var pagemenu: CAPSPageMenu?
     
     /// デフォルトで表示するPageMenu項目を設定
-     func setDefaultPageMenu() {
+    func setDefaultPageMenu() {
+        
+        // ページメニューの作成
+        createPageMenu()
+        
+        // PageMenuを表示する
+        self.view.addSubview(pagemenu!.view)
+        
+        // PageMenuのViewを背面に移動
+        self.view.sendSubview(toBack: pagemenu!.view)
+    }
+    
+    /// ページメニューの作成
+    fileprivate func createPageMenu() {
         /// Storyboardをインスタンス化
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         // 画面配列の初期化
         var viewControllers: [UIViewController] = []
-        
         
         // 存在する歌詞の数だけPageMenu用のコントローラーに画面を追加
         for lyric in song.lyrics {
@@ -227,6 +238,7 @@ class SongEditViewController: BaseViewController {
         let pageMenuEditVC = storyboard.instantiateViewController(withIdentifier: "PageMenuEditVC") as! PageMenuEditViewController
         pageMenuEditVC.title = "Edit"
         pageMenuEditVC.lyrics = song.lyrics
+        pageMenuEditVC.delegate = self
         
         // viewControllersに追加
         viewControllers.append(pageMenuEditVC)
@@ -249,15 +261,41 @@ class SongEditViewController: BaseViewController {
         // 二つのBarの大きさ
         let topBarsHeight = statusBarHeight + navigationBarHeight! + titleTextField.frame.height
         
-        
         // 初期化（表示するVC / 位置・大きさ / カスタマイズ内容）
         pagemenu = CAPSPageMenu(viewControllers: viewControllers, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
         
-        // PageMenuを表示する
-        self.view.addSubview(pagemenu!.view)
-        
-        // PageMenuのViewを背面に移動
-        self.view.sendSubview(toBack: pagemenu!.view)
-        
+        // ここでpageMenuのデリゲートをselfで
+        pagemenu?.delegate = self
     }
+}
+
+// MARK: - CAPSPageMenuDelegate
+extension SongEditViewController: CAPSPageMenuDelegate {
+    
+    /// ページが切り替わる前に呼ばれる
+    ///
+    /// - Parameters:
+    ///   - controller: 切り替わり先のVC
+    ///   - index: PageMenuインデックス
+    func willMoveToPage(_ controller: UIViewController, index: Int) {
+        print(#function)
+        if let songEditChildVC = controller as? SongEditChildViewController {
+            // キャストできたものだけ持ってくるため、PageMenu編集画面は自然とこのif文に入ってこないのがミソです。
+            print("\(songEditChildVC.lyric)")
+        }
+    }
+}
+
+// MARK: - PageMenuEditViewControllerDelegate
+extension SongEditViewController: PageMenuEditViewControllerDelegate {
+    
+    /// ページ追加時
+    ///
+    /// - Parameter index: 追加Index
+    func addPage(at index: Int) {}
+    
+    /// ページ削除
+    ///
+    /// - Parameter index: 削除Index
+    func removePage(at index: Int) {}
 }

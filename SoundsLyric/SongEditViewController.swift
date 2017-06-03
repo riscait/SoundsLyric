@@ -163,11 +163,28 @@ class SongEditViewController: BaseViewController {
         /// 録音中か否か
         if let isAudioRecorder = audioRecorder?.isRecording {
             if isAudioRecorder {
+                
+                /*
+                 ここが録音停止なので、ここで以下の処理が必要になりますかね。
+                 1. 録音停止
+                 2. RealmのLyricにurlをもたせて(なければ新規)update
+                 3. こちらはそれぞれ保持しているSongEditVCのsongの更新
+                 */
+                
                 print("\(isAudioRecorder): 録音中だったので録音停止する")
                 audioRecorder?.stop()
                 recordingButton.image = UIImage(named: "StartRecordingButton")
             } else {
                 print("\(isAudioRecorder): 録音停止中だったので録音開始する")
+                
+                /*
+                 ここが録音開始なので、ここで以下の処理が必要になりますかね。
+                 1. RealmのLyricのurlから録音準備(なければ新規作成)
+                 2. 録音開始
+                 1は昨日教示したpageMenuのdelegateメソッドを用いた今画面上に出ているSongEditChildVCのlyricを使用
+                 */
+                
+                
                 do {
                     // アクティブ
                     try AVAudioSession.sharedInstance().setActive(true)

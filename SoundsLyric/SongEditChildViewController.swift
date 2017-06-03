@@ -59,7 +59,7 @@ class SongEditChildViewController: BaseViewController {
         }
     }
     
-    // MARK: - Keyboard監視＆位置調整メソッド
+    // MARK: - Keyboard関係メソッド
     /// キーボードを下げる
     func closeKeyboard() {
         self.view.endEditing(true)
@@ -74,29 +74,21 @@ class SongEditChildViewController: BaseViewController {
     
     /// Notificationを削除
     func removeObserver() {
-        
         let notification = NotificationCenter.default
         notification.removeObserver(self)
     }
     
     /// キーボードが現れた時に、画面全体をずらす。
     func keyboardWillShow(notification: Notification?) {
-        
-        let rect = (notification?.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue
-        let duration: TimeInterval? = notification?.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double
-        UIView.animate(withDuration: duration!, animations: { () in
-            let transform = CGAffineTransform(translationX: 0, y: -((rect?.size.height)! / 2))
-            self.view.transform = transform
-        })
+        let info = notification!.userInfo!
+        let value = info[UIKeyboardFrameBeginUserInfoKey] as! NSValue
+        let keyboardSize = value.cgRectValue.size
+        let contentInsets = UIEdgeInsets(top: 0, left:0, bottom:keyboardSize.height+40, right:0)
+        bodyTextView.contentInset = contentInsets
     }
     
     /// キーボードが消えたときに、画面を戻す
     func keyboardWillHide(notification: Notification?) {
-        
-        let duration: TimeInterval? = notification?.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Double
-        UIView.animate(withDuration: duration!, animations: { () in
-            
-            self.view.transform = CGAffineTransform.identity
-        })
+        bodyTextView.contentInset = UIEdgeInsets.zero
     }
 }

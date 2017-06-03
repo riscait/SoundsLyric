@@ -26,12 +26,14 @@ PODS:
   - Realm/Headers (2.6.2)
   - RealmSwift (2.6.2):
     - Realm (= 2.6.2)
+  - XLPagerTabStrip (7.0.0)
 
 DEPENDENCIES:
   - Firebase/Core (= 3.17.0)
   - Firebase/Storage (= 3.17.0)
   - PageMenu
   - RealmSwift (= 2.6.2)
+  - XLPagerTabStrip (~> 7.0)
 
 SPEC CHECKSUMS:
   Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
@@ -44,7 +46,8 @@ SPEC CHECKSUMS:
   PageMenu: 9c38fd7e0d9ef4b1408320f55bb907bbc0e538dc
   Realm: 29222766425b9f831228f81b63f0e38a97a4d700
   RealmSwift: d161a80f96cb91ae88391a7d5a9cf08024a7bc8e
+  XLPagerTabStrip: 9be80a66c6b7d60306b2c0a6004965016d68f813
 
-PODFILE CHECKSUM: d9d33e8a8b1032b565144f0ad737b54bb7cce99c
+PODFILE CHECKSUM: 9f2de1673d31fc15873d936c24fe13ae1a66b063
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1

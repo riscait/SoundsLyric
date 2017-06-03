@@ -10,8 +10,9 @@ import UIKit
 import AVFoundation
 import PageMenu
 import RealmSwift
+import XLPagerTabStrip
 
-class SongEditViewController: BaseViewController {
+class SongEditViewController: ButtonBarPagerTabStripViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     
@@ -21,6 +22,8 @@ class SongEditViewController: BaseViewController {
     // 曲の情報を受け取る変数
     var song: Song!
     
+    // Realmをインスタンス化
+    let realm = try! Realm()
     
     // MARK: - 歌詞を追加する
 //    @IBAction func addLyric(_ sender: Any) {
@@ -53,9 +56,10 @@ class SongEditViewController: BaseViewController {
     
     //MARK: - ViewController ライフサイクル
     override func viewDidLoad() {
-        super.viewDidLoad()
+        // 背景画像を設定
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "Background.png")!)
         
-        setDefaultPageMenu()
+        setButtonBar()
         
         setAudioRecorder()
         
@@ -66,6 +70,8 @@ class SongEditViewController: BaseViewController {
         if titleTextField.text == "" {
             titleTextField.becomeFirstResponder()
         }
+        
+        super.viewDidLoad()
 }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -245,64 +251,47 @@ class SongEditViewController: BaseViewController {
 
     }
     
-    // MARK: - PageMenu（ライブラリ使用）
-    //　PageMenuの準備
-    var pagemenu: CAPSPageMenu?
+    // MARK: - XLPagerStrip
+    func setButtonBar() {
+        let purpleInspireColor = UIColor(red:0.13, green:0.03, blue:0.25, alpha:1.0)
+        // 選択したバーの色を変更する
+        settings.style.buttonBarBackgroundColor = .white
+        settings.style.buttonBarItemBackgroundColor = .white
+        settings.style.selectedBarBackgroundColor = purpleInspireColor
+        settings.style.buttonBarItemFont = .boldSystemFont(ofSize: 14)
+        settings.style.selectedBarHeight = 2.0
+        settings.style.buttonBarMinimumLineSpacing = 0
+        settings.style.buttonBarItemTitleColor = .black
+        settings.style.buttonBarItemsShouldFillAvailiableWidth = true
+        settings.style.buttonBarLeftContentInset = 0
+        settings.style.buttonBarRightContentInset = 0
+        changeCurrentIndexProgressive = { [weak self] (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
+            guard changeCurrentIndex == true else { return }
+            oldCell?.label.textColor = .black
+            newCell?.label.textColor = purpleInspireColor
+        }
+    }
     
-    /// デフォルトで表示するPageMenu項目を設定
-     func setDefaultPageMenu() {
+    override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         /// Storyboardをインスタンス化
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
         // 画面配列の初期化
         var viewControllers: [UIViewController] = []
-        
-        
-        // 存在する歌詞の数だけPageMenu用のコントローラーに画面を追加
+        // 存在する歌詞の数だけコントローラーを追加
         for lyric in song.lyrics {
             let songEditChildVC = storyboard.instantiateViewController(withIdentifier: "SongEditChildVC") as! SongEditChildViewController
             songEditChildVC.lyric = lyric
-            // 歌詞セクションの名前を設定
-            songEditChildVC.title = lyric.name
             
             viewControllers.append(songEditChildVC)
         }
-        
+        // 編集画面を追加
         let pageMenuEditVC = storyboard.instantiateViewController(withIdentifier: "PageMenuEditVC") as! PageMenuEditViewController
-        pageMenuEditVC.title = "Edit"
         pageMenuEditVC.lyrics = song.lyrics
         
         // viewControllersに追加
         viewControllers.append(pageMenuEditVC)
         
-        /// PageMenuのカスタマイズ
-        let parameters: [CAPSPageMenuOption] = [
-            .scrollMenuBackgroundColor(#colorLiteral(red: 0.9764705896, green: 0.9236108219, blue: 0.7253268245, alpha: 1)),         // Menuの背景色
-            .selectedMenuItemLabelColor(#colorLiteral(red: 0.3098039329, green: 0.2039215714, blue: 0.03921568766, alpha: 1)),        // 選択中Menuの文字色
-            .unselectedMenuItemLabelColor(#colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)),      // 未選択Menuの文字色
-            .selectionIndicatorColor(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)),           // 選択中Menuのインジケーター色
-            .menuHeight(40),
-            .menuItemSeparatorWidth(0),
-            .useMenuLikeSegmentedControl(true),
-            ]
-        
-        // StatusBarの高さを取得
-        let statusBarHeight = UIApplication.shared.statusBarFrame.size.height
-        // NavigationBarの高さを取得
-        let navigationBarHeight = self.navigationController?.navigationBar.frame.height
-        // 二つのBarの大きさ
-        let topBarsHeight = statusBarHeight + navigationBarHeight! + titleTextField.frame.height
-        
-        
-        // 初期化（表示するVC / 位置・大きさ / カスタマイズ内容）
-        pagemenu = CAPSPageMenu(viewControllers: viewControllers, frame: CGRect(x: 0, y:topBarsHeight, width: self.view.frame.width, height: self.view.frame.height - topBarsHeight) , pageMenuOptions: parameters)
-        
-        // PageMenuを表示する
-        self.view.addSubview(pagemenu!.view)
-        
-        // PageMenuのViewを背面に移動
-        self.view.sendSubview(toBack: pagemenu!.view)
-        
+        return viewControllers
     }
 }
 

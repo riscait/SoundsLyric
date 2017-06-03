@@ -10,5 +10,6 @@ target 'SoundsLyric' do
  pod 'RealmSwift', '2.6.2'
  pod 'Firebase/Core', '3.17.0'
  pod 'Firebase/Storage', '3.17.0'
+ pod 'XLPagerTabStrip', '~> 7.0'
  
 end

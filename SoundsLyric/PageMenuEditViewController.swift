@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import XLPagerTabStrip
 
 class PageMenuEditViewController: BaseViewController {
 
@@ -84,4 +85,11 @@ extension PageMenuEditViewController: UITableViewDelegate {
     // セルの並び替えを有効にする
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {}
 
+}
+
+// MARK: - IndicatorInfoProvider
+extension PageMenuEditViewController: IndicatorInfoProvider{
+    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        return IndicatorInfo(title: "Edit")
+    }
 }

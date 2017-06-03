@@ -561,20 +561,46 @@
                                 </items>
                                 <color key="tintColor" red="0.96078431610000004" green="0.70588237050000002" blue="0.20000000300000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </toolbar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ywc-iX-F8T">
+                                <rect key="frame" x="0.0" y="158" width="375" height="509"/>
+                            </scrollView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hmU-0L-dKs" customClass="ButtonBarView" customModule="XLPagerTabStrip">
+                                <rect key="frame" x="0.0" y="114" width="375" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="mxn-Os-2XB"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="eqN-Nm-i7i">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="hmU-0L-dKs" secondAttribute="trailing" id="2mb-8t-pLf"/>
                             <constraint firstItem="YDB-Y1-EFJ" firstAttribute="top" secondItem="91S-jp-9l7" secondAttribute="bottom" id="3YU-3N-96n"/>
+                            <constraint firstItem="Ywc-iX-F8T" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="6go-bQ-PQW"/>
                             <constraint firstAttribute="trailing" secondItem="91S-jp-9l7" secondAttribute="trailing" id="Av2-nq-BPW"/>
                             <constraint firstAttribute="trailing" secondItem="RmL-H1-oz2" secondAttribute="trailing" id="KKu-jX-FyO"/>
+                            <constraint firstAttribute="trailing" secondItem="Ywc-iX-F8T" secondAttribute="trailing" id="OPo-vw-WcT"/>
                             <constraint firstItem="91S-jp-9l7" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="Zr5-Vw-4rd"/>
+                            <constraint firstItem="hmU-0L-dKs" firstAttribute="top" secondItem="RmL-H1-oz2" secondAttribute="bottom" id="bIw-ht-QXN"/>
                             <constraint firstItem="RmL-H1-oz2" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="dLm-AV-Aea"/>
                             <constraint firstItem="RmL-H1-oz2" firstAttribute="top" secondItem="ieA-2d-DKf" secondAttribute="bottom" id="g23-dw-0uc"/>
+                            <constraint firstItem="YDB-Y1-EFJ" firstAttribute="top" secondItem="Ywc-iX-F8T" secondAttribute="bottom" id="jri-W9-Sta"/>
+                            <constraint firstItem="hmU-0L-dKs" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="n4D-qs-nf1"/>
+                            <constraint firstItem="Ywc-iX-F8T" firstAttribute="top" secondItem="hmU-0L-dKs" secondAttribute="bottom" id="wM8-Fc-55b"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="XjK-hi-HUT"/>
                     <connections>
+                        <outlet property="buttonBarView" destination="hmU-0L-dKs" id="0cO-46-TEO"/>
+                        <outlet property="containerView" destination="Ywc-iX-F8T" id="DAD-qa-duc"/>
                         <outlet property="playSound" destination="t8g-KT-HRA" id="dCO-tc-682"/>
                         <outlet property="recordingButton" destination="3ss-fp-Bx2" id="CoQ-QE-mp4"/>
                         <outlet property="titleTextField" destination="RmL-H1-oz2" id="4bc-ih-Doc"/>
@@ -599,6 +625,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="cXM-fQ-qPJ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
                                     <outlet property="delegate" destination="zUo-XZ-OCd" id="bMq-A1-cA0"/>

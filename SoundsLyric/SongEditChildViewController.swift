@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import XLPagerTabStrip
 
 /// セクションごとの歌詞を書くVC
 class SongEditChildViewController: BaseViewController {
@@ -90,5 +91,12 @@ class SongEditChildViewController: BaseViewController {
     /// キーボードが消えたときに、画面を戻す
     func keyboardWillHide(notification: Notification?) {
         bodyTextView.contentInset = UIEdgeInsets.zero
+    }
+}
+
+// MARK: - IndicatorInfoProvider
+extension SongEditChildViewController: IndicatorInfoProvider{
+    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        return IndicatorInfo(title: lyric.name)
     }
 }

@@ -17,6 +17,54 @@ class PageMenuEditViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+
+    /// セクションを追加するボタンのメソッド
+    @IBAction func addSectionButton(_ sender: Any) {
+        print("セクション追加ボタンが押されました！")
+        // Alertを呼び出し
+        let alert = AlertUtil.createAddedAlertController(createName: "新規セクション")
+        // TextFieldを追加
+        alert.addTextField(configurationHandler: {(textField: UITextField!) -> Void in
+            textField.placeholder = "名前"
+            textField.returnKeyType = .done
+        })
+        // OKアクションを生成
+        let defaultAction = UIAlertAction(title: "保存", style: .default, handler: {
+            (action:UIAlertAction!) -> Void in
+            print("保存ボタンが押されました")
+            /// テキストが入力されていれば表示
+            if let textFields = alert.textFields as Array<UITextField>? {
+                for textField in textFields {
+                    
+                    let lyric = Lyric()
+                    
+                    lyric.owner = self.song
+                    lyric.id = self.newId(model: lyric)!
+                    lyric.name = textField.text!
+                    lyric.text = "testestes"
+                    
+                    // Realmに保存
+                    try! self.realm .write {
+                        // リレーション追加
+                        self.lyrics.append(lyric)
+                        self.realm.add(lyric, update: true)
+                    }
+                }
+            }
+        })
+        alert.addAction(defaultAction)
+
+        // Cancelアクションを生成
+        let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        
+        // シミュレータの種類によっては、これがないと警告が発生
+        alert.view.setNeedsLayout()
+        
+        // アラートを画面に表示
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,7 +89,7 @@ extension PageMenuEditViewController: UITableViewDataSource {
     
     // データの数（＝セルの数）を返す（必須）
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("現在、\(lyrics.count)個の歌詞展開があります")
+        print("現在、\(lyrics.count)個のセクションがあります")
         return lyrics.count
     }
     
@@ -90,6 +138,7 @@ extension PageMenuEditViewController: UITableViewDelegate {
 // MARK: - IndicatorInfoProvider
 extension PageMenuEditViewController: IndicatorInfoProvider{
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        // メニュータイトル
         return IndicatorInfo(title: "Edit")
     }
 }

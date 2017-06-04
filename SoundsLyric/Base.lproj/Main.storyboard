@@ -688,13 +688,22 @@
                                     <outlet property="delegate" destination="5NF-fr-Nmv" id="Aov-DP-VeM"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jEk-h9-OEh">
+                                <rect key="frame" x="295" y="587" width="60" height="60"/>
+                                <state key="normal" image="AddButton"/>
+                                <connections>
+                                    <action selector="addSectionButton:" destination="5NF-fr-Nmv" eventType="touchUpInside" id="Q0z-a1-M1n"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Uo8-hH-AB1" firstAttribute="top" secondItem="jEk-h9-OEh" secondAttribute="bottom" constant="20" id="IHr-Vq-PxV"/>
                             <constraint firstItem="lQz-gY-Owl" firstAttribute="leading" secondItem="cex-Yb-PIx" secondAttribute="leading" id="OM6-fr-ZB2"/>
                             <constraint firstItem="Uo8-hH-AB1" firstAttribute="top" secondItem="lQz-gY-Owl" secondAttribute="bottom" id="W24-AA-BEC"/>
                             <constraint firstAttribute="trailing" secondItem="lQz-gY-Owl" secondAttribute="trailing" id="Yob-7r-mPc"/>
                             <constraint firstItem="lQz-gY-Owl" firstAttribute="top" secondItem="5I1-D8-M7E" secondAttribute="bottom" id="f6g-3n-Jv0"/>
+                            <constraint firstAttribute="trailing" secondItem="jEk-h9-OEh" secondAttribute="trailing" constant="20" id="xeI-uY-Hr5"/>
                         </constraints>
                     </view>
                     <connections>

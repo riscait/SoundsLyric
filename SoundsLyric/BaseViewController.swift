@@ -14,7 +14,9 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         
         // 背景画像を設定
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "Background.png")!)
+        if let image = UIImage(named: "Background.png") {
+            view.backgroundColor = UIColor(patternImage: image)
+        }
     }
     
     // Realmをインスタンス化

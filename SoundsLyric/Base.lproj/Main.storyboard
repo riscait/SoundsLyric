@@ -527,7 +527,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="タイトル" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RmL-H1-oz2">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="タイトル" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="RmL-H1-oz2">
                                 <rect key="frame" x="0.0" y="64" width="375" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="h4A-pe-cc3"/>
@@ -562,7 +562,7 @@
                                 <color key="tintColor" red="0.96078431610000004" green="0.70588237050000002" blue="0.20000000300000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </toolbar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ywc-iX-F8T">
-                                <rect key="frame" x="0.0" y="158" width="375" height="509"/>
+                                <rect key="frame" x="0.0" y="158" width="375" height="465"/>
                             </scrollView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hmU-0L-dKs" customClass="ButtonBarView" customModule="XLPagerTabStrip">
                                 <rect key="frame" x="0.0" y="114" width="375" height="44"/>
@@ -584,6 +584,7 @@
                             <constraint firstAttribute="trailing" secondItem="hmU-0L-dKs" secondAttribute="trailing" id="2mb-8t-pLf"/>
                             <constraint firstItem="YDB-Y1-EFJ" firstAttribute="top" secondItem="91S-jp-9l7" secondAttribute="bottom" id="3YU-3N-96n"/>
                             <constraint firstItem="Ywc-iX-F8T" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="6go-bQ-PQW"/>
+                            <constraint firstItem="91S-jp-9l7" firstAttribute="top" secondItem="Ywc-iX-F8T" secondAttribute="bottom" id="6wF-O8-ocQ"/>
                             <constraint firstAttribute="trailing" secondItem="91S-jp-9l7" secondAttribute="trailing" id="Av2-nq-BPW"/>
                             <constraint firstAttribute="trailing" secondItem="RmL-H1-oz2" secondAttribute="trailing" id="KKu-jX-FyO"/>
                             <constraint firstAttribute="trailing" secondItem="Ywc-iX-F8T" secondAttribute="trailing" id="OPo-vw-WcT"/>
@@ -591,7 +592,6 @@
                             <constraint firstItem="hmU-0L-dKs" firstAttribute="top" secondItem="RmL-H1-oz2" secondAttribute="bottom" id="bIw-ht-QXN"/>
                             <constraint firstItem="RmL-H1-oz2" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="dLm-AV-Aea"/>
                             <constraint firstItem="RmL-H1-oz2" firstAttribute="top" secondItem="ieA-2d-DKf" secondAttribute="bottom" id="g23-dw-0uc"/>
-                            <constraint firstItem="YDB-Y1-EFJ" firstAttribute="top" secondItem="Ywc-iX-F8T" secondAttribute="bottom" id="jri-W9-Sta"/>
                             <constraint firstItem="hmU-0L-dKs" firstAttribute="leading" secondItem="g0P-Fx-GPb" secondAttribute="leading" id="n4D-qs-nf1"/>
                             <constraint firstItem="Ywc-iX-F8T" firstAttribute="top" secondItem="hmU-0L-dKs" secondAttribute="bottom" id="wM8-Fc-55b"/>
                         </constraints>
@@ -735,7 +735,7 @@
         <image name="StartRecordingButton" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ZCo-hO-Iq2"/>
         <segue reference="kLo-6X-eq3"/>
-        <segue reference="ZLV-Nm-JHv"/>
     </inferredMetricsTieBreakers>
 </document>

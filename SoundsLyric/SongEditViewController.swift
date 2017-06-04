@@ -57,7 +57,9 @@ class SongEditViewController: ButtonBarPagerTabStripViewController {
     //MARK: - ViewController ライフサイクル
     override func viewDidLoad() {
         // 背景画像を設定
-        view.backgroundColor = UIColor(patternImage: UIImage(named: "Background.png")!)
+        if let image = UIImage(named: "Background.png") {
+            view.backgroundColor = UIColor(patternImage: image)
+        }
         
         setButtonBar()
         
@@ -251,24 +253,27 @@ class SongEditViewController: ButtonBarPagerTabStripViewController {
 
     }
     
-    // MARK: - XLPagerStrip
+    // MARK: - XLPagerStrip（ライブラリ）
+    /// XLPagerStripのButtonBar の Look and feel
     func setButtonBar() {
-        let purpleInspireColor = UIColor(red:0.13, green:0.03, blue:0.25, alpha:1.0)
-        // 選択したバーの色を変更する
-        settings.style.buttonBarBackgroundColor = .white
-        settings.style.buttonBarItemBackgroundColor = .white
-        settings.style.selectedBarBackgroundColor = purpleInspireColor
+        settings.style.buttonBarBackgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        // ButtonBarItemの背景色
+        settings.style.buttonBarItemBackgroundColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+        // 選択中のButtonBarの下部の色
+        settings.style.selectedBarBackgroundColor = #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)
         settings.style.buttonBarItemFont = .boldSystemFont(ofSize: 14)
         settings.style.selectedBarHeight = 2.0
         settings.style.buttonBarMinimumLineSpacing = 0
-        settings.style.buttonBarItemTitleColor = .black
+        settings.style.buttonBarItemTitleColor = #colorLiteral(red: 0.3176470697, green: 0.07450980693, blue: 0.02745098062, alpha: 1)
         settings.style.buttonBarItemsShouldFillAvailiableWidth = true
         settings.style.buttonBarLeftContentInset = 0
         settings.style.buttonBarRightContentInset = 0
         changeCurrentIndexProgressive = { [weak self] (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in
             guard changeCurrentIndex == true else { return }
-            oldCell?.label.textColor = .black
-            newCell?.label.textColor = purpleInspireColor
+            // 選択されていないボタンのテキスト色
+            oldCell?.label.textColor = #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1)
+            // 選択されているボタンのテキスト色
+            newCell?.label.textColor = #colorLiteral(red: 0.3176470697, green: 0.07450980693, blue: 0.02745098062, alpha: 1)
         }
     }
     

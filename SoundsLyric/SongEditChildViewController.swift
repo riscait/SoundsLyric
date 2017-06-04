@@ -54,7 +54,6 @@ class SongEditChildViewController: BaseViewController {
 
         // 画面が消える直前にrealmに保存
         try! realm.write {
-            lyric.name = self.title!
             lyric.text = bodyTextView.text
             self.realm.add(self.lyric, update: true)
         }
